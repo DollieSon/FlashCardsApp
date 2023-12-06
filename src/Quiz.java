@@ -9,7 +9,18 @@ public class Quiz {
         QuizName = Name;
     }
 
-    Quiz addCard(Card card){
+    public Quiz addCard(Card card){
+        Questions.add(card);
+        return this;
+    }
+
+    public String getQuizName(){
+        return QuizName;
+    }
+
+    //TODO IMPLEMENT
+    public void RemoveCard( Card card){
+
 
     }
 
