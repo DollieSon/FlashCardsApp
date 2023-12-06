@@ -1,7 +1,10 @@
-import java.util.ArrayList;
-import java.util.List;
+package Card;
 
-public class MultipleChoiceCard extends Card{
+import Card.Card;
+
+import java.util.ArrayList;
+
+public class MultipleChoiceCard extends Card {
     ArrayList<String> choices;
 
     public MultipleChoiceCard(){
