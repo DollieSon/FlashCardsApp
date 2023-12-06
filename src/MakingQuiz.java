@@ -1,18 +1,22 @@
 import javax.swing.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.*;
 import java.util.ArrayList;
 
+
 public class MakingQuiz extends JFrame{
+
+    private final int maxCarWidth = 600;
+    private final int maxCarHeight = 200;
     private JTextField tFTitle;
     private JPanel jpanel;
     private JButton saveButton;
     private JLabel LAuthor;
+
+
     private JLabel LBy;
     private JLabel Ltitle;
     private JButton BaddQuestion;
@@ -20,34 +24,318 @@ public class MakingQuiz extends JFrame{
     private JRadioButton RBidentification;
     private JRadioButton RBtrueOrFalse;
     private JLabel Ltype;
+    private JPanel jpCard;
+    private JPanel JpTypes;
+    private JPanel JSPQuestionCont;
+
+    private java.util.List<JRadioButton> jr;
+
+    int count = 0;
+
+
 
     public MakingQuiz(){
-        JRadioButton[] jr = {RBidentification,RBmultipleChoice,RBtrueOrFalse};
-        BaddQuestion.addActionListener(new ActionListener() {
+        jr = new ArrayList<JRadioButton>();
+        jr.add(RBidentification);
+        jr.add(RBmultipleChoice);
+        jr.add(RBtrueOrFalse);
+
+        JpTypes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        JSPQuestionCont.setLayout(new BoxLayout(JSPQuestionCont, BoxLayout.Y_AXIS));
+
+       BaddQuestion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(RBidentification.isSelected()){
+                    addIdentificationCard();
+                }else if(RBmultipleChoice.isSelected()){
+                    addMultipleChoiceCard();
+                }else if(RBtrueOrFalse.isSelected()){
+                    addTrueOrFalseCard();
+                }
+            }
+        });
+
+
+        saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                for(JRadioButton aa: jr){
-                    if(aa.isSelected()){
-                        JOptionPane.showMessageDialog(null,"GOOD");
-                        return;
-                    }
-                }
-
-
-                JOptionPane.showConfirmDialog(null,"STOP");
             }
         });
     }
+
+    private void addIdentificationCard(){
+        JPanel holdbut = new JPanel();
+        JButton deleteCont = new JButton();
+        deleteCont.setText("Delete");
+        deleteCont.setMaximumSize(new Dimension(150,20));
+        holdbut.add(deleteCont);
+        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+
+        JPanel Whole = new JPanel();
+        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+
+        JPanel forQuestion = new JPanel();
+        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+
+        JPanel forAnswer = new JPanel();
+        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
+
+        JLabel questionLabel = new JLabel("Question: ");
+        JTextField questionField = new JTextField();
+
+        questionField.setBorder(new EmptyBorder(0,20,0,10));
+//        questionfield.setMaximumSize(new Dimension(100,50));
+
+        JLabel answerLabel = new JLabel("Answer:    ");
+        JTextField answerField = new JTextField();
+
+        answerField.setBorder(new EmptyBorder(0,20,0,10));
+
+        forQuestion.add(questionLabel);
+        forQuestion.add(questionField);
+
+        forAnswer.add(answerLabel);
+        forAnswer.add(answerField);
+
+
+        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
+        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
+
+        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+
+        questionCont.add(forQuestion);
+        questionCont.add(forAnswer);
+        questionCont.add(holdbut);
+
+
+
+
+        Whole.add(questionCont);
+        Whole.setBorder(new EmptyBorder(10,0,5,0));
+
+
+        JSPQuestionCont.add(Whole);
+
+        // Refresh the view
+        JSPQuestionCont.revalidate();
+
+
+
+        deleteCont.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+
+                JSPQuestionCont.remove(Whole);
+//                JSPQuestionCont.removeAll();
+//                questionCont.remove(Whole);
+//                questionCont.remove(forQuestion);
+//                questionCont.remove(forAnswer);
+//                questionCont.remove(deleteCont);
+
+
+                // Refresh the view
+                JSPQuestionCont.revalidate();
+                JSPQuestionCont.repaint();
+            }
+        } );
+    }
+
+    private void addTrueOrFalseCard(){
+        JPanel holdbut = new JPanel();
+        JButton deleteCont = new JButton();
+        deleteCont.setText("Delete");
+        deleteCont.setMaximumSize(new Dimension(150,20));
+        holdbut.add(deleteCont);
+        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+
+        JPanel Whole = new JPanel();
+        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+
+        JPanel forQuestion = new JPanel();
+        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+
+        JPanel forAnswer = new JPanel();
+        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
+
+        JLabel questionLabel = new JLabel("Question: ");
+        JTextField questionField = new JTextField();
+
+        questionField.setBorder(new EmptyBorder(0,20,0,10));
+//        questionfield.setMaximumSize(new Dimension(100,50));
+
+        JLabel answerLabel = new JLabel("Answer:    ");
+        JRadioButton trueBtn = new JRadioButton("True");
+        JRadioButton falseBtn = new JRadioButton("False");
+        JPanel answerField = new JPanel();
+        ButtonGroup btngrp = new ButtonGroup();
+        btngrp.add(trueBtn);
+        btngrp.add(falseBtn);
+        answerField.add(trueBtn);
+        answerField.add(falseBtn);
+
+
+        answerField.setBorder(new EmptyBorder(0,20,0,10));
+
+        forQuestion.add(questionLabel);
+        forQuestion.add(questionField);
+
+        forAnswer.add(answerLabel);
+        forAnswer.add(answerField);
+
+
+        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
+        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
+
+        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+
+        questionCont.add(forQuestion);
+        questionCont.add(forAnswer);
+        questionCont.add(holdbut);
+
+
+
+
+        Whole.add(questionCont);
+        Whole.setBorder(new EmptyBorder(10,0,5,0));
+
+
+        JSPQuestionCont.add(Whole);
+
+        // Refresh the view
+        JSPQuestionCont.revalidate();
+
+
+
+        deleteCont.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+
+                JSPQuestionCont.remove(Whole);
+//                JSPQuestionCont.removeAll();
+//                questionCont.remove(Whole);
+//                questionCont.remove(forQuestion);
+//                questionCont.remove(forAnswer);
+//                questionCont.remove(deleteCont);
+
+
+                // Refresh the view
+                JSPQuestionCont.revalidate();
+                JSPQuestionCont.repaint();
+            }
+        } );
+    }
+
+    private void addMultipleChoiceCard(){
+        JPanel holdbut = new JPanel();
+        JButton deleteCont = new JButton();
+        deleteCont.setText("Delete");
+        deleteCont.setMaximumSize(new Dimension(150,20));
+        holdbut.add(deleteCont);
+        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+
+        JPanel Whole = new JPanel();
+        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+
+        JPanel forQuestion = new JPanel();
+        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+
+        JPanel forAnswer = new JPanel();
+        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
+
+        JLabel questionLabel = new JLabel("Question: ");
+        JTextField questionField = new JTextField();
+
+        questionField.setBorder(new EmptyBorder(0,20,0,10));
+//        questionfield.setMaximumSize(new Dimension(100,50));
+
+        JLabel answerLabel = new JLabel("Answer:    ");
+        JRadioButton trueBtn = new JRadioButton("True");
+        JRadioButton falseBtn = new JRadioButton("False");
+        JPanel answerField = new JPanel();
+        ButtonGroup btngrp = new ButtonGroup();
+        btngrp.add(trueBtn);
+        btngrp.add(falseBtn);
+        answerField.add(trueBtn);
+        answerField.add(falseBtn);
+
+
+        answerField.setBorder(new EmptyBorder(0,20,0,10));
+
+        forQuestion.add(questionLabel);
+        forQuestion.add(questionField);
+
+        forAnswer.add(answerLabel);
+        forAnswer.add(answerField);
+
+
+        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
+        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
+
+        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+
+        questionCont.add(forQuestion);
+        questionCont.add(forAnswer);
+        questionCont.add(holdbut);
+
+
+
+
+        Whole.add(questionCont);
+        Whole.setBorder(new EmptyBorder(10,0,5,0));
+
+
+        JSPQuestionCont.add(Whole);
+
+        // Refresh the view
+        JSPQuestionCont.revalidate();
+
+
+
+        deleteCont.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+
+                JSPQuestionCont.remove(Whole);
+//                JSPQuestionCont.removeAll();
+//                questionCont.remove(Whole);
+//                questionCont.remove(forQuestion);
+//                questionCont.remove(forAnswer);
+//                questionCont.remove(deleteCont);
+
+
+                // Refresh the view
+                JSPQuestionCont.revalidate();
+                JSPQuestionCont.repaint();
+            }
+        } );
+    }
+
+
+
+
+
+
+
 
 
     public static void main(String[] args) {
         MakingQuiz app = new MakingQuiz();
         app.setContentPane(app.jpanel);
-        JButton btn = new JButton("HIEFS");
-        app.setSize(1000, 600);
+        app.setSize(1200, 700);
         app.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        app.setTitle("Hello World");
+        app.setTitle("Making Quiz");
         app.setVisible(true);
     }
 }
