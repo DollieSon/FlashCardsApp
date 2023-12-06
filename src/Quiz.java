@@ -3,7 +3,7 @@ import Card.Card;
 import java.util.List;
 
 public class Quiz {
-    private List<Card> Questions;
+    private List<Card> cards;
     private String QuizName;
     private String Author;
 
@@ -11,7 +11,7 @@ public class Quiz {
     public String getQuizName() { return QuizName; }
 
     public Quiz addCard(Card card) {
-        Questions.add(card);
+        cards.add(card);
         return this;
     }
 
@@ -19,4 +19,6 @@ public class Quiz {
     public void removeCard(Card card) {
 
     }
+
+
 }

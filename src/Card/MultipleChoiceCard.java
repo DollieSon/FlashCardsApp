@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleChoiceCard extends Card {
-    private List<String> Choices;
+    private ArrayList<String> choices;
 
     public MultipleChoiceCard(){
         choices = new ArrayList<String>();
@@ -12,7 +12,7 @@ public class MultipleChoiceCard extends Card {
     }
 
     public List<String> getChoices(){
-      return Choices;
+      return choices;
     };
 
     public void setChoices(ArrayList<String> choices){
@@ -20,7 +20,7 @@ public class MultipleChoiceCard extends Card {
     }
 
     public void addChoices(String Choice){
-        Choices.add(Choice);
+        choices.add(Choice);
     }
 
 }
