@@ -16,8 +16,8 @@ public class Quiz {
     }
 
     //TODO IMPLEMENT
-    public void removeCard(Card card) {
-
+    public void removeCard(Card card){
+            cards.remove(card);
     }
 
 
