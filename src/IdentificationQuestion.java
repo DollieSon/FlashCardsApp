@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class IdentificationQuestion extends Question{
+public class IdentificationQuestion extends Question {
 
     String Question;
     String Answer;

@@ -1,3 +1,5 @@
+import Card.Card;
+
 import java.util.List;
 
 public class Quiz {
