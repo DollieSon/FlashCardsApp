@@ -9,4 +9,7 @@ public abstract class Card implements Answer{
     public String getQuestion(){
         return Question;
     }
+
+    public abstract void getAnswer();
+
 }
