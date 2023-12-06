@@ -18,13 +18,28 @@ public class WriteQuiz {
     }
 
     public void CreateQuizFile(Quiz quiz) throws IOException {
+        int LatestQuiz = -1;
         try{
-            BufferedReader br = new BufferedReader( new FileReader("Quizes/QuizList.txt"));
-            int LatestQuiz = Integer.parseInt(br.readLine());
+            BufferedReader br = new BufferedReader( new FileReader(FileLocations.GetQuizList()));
+            LatestQuiz = Integer.parseInt(br.readLine());
+            LatestQuiz++;
             String QuizFileName = "Quiz";
-            QuizFileName+=Integer.toString(LatestQuiz+1);
+            QuizFileName+=Integer.toString(LatestQuiz);
+            ChangeQuizFile(quiz,"Quizes/"+QuizFileName+".txt");
             br.close();
-            BufferedWriter bw = new BufferedWriter(new FileWriter("Quizes/"+QuizFileName+".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FileLocations.GetQuizList()));
+            bw.write(Integer.toString(LatestQuiz));
+            bw.flush();
+            bw.close();
+        }catch (IOException e){
+            throw new IOException("Error In Created QuizFile");
+        }
+    }
+
+    public int ChangeQuizFile(Quiz quiz, String Location) throws IOException{
+        int LatestQuiz = -1;
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Location));
             bw.append(quiz.getQuizName() + "\n");
             bw.append(quiz.getAuthor()+ "\n");
             for(Card card: quiz.getCards()){
@@ -46,6 +61,7 @@ public class WriteQuiz {
         }catch (IOException e){
             throw new IOException("Error In Appending");
         }
+        return LatestQuiz;
     }
 
 }

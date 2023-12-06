@@ -3,10 +3,8 @@ package QuizPackage;
 import Card.CardFactory;
 import Card.MultipleChoiceCard;
 import Card.Card;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 
 public class ReadQuiz {
 
@@ -62,5 +60,10 @@ public class ReadQuiz {
             throw new FileNotFoundException("Read Lines Error");
         }
         return ResQuiz;
+    }
+
+    public Quiz ReadQuizFile(int QuizNumber) throws FileNotFoundException {
+        String Location = FileLocations.GetQuizFile() + "Quiz" + Integer.toString(QuizNumber) + ".txt";
+        return ReadQuizFile(Location);
     }
 }
