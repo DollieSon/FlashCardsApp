@@ -1,4 +1,4 @@
-public abstract class Card {
+public abstract class Card implements Answer{
 private String Question;
 
     public void setQuestion(String question_name){
