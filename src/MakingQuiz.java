@@ -1,10 +1,15 @@
+import Card.*;
+
+
 import javax.swing.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class MakingQuiz extends JFrame{
@@ -67,6 +72,11 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addIdentificationCard(){
+
+
+
+
+
         JPanel holdbut = new JPanel();
         JButton deleteCont = new JButton();
         deleteCont.setText("Delete");
@@ -114,8 +124,9 @@ public class MakingQuiz extends JFrame{
         questionCont.add(forAnswer);
         questionCont.add(holdbut);
 
+        Card card = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(),answerField.getText());
 
-
+        //Add to the list cards
 
         Whole.add(questionCont);
         Whole.setBorder(new EmptyBorder(10,0,5,0));
@@ -147,6 +158,7 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addTrueOrFalseCard(){
+
         JPanel holdbut = new JPanel();
         JButton deleteCont = new JButton();
         deleteCont.setText("Delete");
@@ -235,7 +247,7 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addMultipleChoiceCard(){
-        JPanel holdbut = new JPanel();
+         JPanel holdbut = new JPanel();
         JButton deleteCont = new JButton();
         deleteCont.setText("Delete");
         deleteCont.setMaximumSize(new Dimension(150,20));
@@ -249,46 +261,103 @@ public class MakingQuiz extends JFrame{
         JPanel forQuestion = new JPanel();
         forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
 
-        JPanel forAnswer = new JPanel();
-        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
 
         JLabel questionLabel = new JLabel("Question: ");
         JTextField questionField = new JTextField();
+        questionField.setPreferredSize(new Dimension(500,50));
+        questionField.setMinimumSize(new Dimension(500,50));
+        questionField.setMaximumSize(new Dimension(500,50));
 
         questionField.setBorder(new EmptyBorder(0,20,0,10));
 //        questionfield.setMaximumSize(new Dimension(100,50));
+        JPanel appendLabel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        appendLabel.setLayout(new BoxLayout(appendLabel, BoxLayout.X_AXIS));
 
-        JLabel answerLabel = new JLabel("Answer:    ");
-        JRadioButton trueBtn = new JRadioButton("True");
-        JRadioButton falseBtn = new JRadioButton("False");
-        JPanel answerField = new JPanel();
-        ButtonGroup btngrp = new ButtonGroup();
-        btngrp.add(trueBtn);
-        btngrp.add(falseBtn);
-        answerField.add(trueBtn);
-        answerField.add(falseBtn);
+        JLabel answerLabel = new JLabel("Choices");
+        answerLabel.setBorder(new EmptyBorder(0,0,0,10));
+        JButton addOption = new JButton("Add Option");
+        appendLabel.add(answerLabel);
+        appendLabel.add(addOption);
 
-
-        answerField.setBorder(new EmptyBorder(0,20,0,10));
 
         forQuestion.add(questionLabel);
         forQuestion.add(questionField);
 
-        forAnswer.add(answerLabel);
-        forAnswer.add(answerField);
+
+        JPanel encompase_answer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        encompase_answer.add(appendLabel);
+        encompase_answer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        encompase_answer.setPreferredSize(new Dimension(500,200));
+        encompase_answer.setMinimumSize(new Dimension(500,200));
+        encompase_answer.setMaximumSize(new Dimension(500,200));
 
 
         forQuestion.setBorder(new EmptyBorder(20,20,20,20));
-        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
 
         questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionCont.setPreferredSize(new Dimension(maxCarWidth,350));
+        questionCont.setMinimumSize(new Dimension(maxCarWidth,350));
+        questionCont.setMaximumSize(new Dimension(maxCarWidth,350));
+        encompase_answer.setLayout(new BoxLayout(encompase_answer, BoxLayout.Y_AXIS));
+
 
         questionCont.add(forQuestion);
-        questionCont.add(forAnswer);
+        questionCont.add(encompase_answer);
         questionCont.add(holdbut);
+
+
+
+        ButtonGroup choiceGrp = new ButtonGroup();
+        addOption.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(encompase_answer.getComponentCount() >= 5){
+                    return;
+                }
+
+                JButton deleteOption = new JButton("Delete");
+
+
+                JRadioButton choiceRadio = new JRadioButton();
+                choiceGrp.add(choiceRadio);
+
+                JTextField option = new JTextField();
+                option.setPreferredSize(new Dimension(200,25));
+                option.setMinimumSize(new Dimension(200,25));
+                option.setMaximumSize(new Dimension(200,25));
+                option.setBorder(new EmptyBorder(0,20,0,10));
+
+                JPanel forOption = new JPanel();
+
+                forOption.setLayout(new BoxLayout(forOption, BoxLayout.X_AXIS));
+                forOption.setBorder(new EmptyBorder(10,0,0,0));
+                forOption.add(choiceRadio);
+                forOption.add(option);
+                forOption.add(deleteOption);
+                encompase_answer.add(forOption);
+
+                questionCont.revalidate();
+                /*JSPQuestionCont.add(Whole);
+
+                // Refresh the view
+                JSPQuestionCont.revalidate();*/
+
+                System.out.println(encompase_answer);
+
+                deleteOption.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        encompase_answer.remove(forOption);
+                        count--;
+                        JSPQuestionCont.revalidate();
+                        JSPQuestionCont.repaint();
+                    }
+                });
+
+            }
+        });
+
+
 
 
 
