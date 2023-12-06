@@ -1,6 +1,6 @@
 package Card;
 
-public abstract class Card {
+public abstract class Card implements Answer{
     private String Question;
 
     public void setQuestion(String question_name){
@@ -9,4 +9,7 @@ public abstract class Card {
     public String getQuestion(){
         return Question;
     }
+
+    public abstract void getAnswer();
+
 }
