@@ -9,7 +9,7 @@ public class CardFactory{
         TRUE_OR_FALSE, MULTIPLE_CHOICE,IDENTIFICATION
     };
 
-    public static Card MakeCard(type Type, String Question, String Answer, ArrayList<String> Choices){
+    public static Card MakeCard(type Type, String Question, String Answer){
         Card card = null;
         switch (Type){
             case TRUE_OR_FALSE:
@@ -17,7 +17,9 @@ public class CardFactory{
                 break;
             case MULTIPLE_CHOICE:
                 card = new MultipleChoiceCard();
-                ((MultipleChoiceCard) card).setChoices(Choices);
+                //dire lang siguro pag ask og choices
+                //((MultipleChoiceCard) card).setChoices(Choices);
+                break;
             case IDENTIFICATION:
                 card = new IdentificationCard();
                 break;
