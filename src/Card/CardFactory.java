@@ -14,11 +14,13 @@ public class CardFactory{
         switch (Type){
             case TRUE_OR_FALSE:
                 card = new TrueOrFalseCard();
+                break;
             case MULTIPLE_CHOICE:
                 card = new MultipleChoiceCard();
                 ((MultipleChoiceCard) card).setChoices(Choices);
             case IDENTIFICATION:
                 card = new IdentificationCard();
+                break;
         }
         card.setAnswer(Answer);
         card.setQuestion(Question);

@@ -1,3 +1,5 @@
+import QuizPackage.Quiz;
+
 import java.util.ArrayList;
 import java.util.List;
 
