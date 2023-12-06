@@ -1,8 +1,8 @@
 package Card;
 
-public abstract class Card implements Answer{
+public abstract class Card{
     private String Question;
-
+    private String Answer;
     public void setQuestion(String question_name){
         this.Question = question_name;
     }
@@ -10,6 +10,17 @@ public abstract class Card implements Answer{
         return Question;
     }
 
-    public abstract void getAnswer();
+    public void setAnswer(String Answer){
+        this.Answer = Answer;
+    }
+
+    public String getAnswer(){
+        return this.Answer;
+    }
+
+
+    public boolean checkAnswer(Object Answer){
+        return this.getAnswer().equals((String) Answer);
+    }
 
 }
