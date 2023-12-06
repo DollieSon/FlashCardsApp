@@ -3,20 +3,15 @@ package Card;
 import Card.Card;
 
 public class IdentificationCard extends Card {
-    private String Answer;
+    private String answer;
 
-    public void setAnswer(String Answer){
-        this.Answer = Answer;
-    }
-    public String getAnswer(){
-        return Answer;
+    @Override
+    public void getAnswer() {
+        // IMPLEMENT
     }
 
-    public void getAnswer(){
+    public void setAnswer(String Answer) { this.answer = Answer; }
 
-    }
-
-    public boolean checkAnswer() {
-        return true;
-    }
+    @Override
+    public boolean checkAnswer() { return false; }
 }
