@@ -1,5 +1,3 @@
-package Card;
-
 import java.util.List;
 
 public class IdentificationQuestion extends Question {
