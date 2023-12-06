@@ -10,7 +10,7 @@ public abstract class Card{
         return Question;
     }
 
-    public void setAnswer(String Answer){
+    public Card setAnswer(String Answer){
         this.Answer = Answer;
     }
 
