@@ -1,0 +1,3 @@
+quizid,quizname
+questionID,question,type,answer,ch1,ch2,
+questionID,question,type,answer

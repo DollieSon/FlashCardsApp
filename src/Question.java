@@ -7,6 +7,7 @@
 import java.util.List;
 
 public abstract class Question {
+
     abstract String getQuestion();
     abstract String getAnswer();
     abstract List<String> getChoices();

@@ -10,7 +10,7 @@ public class FileManager {
             Writer = new BufferedWriter(new FileWriter(Location));
         }catch(FileNotFoundException e){
             throw new FileNotFoundException("Error In Buffered Reader");
-        }catch (IOException e){
+        }catch (IOException e) {
             throw new IOException("Error in Writer");
         }
         System.out.println("FM created");
