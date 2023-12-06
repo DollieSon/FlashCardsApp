@@ -21,7 +21,7 @@ public class Quiz {
     }
 
     //TODO IMPLEMENT
-    public void RemoveCard( Card card){
+    public void removeCard( Card card){
 
 
     }
