@@ -1,12 +1,3 @@
-"Quiz ID"
-"Quiz Name"
-"Question Numbers"
-{
-"Question ID"
-"Question"
-"Question Answer"
-"Chioces" ,
-},
-{
-
-},
+quizid,quizname
+questionID,question,type,answer,ch1,ch2,
+questionID,question,type,answer
