@@ -3,27 +3,20 @@ import Card.Card;
 import java.util.List;
 
 public class Quiz {
-    private String QuizName;
     private List<Card> Questions;
+    private String QuizName;
     private String Author;
 
-    public void setName(String Name){
-        QuizName = Name;
-    }
+    public void setQuizName(String Name) { QuizName = Name; }
+    public String getQuizName() { return QuizName; }
 
-    public Quiz addCard(Card card){
+    public Quiz addCard(Card card) {
         Questions.add(card);
         return this;
     }
 
-    public String getQuizName(){
-        return QuizName;
-    }
-
     //TODO IMPLEMENT
-    public void removeCard( Card card){
-
+    public void removeCard(Card card) {
 
     }
-
 }
