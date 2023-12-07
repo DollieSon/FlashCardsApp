@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
 public class MakingQuiz extends JFrame{
@@ -68,18 +67,13 @@ public class MakingQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int card_index = 0;
-                /*for(Card question: holdertype.getCards()){
-                    if(question instanceof IdentificationCard){
-                        System.out.println("Identification");
-                    }
-                    else if(question instanceof TrueOrFalseCard){
-                        System.out.println("TrueofFalse");
-                    }
-                    else if(question instanceof MultipleChoiceCard){
-                        System.out.println("MultipleChoiceCard");
-                    }
+
+                if(tFTitle.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null,"No Title");
                 }
-                System.out.println("\n");*/
+                if(JSPQuestionCont.getComponentCount() == 0){
+                    JOptionPane.showMessageDialog(null,"No Questions");
+                }
 
                 for (Component component : JSPQuestionCont.getComponents()) {
                     if(holdertype.getCard(card_index) instanceof IdentificationCard){
@@ -93,7 +87,7 @@ public class MakingQuiz extends JFrame{
                                         for(Component fields: infield.getComponents()){
                                             if(fields instanceof JTextField){
                                                 if(((JTextField) fields).getText().isEmpty()){
-                                                    JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                    JOptionPane.showMessageDialog(null,"Please Fill Up the Text Fields");
                                                     return;
                                                 }
                                             }
@@ -113,7 +107,7 @@ public class MakingQuiz extends JFrame{
                                     for(Component fields: infield.getComponents()){
                                         if(fields instanceof JTextField){
                                             if(((JTextField) fields).getText().isEmpty()){
-                                                JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                JOptionPane.showMessageDialog(null,"Please Fill Up the Question");
                                                 return;
                                             }
                                         }
@@ -128,13 +122,62 @@ public class MakingQuiz extends JFrame{
                                                 }
                                             }
                                             if(radion_button_indicator == 2){
-                                                JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                JOptionPane.showMessageDialog(null,"Please Select True or False");
                                                 return;
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
+                    }
+                    else if(holdertype.getCard(card_index) instanceof MultipleChoiceCard){
+                        int count_for_radio_button = 0;
+                        if (component instanceof JPanel) {
+                            JPanel questionPanel = (JPanel) component;
+                            for (Component subComponent : questionPanel.getComponents()) {
+                                if(subComponent instanceof JPanel){
+                                    JPanel fieldPanel = (JPanel) subComponent;
+                                    for(Component field: fieldPanel.getComponents()) {
+                                        if (field instanceof JPanel) {
+                                            JPanel contain_elements = (JPanel) field;
+                                            for (Component cm : contain_elements.getComponents()) {
+                                                if (cm instanceof JTextField) {
+                                                    if (((JTextField) cm).getText().isEmpty()) {
+                                                        JOptionPane.showMessageDialog(null, "Please Fill Up the Question");
+                                                        return;
+                                                    }
+                                                }
+                                                else if(cm instanceof JPanel && contain_elements.getComponentCount() == 1 && ((JPanel) cm).getComponentCount() == 2){
+                                                    JOptionPane.showMessageDialog(null, "Add Choices");
+                                                    return;
+                                                }
+                                                else if(cm instanceof JPanel){
+                                                    JPanel choices = (JPanel) cm;
+                                                    for(Component cn: choices.getComponents()){
+                                                        if(cn instanceof JTextField){
+                                                            if(((JTextField) cn).getText().isEmpty()){
+                                                                JOptionPane.showMessageDialog(null, "Add Answer");
+                                                                return;
+                                                            }
+                                                        }
+                                                        else if(cn instanceof JRadioButton){
+                                                            if(((JRadioButton) cn).isSelected()){
+                                                                count_for_radio_button = count_for_radio_button+1;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    System.out.println("\n");
+                                }
+                            }
+                        }
+                        if(count_for_radio_button == 0){
+                            JOptionPane.showMessageDialog(null, "Select the Correct Answer");
+                            return;
                         }
                     }
                     card_index++;
@@ -374,55 +417,6 @@ public class MakingQuiz extends JFrame{
 
 
         ButtonGroup choiceGrp = new ButtonGroup();
-        addOption.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(encompase_answer.getComponentCount() >= 5){
-                    return;
-                }
-
-                JButton deleteOption = new JButton("Delete");
-
-
-                JRadioButton choiceRadio = new JRadioButton();
-                choiceGrp.add(choiceRadio);
-
-                JTextField option = new JTextField();
-                option.setPreferredSize(new Dimension(200,25));
-                option.setMinimumSize(new Dimension(200,25));
-                option.setMaximumSize(new Dimension(200,25));
-                option.setBorder(new EmptyBorder(0,20,0,10));
-
-                JPanel forOption = new JPanel();
-
-                forOption.setLayout(new BoxLayout(forOption, BoxLayout.X_AXIS));
-                forOption.setBorder(new EmptyBorder(10,0,0,0));
-                forOption.add(choiceRadio);
-                forOption.add(option);
-                forOption.add(deleteOption);
-                encompase_answer.add(forOption);
-
-                questionContainer.revalidate();
-
-                System.out.println(encompase_answer);
-
-                deleteOption.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        encompase_answer.remove(forOption);
-                        count--;
-                        JSPQuestionCont.revalidate();
-                        JSPQuestionCont.repaint();
-                    }
-                });
-
-            }
-        });
-
-
-
-
-
 
         WholePanel.add(questionContainer);
         WholePanel.setBorder(new EmptyBorder(10,0,5,0));
