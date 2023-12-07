@@ -2,7 +2,7 @@ package Card;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// Todo make an interface
 public class CardFactory{
     public static int TRUE_OR_FALSE = 1;
     public enum type {

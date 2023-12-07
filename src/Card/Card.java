@@ -1,5 +1,5 @@
 package Card;
-
+// TODO Make an inteface
 public abstract class Card{
     private String Question;
     private String Answer;

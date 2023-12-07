@@ -72,11 +72,6 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addIdentificationCard(){
-
-
-
-
-
         JPanel holdbut = new JPanel();
         JButton deleteCont = new JButton();
         deleteCont.setText("Delete");
@@ -110,7 +105,6 @@ public class MakingQuiz extends JFrame{
 
         forAnswer.add(answerLabel);
         forAnswer.add(answerField);
-
 
         forQuestion.setBorder(new EmptyBorder(20,20,20,20));
         forAnswer.setBorder(new EmptyBorder(20,20,20,20));
@@ -247,7 +241,7 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addMultipleChoiceCard(){
-         JPanel holdbut = new JPanel();
+        JPanel holdbut = new JPanel();
         JButton deleteCont = new JButton();
         deleteCont.setText("Delete");
         deleteCont.setMaximumSize(new Dimension(150,20));

@@ -5,7 +5,7 @@ import Card.MultipleChoiceCard;
 import Card.Card;
 
 import java.io.*;
-
+// TODO make an interface
 public class ReadQuiz {
 
     private CardFactory.type GetType(String type){
@@ -61,7 +61,7 @@ public class ReadQuiz {
         }
         return ResQuiz;
     }
-
+// TODO implement exception if out of bounds
     public Quiz ReadQuizFile(int QuizNumber) throws FileNotFoundException {
         String Location = FileLocations.GetQuizFile() + "Quiz" + Integer.toString(QuizNumber) + ".txt";
         return ReadQuizFile(Location);

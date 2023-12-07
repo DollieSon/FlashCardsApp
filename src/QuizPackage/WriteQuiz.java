@@ -3,7 +3,7 @@ package QuizPackage;
 import Card.*;
 import java.io.*;
 import java.util.*;
-
+// TODO make an interface
 public class WriteQuiz {
 
     private String GetType(Card type){
