@@ -2,14 +2,11 @@ import Card.*;
 
 
 import javax.swing.*;
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Optional;
 
 
 public class MakingQuiz extends JFrame{
@@ -33,6 +30,7 @@ public class MakingQuiz extends JFrame{
     private JPanel JpTypes;
     private JPanel JSPQuestionCont;
 
+
     private java.util.List<JRadioButton> jr;
 
     int count = 0;
@@ -40,7 +38,7 @@ public class MakingQuiz extends JFrame{
 
 
     public MakingQuiz(){
-        jr = new ArrayList<JRadioButton>();
+        jr = new ArrayList<>();
         jr.add(RBidentification);
         jr.add(RBmultipleChoice);
         jr.add(RBtrueOrFalse);
@@ -52,6 +50,7 @@ public class MakingQuiz extends JFrame{
        BaddQuestion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if(RBidentification.isSelected()){
                     addIdentificationCard();
                 }else if(RBmultipleChoice.isSelected()){
@@ -71,77 +70,70 @@ public class MakingQuiz extends JFrame{
         });
     }
 
+
     private void addIdentificationCard(){
-        JPanel holdbut = new JPanel();
-        JButton deleteCont = new JButton();
-        deleteCont.setText("Delete");
-        deleteCont.setMaximumSize(new Dimension(150,20));
-        holdbut.add(deleteCont);
-        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+        JPanel holddeletebutton = new JPanel();
+        JButton deleteButton = new JButton();
+        deleteButton.setText("Delete");
+        deleteButton.setMaximumSize(new Dimension(150,20));
+        holddeletebutton.add(deleteButton);
+        holddeletebutton.setBorder(new EmptyBorder(0,0,10,0));
 
-        JPanel Whole = new JPanel();
-        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+        JPanel WholePanel = new JPanel();
+        JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
 
-        JPanel forQuestion = new JPanel();
-        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+        JPanel forQuestionPanel = new JPanel();
+        forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
 
-        JPanel forAnswer = new JPanel();
-        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
+        JPanel forAnswerPanel = new JPanel();
+        forAnswerPanel.setLayout(new BoxLayout(forAnswerPanel, BoxLayout.X_AXIS));
 
         JLabel questionLabel = new JLabel("Question: ");
         JTextField questionField = new JTextField();
 
         questionField.setBorder(new EmptyBorder(0,20,0,10));
-//        questionfield.setMaximumSize(new Dimension(100,50));
 
         JLabel answerLabel = new JLabel("Answer:    ");
         JTextField answerField = new JTextField();
 
         answerField.setBorder(new EmptyBorder(0,20,0,10));
 
-        forQuestion.add(questionLabel);
-        forQuestion.add(questionField);
+        forQuestionPanel.add(questionLabel);
+        forQuestionPanel.add(questionField);
 
-        forAnswer.add(answerLabel);
-        forAnswer.add(answerField);
+        forAnswerPanel.add(answerLabel);
+        forAnswerPanel.add(answerField);
 
-        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
-        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
+        forQuestionPanel.setBorder(new EmptyBorder(20,20,20,20));
+        forAnswerPanel.setBorder(new EmptyBorder(20,20,20,20));
 
-        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionContainer.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionContainer.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionContainer.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
 
-        questionCont.add(forQuestion);
-        questionCont.add(forAnswer);
-        questionCont.add(holdbut);
-
-        Card card = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(),answerField.getText());
-
-        //Add to the list cards
-
-        Whole.add(questionCont);
-        Whole.setBorder(new EmptyBorder(10,0,5,0));
+        questionContainer.add(forQuestionPanel);
+        questionContainer.add(forAnswerPanel);
+        questionContainer.add(holddeletebutton);
 
 
-        JSPQuestionCont.add(Whole);
+        WholePanel.add(questionContainer);
+        WholePanel.setBorder(new EmptyBorder(10,0,5,0));
+
+
+
+        JSPQuestionCont.add(WholePanel);
 
         // Refresh the view
         JSPQuestionCont.revalidate();
 
 
 
-        deleteCont.addActionListener(new ActionListener(){
+        deleteButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
 
-                JSPQuestionCont.remove(Whole);
-//                JSPQuestionCont.removeAll();
-//                questionCont.remove(Whole);
-//                questionCont.remove(forQuestion);
-//                questionCont.remove(forAnswer);
-//                questionCont.remove(deleteCont);
+                JSPQuestionCont.remove(WholePanel);
 
 
                 // Refresh the view
@@ -153,84 +145,79 @@ public class MakingQuiz extends JFrame{
 
     private void addTrueOrFalseCard(){
 
-        JPanel holdbut = new JPanel();
-        JButton deleteCont = new JButton();
-        deleteCont.setText("Delete");
-        deleteCont.setMaximumSize(new Dimension(150,20));
-        holdbut.add(deleteCont);
-        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+        JPanel holddeletebutton = new JPanel();
+        JButton deleteButton = new JButton();
+        deleteButton.setText("Delete");
+        deleteButton.setMaximumSize(new Dimension(150,20));
+        holddeletebutton.add(deleteButton);
+        holddeletebutton.setBorder(new EmptyBorder(0,0,10,0));
 
-        JPanel Whole = new JPanel();
-        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+        JPanel WholePanel = new JPanel();
+        JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
 
-        JPanel forQuestion = new JPanel();
-        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+        JPanel forQuestionPanel = new JPanel();
+        forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
 
-        JPanel forAnswer = new JPanel();
-        forAnswer.setLayout(new BoxLayout(forAnswer, BoxLayout.X_AXIS));
+        JPanel forAnswerPanel = new JPanel();
+        forAnswerPanel.setLayout(new BoxLayout(forAnswerPanel, BoxLayout.X_AXIS));
 
         JLabel questionLabel = new JLabel("Question: ");
         JTextField questionField = new JTextField();
 
         questionField.setBorder(new EmptyBorder(0,20,0,10));
-//        questionfield.setMaximumSize(new Dimension(100,50));
 
         JLabel answerLabel = new JLabel("Answer:    ");
-        JRadioButton trueBtn = new JRadioButton("True");
-        JRadioButton falseBtn = new JRadioButton("False");
+        JRadioButton trueRadioButton = new JRadioButton("True");
+        JRadioButton flaseRadioButton = new JRadioButton("False");
         JPanel answerField = new JPanel();
-        ButtonGroup btngrp = new ButtonGroup();
-        btngrp.add(trueBtn);
-        btngrp.add(falseBtn);
-        answerField.add(trueBtn);
-        answerField.add(falseBtn);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(trueRadioButton);
+        buttonGroup.add(flaseRadioButton);
+        answerField.add(trueRadioButton);
+        answerField.add(flaseRadioButton);
 
 
         answerField.setBorder(new EmptyBorder(0,20,0,10));
 
-        forQuestion.add(questionLabel);
-        forQuestion.add(questionField);
+        forQuestionPanel.add(questionLabel);
+        forQuestionPanel.add(questionField);
 
-        forAnswer.add(answerLabel);
-        forAnswer.add(answerField);
-
-
-        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
-        forAnswer.setBorder(new EmptyBorder(20,20,20,20));
-
-        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        questionCont.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionCont.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
-
-        questionCont.add(forQuestion);
-        questionCont.add(forAnswer);
-        questionCont.add(holdbut);
+        forAnswerPanel.add(answerLabel);
+        forAnswerPanel.add(answerField);
 
 
+        forQuestionPanel.setBorder(new EmptyBorder(20,20,20,20));
+        forAnswerPanel.setBorder(new EmptyBorder(20,20,20,20));
+
+        questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionContainer.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionContainer.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
+        questionContainer.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
+
+        questionContainer.add(forQuestionPanel);
+        questionContainer.add(forAnswerPanel);
+        questionContainer.add(holddeletebutton);
 
 
-        Whole.add(questionCont);
-        Whole.setBorder(new EmptyBorder(10,0,5,0));
 
 
-        JSPQuestionCont.add(Whole);
+        WholePanel.add(questionContainer);
+        WholePanel.setBorder(new EmptyBorder(10,0,5,0));
+
+
+
+        JSPQuestionCont.add(WholePanel);
 
         // Refresh the view
         JSPQuestionCont.revalidate();
 
 
 
-        deleteCont.addActionListener(new ActionListener(){
+        deleteButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
 
-                JSPQuestionCont.remove(Whole);
-//                JSPQuestionCont.removeAll();
-//                questionCont.remove(Whole);
-//                questionCont.remove(forQuestion);
-//                questionCont.remove(forAnswer);
-//                questionCont.remove(deleteCont);
+                JSPQuestionCont.remove(WholePanel);
 
 
                 // Refresh the view
@@ -241,19 +228,19 @@ public class MakingQuiz extends JFrame{
     }
 
     private void addMultipleChoiceCard(){
-        JPanel holdbut = new JPanel();
-        JButton deleteCont = new JButton();
-        deleteCont.setText("Delete");
-        deleteCont.setMaximumSize(new Dimension(150,20));
-        holdbut.add(deleteCont);
-        holdbut.setBorder(new EmptyBorder(0,0,10,0));
+        JPanel holddeletebutton = new JPanel();
+        JButton deleteButton = new JButton();
+        deleteButton.setText("Delete");
+        deleteButton.setMaximumSize(new Dimension(150,20));
+        holddeletebutton.add(deleteButton);
+        holddeletebutton.setBorder(new EmptyBorder(0,0,10,0));
 
-        JPanel Whole = new JPanel();
-        JPanel questionCont = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        questionCont.setLayout(new BoxLayout(questionCont, BoxLayout.Y_AXIS));
+        JPanel WholePanel = new JPanel();
+        JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
 
-        JPanel forQuestion = new JPanel();
-        forQuestion.setLayout(new BoxLayout(forQuestion, BoxLayout.X_AXIS));
+        JPanel forQuestionPanel = new JPanel();
+        forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
 
 
         JLabel questionLabel = new JLabel("Question: ");
@@ -263,7 +250,8 @@ public class MakingQuiz extends JFrame{
         questionField.setMaximumSize(new Dimension(500,50));
 
         questionField.setBorder(new EmptyBorder(0,20,0,10));
-//        questionfield.setMaximumSize(new Dimension(100,50));
+
+
         JPanel appendLabel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         appendLabel.setLayout(new BoxLayout(appendLabel, BoxLayout.X_AXIS));
 
@@ -274,8 +262,8 @@ public class MakingQuiz extends JFrame{
         appendLabel.add(addOption);
 
 
-        forQuestion.add(questionLabel);
-        forQuestion.add(questionField);
+        forQuestionPanel.add(questionLabel);
+        forQuestionPanel.add(questionField);
 
 
         JPanel encompase_answer = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -286,18 +274,18 @@ public class MakingQuiz extends JFrame{
         encompase_answer.setMaximumSize(new Dimension(500,200));
 
 
-        forQuestion.setBorder(new EmptyBorder(20,20,20,20));
+        forQuestionPanel.setBorder(new EmptyBorder(20,20,20,20));
 
-        questionCont.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        questionCont.setPreferredSize(new Dimension(maxCarWidth,350));
-        questionCont.setMinimumSize(new Dimension(maxCarWidth,350));
-        questionCont.setMaximumSize(new Dimension(maxCarWidth,350));
+        questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        questionContainer.setPreferredSize(new Dimension(maxCarWidth,350));
+        questionContainer.setMinimumSize(new Dimension(maxCarWidth,350));
+        questionContainer.setMaximumSize(new Dimension(maxCarWidth,350));
         encompase_answer.setLayout(new BoxLayout(encompase_answer, BoxLayout.Y_AXIS));
 
 
-        questionCont.add(forQuestion);
-        questionCont.add(encompase_answer);
-        questionCont.add(holdbut);
+        questionContainer.add(forQuestionPanel);
+        questionContainer.add(encompase_answer);
+        questionContainer.add(holddeletebutton);
 
 
 
@@ -330,11 +318,7 @@ public class MakingQuiz extends JFrame{
                 forOption.add(deleteOption);
                 encompase_answer.add(forOption);
 
-                questionCont.revalidate();
-                /*JSPQuestionCont.add(Whole);
-
-                // Refresh the view
-                JSPQuestionCont.revalidate();*/
+                questionContainer.revalidate();
 
                 System.out.println(encompase_answer);
 
@@ -356,27 +340,22 @@ public class MakingQuiz extends JFrame{
 
 
 
-        Whole.add(questionCont);
-        Whole.setBorder(new EmptyBorder(10,0,5,0));
+        WholePanel.add(questionContainer);
+        WholePanel.setBorder(new EmptyBorder(10,0,5,0));
 
 
-        JSPQuestionCont.add(Whole);
+
+        JSPQuestionCont.add(WholePanel);
 
         // Refresh the view
         JSPQuestionCont.revalidate();
 
 
 
-        deleteCont.addActionListener(new ActionListener(){
+        deleteButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
 
-                JSPQuestionCont.remove(Whole);
-//                JSPQuestionCont.removeAll();
-//                questionCont.remove(Whole);
-//                questionCont.remove(forQuestion);
-//                questionCont.remove(forAnswer);
-//                questionCont.remove(deleteCont);
-
+                JSPQuestionCont.remove(WholePanel);
 
                 // Refresh the view
                 JSPQuestionCont.revalidate();
