@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 public class MakingQuiz extends JFrame{
@@ -51,6 +52,18 @@ public class MakingQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                /*for(Card c: thisQuiz.getCards()){
+                    if(c instanceof IdentificationCard){
+                            if(c.getQuestion().isEmpty()||c.getAnswer().isEmpty()){
+                                System.out.println("error");
+//                                thisQuiz.getCards().remove(c);
+                                return;
+                            }
+                    }
+                }*/
+
+
+
                 if(RBidentification.isSelected()){
                     addIdentificationCard();
                 }else if(RBmultipleChoice.isSelected()){
@@ -58,14 +71,29 @@ public class MakingQuiz extends JFrame{
                 }else if(RBtrueOrFalse.isSelected()){
                     addTrueOrFalseCard();
                 }
+
+                count++;
             }
         });
-
 
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                for (Component component : JSPQuestionCont.getComponents()) {
+                    if (component instanceof JPanel) {
+                        JPanel questionPanel = (JPanel) component;
+                        for (Component subComponent : questionPanel.getComponents()) {
+                            if (subComponent instanceof JTextField) {
+                                JTextField textField = (JTextField) subComponent;
+                                if (textField.getText().isEmpty()) {
+                                    System.out.println("Not filled");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         });
     }
@@ -121,13 +149,67 @@ public class MakingQuiz extends JFrame{
         WholePanel.add(questionContainer);
         WholePanel.setBorder(new EmptyBorder(10,0,5,0));
 
-
-
         JSPQuestionCont.add(WholePanel);
 
         // Refresh the view
         JSPQuestionCont.revalidate();
+        JSPQuestionCont.repaint();
 
+        Card cc = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(), answerField.getText());
+
+        thisQuiz.addCard(cc);
+        // Create a Card class
+        /*class Card {
+            // Declare the fields for the answer and question
+            private String answer;
+            private String question;
+
+            // Create a constructor that takes the answer and question as parameters
+            public Card(String answer, String question) {
+                this.answer = answer;
+                this.question = question;
+            }
+
+            // Optionally, you can add getters and setters for the fields
+            public String getAnswer() {
+                return answer;
+            }
+
+            public void setAnswer(String answer) {
+                this.answer = answer;
+            }
+
+            public String getQuestion() {
+                return question;
+            }
+
+            public void setQuestion(String question) {
+                this.question = question;
+            }
+        }
+
+
+        BaddQuestion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the text from the fields
+                String answer = answerField.getText();
+                String question = questionField.getText();
+                boolean valid = !answer.isEmpty() && !question.isEmpty();
+
+                BaddQuestion.setEnabled(valid);
+
+                // Create a new Card object with the answer and question
+
+
+                // Add the card to the list
+                thisQuiz.getCards().add(cc);
+
+                // Optionally, you can clear the fields after adding the card
+                answerField.setText("");
+                questionField.setText("");
+            }
+        });*/
 
 
         deleteButton.addActionListener(new ActionListener(){
@@ -135,16 +217,20 @@ public class MakingQuiz extends JFrame{
 
                 JSPQuestionCont.remove(WholePanel);
 
+                thisQuiz.removeCard(cc);
 
                 // Refresh the view
                 JSPQuestionCont.revalidate();
                 JSPQuestionCont.repaint();
             }
         } );
+
+
+        //return CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(), answerField.getText());
+
     }
 
     private void addTrueOrFalseCard(){
-
         JPanel holddeletebutton = new JPanel();
         JButton deleteButton = new JButton();
         deleteButton.setText("Delete");
@@ -372,7 +458,10 @@ public class MakingQuiz extends JFrame{
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+        //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         MakingQuiz app = new MakingQuiz();
         app.setContentPane(app.jpanel);
         app.setSize(1200, 700);
