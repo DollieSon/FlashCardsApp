@@ -52,18 +52,6 @@ public class MakingQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                /*for(Card c: thisQuiz.getCards()){
-                    if(c instanceof IdentificationCard){
-                            if(c.getQuestion().isEmpty()||c.getAnswer().isEmpty()){
-                                System.out.println("error");
-//                                thisQuiz.getCards().remove(c);
-                                return;
-                            }
-                    }
-                }*/
-
-
-
                 if(RBidentification.isSelected()){
                     addIdentificationCard();
                 }else if(RBmultipleChoice.isSelected()){
@@ -79,27 +67,77 @@ public class MakingQuiz extends JFrame{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int card_index = 0;
+                /*for(Card question: holdertype.getCards()){
+                    if(question instanceof IdentificationCard){
+                        System.out.println("Identification");
+                    }
+                    else if(question instanceof TrueOrFalseCard){
+                        System.out.println("TrueofFalse");
+                    }
+                    else if(question instanceof MultipleChoiceCard){
+                        System.out.println("MultipleChoiceCard");
+                    }
+                }
+                System.out.println("\n");*/
 
                 for (Component component : JSPQuestionCont.getComponents()) {
-                    if (component instanceof JPanel) {
-                        System.out.println("1");
-                        JPanel questionPanel = (JPanel) component;
-                        for (Component subComponent : questionPanel.getComponents()) {
-                            System.out.println("2");
-                            if(subComponent instanceof JPanel){
-                                JPanel fieldPanel = (JPanel) component;
-                                for(Component field: fieldPanel.getComponents()){
-                                    System.out.println("3");
-                                    if(field instanceof JTextField){
-                                        if(((JTextField) field).getText().isEmpty()){
-                                            JOptionPane.showMessageDialog(null,"Their is an empty text field");
-                                            return;
+                    if(holdertype.getCard(card_index) instanceof IdentificationCard){
+                        if (component instanceof JPanel) {
+                            JPanel questionPanel = (JPanel) component;
+                            for (Component subComponent : questionPanel.getComponents()) {
+                                if(subComponent instanceof JPanel){
+                                    JPanel fieldPanel = (JPanel) subComponent;
+                                    for(Component field: fieldPanel.getComponents()){
+                                        JPanel infield = (JPanel) field;
+                                        for(Component fields: infield.getComponents()){
+                                            if(fields instanceof JTextField){
+                                                if(((JTextField) fields).getText().isEmpty()){
+                                                    JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                    return;
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    else if(holdertype.getCard(card_index) instanceof TrueOrFalseCard){
+                        JPanel questionPanel = (JPanel) component;
+                        for (Component subComponent : questionPanel.getComponents()) {
+                            if(subComponent instanceof JPanel){
+                                JPanel fieldPanel = (JPanel) subComponent;
+                                for(Component field: fieldPanel.getComponents()){
+                                    JPanel infield = (JPanel) field;
+                                    for(Component fields: infield.getComponents()){
+                                        if(fields instanceof JTextField){
+                                            if(((JTextField) fields).getText().isEmpty()){
+                                                JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                return;
+                                            }
+                                        }
+                                        else if(fields instanceof JPanel){
+                                            int radion_button_indicator = 0;
+                                            JPanel radio_button_select = (JPanel) fields;
+                                            for(Component radio_butt: radio_button_select.getComponents()){
+                                                if(radio_butt instanceof JRadioButton){
+                                                    if(((JRadioButton) radio_butt).isSelected() == false){
+                                                        radion_button_indicator++;
+                                                    }
+                                                }
+                                            }
+                                            if(radion_button_indicator == 2){
+                                                JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    card_index++;
                 }
 
                 JOptionPane.showMessageDialog(null,"Saving");
@@ -160,65 +198,12 @@ public class MakingQuiz extends JFrame{
 
         JSPQuestionCont.add(WholePanel);
 
+        Card cc = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,null,null);
+        holdertype.addCard(cc);
+
         // Refresh the view
         JSPQuestionCont.revalidate();
         JSPQuestionCont.repaint();
-
-        Card cc = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(), answerField.getText());
-
-        thisQuiz.addCard(cc);
-        // Create a Card class
-        /*class Card {
-            // Declare the fields for the answer and question
-            private String answer;
-            private String question;
-
-            // Create a constructor that takes the answer and question as parameters
-            public Card(String answer, String question) {
-                this.answer = answer;
-                this.question = question;
-            }
-
-            // Optionally, you can add getters and setters for the fields
-            public String getAnswer() {
-                return answer;
-            }
-
-            public void setAnswer(String answer) {
-                this.answer = answer;
-            }
-
-            public String getQuestion() {
-                return question;
-            }
-
-            public void setQuestion(String question) {
-                this.question = question;
-            }
-        }
-
-
-        BaddQuestion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Get the text from the fields
-                String answer = answerField.getText();
-                String question = questionField.getText();
-                boolean valid = !answer.isEmpty() && !question.isEmpty();
-
-                BaddQuestion.setEnabled(valid);
-
-                // Create a new Card object with the answer and question
-
-
-                // Add the card to the list
-                thisQuiz.getCards().add(cc);
-
-                // Optionally, you can clear the fields after adding the card
-                answerField.setText("");
-                questionField.setText("");
-            }
-        });*/
 
 
         deleteButton.addActionListener(new ActionListener(){
@@ -226,7 +211,7 @@ public class MakingQuiz extends JFrame{
 
                 JSPQuestionCont.remove(WholePanel);
 
-                thisQuiz.removeCard(cc);
+                holdertype.removeCard(cc);
 
                 // Refresh the view
                 JSPQuestionCont.revalidate();
@@ -304,6 +289,9 @@ public class MakingQuiz extends JFrame{
 
         JSPQuestionCont.add(WholePanel);
 
+        Card cc = CardFactory.MakeCard(CardFactory.type.TRUE_OR_FALSE,null,null);
+        holdertype.addCard(cc);
+
         // Refresh the view
         JSPQuestionCont.revalidate();
 
@@ -314,6 +302,7 @@ public class MakingQuiz extends JFrame{
 
                 JSPQuestionCont.remove(WholePanel);
 
+                holdertype.removeCard(cc);
 
                 // Refresh the view
                 JSPQuestionCont.revalidate();
@@ -442,6 +431,9 @@ public class MakingQuiz extends JFrame{
 
         JSPQuestionCont.add(WholePanel);
 
+        Card cc = CardFactory.MakeCard(CardFactory.type.MULTIPLE_CHOICE,null,null);
+        holdertype.addCard(cc);
+
         // Refresh the view
         JSPQuestionCont.revalidate();
 
@@ -452,6 +444,7 @@ public class MakingQuiz extends JFrame{
 
                 JSPQuestionCont.remove(WholePanel);
 
+                holdertype.removeCard(cc);
                 // Refresh the view
                 JSPQuestionCont.revalidate();
                 JSPQuestionCont.repaint();
