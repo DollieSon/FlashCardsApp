@@ -82,18 +82,27 @@ public class MakingQuiz extends JFrame{
 
                 for (Component component : JSPQuestionCont.getComponents()) {
                     if (component instanceof JPanel) {
+                        System.out.println("1");
                         JPanel questionPanel = (JPanel) component;
                         for (Component subComponent : questionPanel.getComponents()) {
-                            if (subComponent instanceof JTextField) {
-                                JTextField textField = (JTextField) subComponent;
-                                if (textField.getText().isEmpty()) {
-                                    System.out.println("Not filled");
-                                    return;
+                            System.out.println("2");
+                            if(subComponent instanceof JPanel){
+                                JPanel fieldPanel = (JPanel) component;
+                                for(Component field: fieldPanel.getComponents()){
+                                    System.out.println("3");
+                                    if(field instanceof JTextField){
+                                        if(((JTextField) field).getText().isEmpty()){
+                                            JOptionPane.showMessageDialog(null,"Their is an empty text field");
+                                            return;
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                JOptionPane.showMessageDialog(null,"Saving");
             }
         });
     }
