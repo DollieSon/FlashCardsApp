@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class MakingQuiz extends JFrame{
