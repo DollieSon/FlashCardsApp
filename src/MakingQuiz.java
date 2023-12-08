@@ -70,9 +70,11 @@ public class MakingQuiz extends JFrame{
 
                 if(tFTitle.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null,"No Title");
+                    return;
                 }
                 if(JSPQuestionCont.getComponentCount() == 0){
                     JOptionPane.showMessageDialog(null,"No Questions");
+                    return;
                 }
 
                 for (Component component : JSPQuestionCont.getComponents()) {
