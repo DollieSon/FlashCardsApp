@@ -1,4 +1,5 @@
 import Card.*;
+import QuizPackage.Quiz;
 
 
 import javax.swing.*;
@@ -33,10 +34,10 @@ public class MakingQuiz extends JFrame{
 
 
     private java.util.List<JRadioButton> jr;
+    int count;
+    Card c;
 
-    int count = 0;
-
-
+    Quiz holdertype;
 
     public MakingQuiz(){
         jr = new ArrayList<>();
@@ -47,6 +48,13 @@ public class MakingQuiz extends JFrame{
         JpTypes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JSPQuestionCont.setLayout(new BoxLayout(JSPQuestionCont, BoxLayout.Y_AXIS));
+
+        JSPContainer.setMinimumSize(new Dimension(600,600));
+        JSPContainer.setMaximumSize(new Dimension(600,600));
+        JSPContainer.setPreferredSize(new Dimension(600,600));
+        count = 0;
+        c = null;
+        holdertype = new Quiz();
 
        BaddQuestion.addActionListener(new ActionListener() {
             @Override
@@ -321,7 +329,7 @@ public class MakingQuiz extends JFrame{
 
         // Refresh the view
         JSPQuestionCont.revalidate();
-
+        JSPQuestionCont.repaint();
 
 
         deleteButton.addActionListener(new ActionListener(){
@@ -414,7 +422,51 @@ public class MakingQuiz extends JFrame{
 
         // Refresh the view
         JSPQuestionCont.revalidate();
+        JSPQuestionCont.repaint();
 
+
+        addOption.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(encompase_answer.getComponentCount() >= 5){
+                    return;
+                }
+
+                JButton deleteOption = new JButton("Delete");
+
+
+                JRadioButton choiceRadio = new JRadioButton();
+                choiceGrp.add(choiceRadio);
+
+                JTextField option = new JTextField();
+                option.setPreferredSize(new Dimension(200,25));
+                option.setMinimumSize(new Dimension(200,25));
+                option.setMaximumSize(new Dimension(200,25));
+                option.setBorder(new EmptyBorder(0,20,0,10));
+
+                JPanel forOption = new JPanel();
+
+                forOption.setLayout(new BoxLayout(forOption, BoxLayout.X_AXIS));
+                forOption.setBorder(new EmptyBorder(10,0,0,0));
+                forOption.add(choiceRadio);
+                forOption.add(option);
+                forOption.add(deleteOption);
+                encompase_answer.add(forOption);
+
+                questionContainer.revalidate();
+
+                deleteOption.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        encompase_answer.remove(forOption);
+                        count--;
+                        JSPQuestionCont.revalidate();
+                        JSPQuestionCont.repaint();
+                    }
+                });
+
+            }
+        });
 
 
         deleteButton.addActionListener(new ActionListener(){
