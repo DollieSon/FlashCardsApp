@@ -29,6 +29,7 @@ public class MakingQuiz extends JFrame{
     private JPanel jpCard;
     private JPanel JpTypes;
     private JPanel JSPQuestionCont;
+    private JScrollPane JSPContainer;
 
 
     private java.util.List<JRadioButton> jr;
@@ -79,25 +80,7 @@ public class MakingQuiz extends JFrame{
 
                 for (Component component : JSPQuestionCont.getComponents()) {
                     if(holdertype.getCard(card_index) instanceof IdentificationCard){
-                        if (component instanceof JPanel) {
-                            JPanel questionPanel = (JPanel) component;
-                            for (Component subComponent : questionPanel.getComponents()) {
-                                if(subComponent instanceof JPanel){
-                                    JPanel fieldPanel = (JPanel) subComponent;
-                                    for(Component field: fieldPanel.getComponents()){
-                                        JPanel infield = (JPanel) field;
-                                        for(Component fields: infield.getComponents()){
-                                            if(fields instanceof JTextField){
-                                                if(((JTextField) fields).getText().isEmpty()){
-                                                    JOptionPane.showMessageDialog(null,"Please Fill Up the Text Fields");
-                                                    return;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+
                     }
                     else if(holdertype.getCard(card_index) instanceof TrueOrFalseCard){
                         JPanel questionPanel = (JPanel) component;
@@ -265,7 +248,6 @@ public class MakingQuiz extends JFrame{
         } );
 
 
-        //return CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,questionField.getText(), answerField.getText());
 
     }
 
@@ -459,12 +441,14 @@ public class MakingQuiz extends JFrame{
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         MakingQuiz app = new MakingQuiz();
-        app.setContentPane(app.jpanel);
-        app.setSize(1200, 700);
+        JScrollPane scrollPane = new JScrollPane(app.jpanel);
+        app.setContentPane(scrollPane);
+        app.setSize(1200, 750);
+        app.setResizable(true);
         app.setDefaultCloseOperation(EXIT_ON_CLOSE);
         app.setTitle("Making Quiz");
         app.setVisible(true);
+
     }
 }
