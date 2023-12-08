@@ -89,7 +89,23 @@ public class MakingQuiz extends JFrame{
 
                 for (Component component : JSPQuestionCont.getComponents()) {
                     if(holdertype.getCard(card_index) instanceof IdentificationCard){
-
+                        JPanel questionPanel = (JPanel) component;
+                        for (Component subComponent : questionPanel.getComponents()) {
+                            if(subComponent instanceof JPanel){
+                                JPanel fieldPanel = (JPanel) subComponent;
+                                for(Component field: fieldPanel.getComponents()){
+                                    JPanel infield = (JPanel) field;
+                                    for(Component fields: infield.getComponents()){
+                                        if(fields instanceof JTextField){
+                                            if(((JTextField) fields).getText().isEmpty()){
+                                                JOptionPane.showMessageDialog(null,"Please Fill Up the Text Field");
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     else if(holdertype.getCard(card_index) instanceof TrueOrFalseCard){
                         JPanel questionPanel = (JPanel) component;
