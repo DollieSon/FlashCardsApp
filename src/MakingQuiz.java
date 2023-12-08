@@ -11,25 +11,23 @@ import java.util.ArrayList;
 
 public class MakingQuiz extends JFrame{
 
-    private final int maxCarWidth = 600;
-    private final int maxCarHeight = 200;
-    private JTextField tFTitle;
-    private JPanel jpanel;
-    private JButton saveButton;
-    private JLabel LAuthor;
-
-
-    private JLabel LBy;
-    private JLabel Ltitle;
-    private JButton BaddQuestion;
-    private JRadioButton RBmultipleChoice;
-    private JRadioButton RBidentification;
-    private JRadioButton RBtrueOrFalse;
-    private JLabel Ltype;
-    private JPanel jpCard;
-    private JPanel JpTypes;
-    private JPanel JSPQuestionCont;
-    private JScrollPane JSPContainer;
+    public final int maxCarWidth = 600;
+    public final int maxCarHeight = 200;
+    public JTextField tFTitle;
+    public JPanel jpanel;
+    public JButton saveButton;
+    public JLabel LAuthor;
+    public JLabel LBy;
+    public JLabel Ltitle;
+    public JButton BaddQuestion;
+    public JRadioButton RBmultipleChoice;
+    public JRadioButton RBidentification;
+    public JRadioButton RBtrueOrFalse;
+    public JLabel Ltype;
+    public JPanel jpCard;
+    public JPanel JpTypes;
+    public JPanel JSPQuestionCont;
+    public JScrollPane JSPContainer;
 
 
     private java.util.List<JRadioButton> jr;
