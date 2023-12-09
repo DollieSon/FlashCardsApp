@@ -514,7 +514,7 @@ public class MakingQuiz extends JFrame{
         JScrollPane scrollPane = new JScrollPane(app.jpanel);
         app.setContentPane(scrollPane);
         app.setSize(1200, 750);
-        app.setResizable(true);
+        app.setResizable(false);
         app.setDefaultCloseOperation(EXIT_ON_CLOSE);
         app.setTitle("Making Quiz");
         app.setVisible(true);
