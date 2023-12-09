@@ -52,6 +52,8 @@ public class TakeQuiz extends JFrame{
 
     JScrollPane errormessage = new JScrollPane();
 
+    JRadioButton storeUserAnswer;
+
     boolean removeCardIndicator = false;
 
 
@@ -71,7 +73,7 @@ public class TakeQuiz extends JFrame{
 
         Card cc2= CardFactory.MakeCard(CardFactory.type.MULTIPLE_CHOICE,"2Pick the word aasdfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffffffffffffffffffffffffffffffhihih","aa");
         ((MultipleChoiceCard)cc2).addChoices("sdkjfnjksdnfkjdas");
-        ((MultipleChoiceCard)cc2).addChoices("kkakakaka");
+        ((MultipleChoiceCard)cc2).addChoices("aa");
         ((MultipleChoiceCard)cc2).addChoices("lsdjfjljasldkf");
         ((MultipleChoiceCard)cc2).addChoices(";asdfsdf");
 
@@ -107,6 +109,16 @@ public class TakeQuiz extends JFrame{
                     quizcards.getCards().remove(cardcounter);
                     cardcounter--;
                 }
+                if(quizcards.getCards().size() == 0){
+                    JPQuestionQuizPanel.removeAll();
+
+                    JPQuestionQuizPanel.revalidate();
+                    JPQuestionQuizPanel.repaint();
+
+                    removeCardIndicator = false;
+
+                    return;
+                }
                 JPQuestionQuizPanel.removeAll();
 
                 identificationAnswer.setEditable(true);
@@ -118,6 +130,10 @@ public class TakeQuiz extends JFrame{
                     cardcounter = -1;
                 }
                 cardcounter++;
+
+                if(quizcards.getCards().size() == 1){
+                    cardcounter = 0;
+                }
 
                 if(quizcards.getCards().get(cardcounter) instanceof IdentificationCard){
                     showIdentification(cardcounter);
@@ -141,6 +157,16 @@ public class TakeQuiz extends JFrame{
                 if(removeCardIndicator == true){
                     quizcards.getCards().remove(cardcounter);
                 }
+                if(quizcards.getCards().size() == 0){
+                    JPQuestionQuizPanel.removeAll();
+
+                    JPQuestionQuizPanel.revalidate();
+                    JPQuestionQuizPanel.repaint();
+
+                    removeCardIndicator = false;
+
+                    return;
+                }
                 JPQuestionQuizPanel.removeAll();
 
                 identificationAnswer.setEditable(true);
@@ -153,6 +179,10 @@ public class TakeQuiz extends JFrame{
                     cardcounter = quizcards.getCards().size();
                 }
                 cardcounter--;
+
+                if(quizcards.getCards().size() == 1){
+                    cardcounter = 0;
+                }
 
                 if(quizcards.getCards().get(cardcounter) instanceof IdentificationCard){
                     showIdentification(cardcounter);
@@ -176,101 +206,10 @@ public class TakeQuiz extends JFrame{
                     submitIdentification();
                 }
                 else if(quizcards.getCards().get(cardcounter) instanceof TrueOrFalseCard){
-                    if(ChoicesRadioButton.get(0).isSelected() == false && ChoicesRadioButton.get(1).isSelected() == false){
-                        JPQuestionQuizPanel.remove(errormessage);
-                        JLabel errorlabel = new JLabel("Warning: Choose an answer");
-                        errorlabel.setFont(new Font("",Font.PLAIN,14));
-                        errorlabel.setForeground(new Color(139, 128, 0));
-
-                        JPanel errorPanel = new JPanel();
-                        errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-                        errorPanel.add(errorlabel);
-
-                        errormessage = new JScrollPane(errorPanel);
-                        errormessage.setMaximumSize(new Dimension(300,50));
-                        errormessage.setMinimumSize(new Dimension(300,50));
-                        errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-                        errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-                        JPQuestionQuizPanel.add(errormessage);
-
-                        JPQuestionQuizPanel.revalidate();
-                        JPQuestionQuizPanel.repaint();
-
-                        return;
-                    }
-
-                    for(JRadioButton chc: ChoicesRadioButton){
-                        if(chc.isSelected() == true && chc.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
-                            JPQuestionQuizPanel.remove(errormessage);
-                            JLabel errorlabel = new JLabel("Correct");
-                            errorlabel.setFont(new Font("",Font.PLAIN,14));
-                            errorlabel.setForeground(Color.GREEN);
-
-                            JPanel errorPanel = new JPanel();
-                            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-                            errorPanel.add(errorlabel);
-
-                            errormessage = new JScrollPane(errorPanel);
-                            errormessage.setMaximumSize(new Dimension(300,50));
-                            errormessage.setMinimumSize(new Dimension(300,50));
-                            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-                            errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-                            JPQuestionQuizPanel.add(errormessage);
-
-                            int check = Integer.parseInt(JLCorrect.getText())+1;
-                            JLCorrect.setText(check+"");
-                            JPCorrectPanel.setBackground(new Color(138, 255, 182));
-
-                            JPQuestionQuizPanel.add(errormessage);
-
-
-                            JBsubmitButton.setEnabled(false);
-                            ChoicesRadioButton.get(0).setEnabled(false);
-                            ChoicesRadioButton.get(1).setEnabled(false);
-
-                            removeCardIndicator= true;
-
-                            JPQuestionQuizPanel.revalidate();
-                            JPQuestionQuizPanel.repaint();
-                            return;
-                        }
-                    }
-                    JPQuestionQuizPanel.remove(errormessage);
-                    JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
-                    errorlabel.setFont(new Font("",Font.PLAIN,14));
-                    errorlabel.setForeground(Color.RED);
-
-                    JPanel errorPanel = new JPanel();
-                    errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-                    errorPanel.add(errorlabel);
-
-                    errormessage = new JScrollPane(errorPanel);
-                    errormessage.setMaximumSize(new Dimension(300,50));
-                    errormessage.setMinimumSize(new Dimension(300,50));
-                    errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-                    errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-                    JPQuestionQuizPanel.add(errormessage);
-
-                    int wrong = Integer.parseInt(JLIncorrect.getText())+1;
-                    JLIncorrect.setText(wrong+"");
-                    JPIncorrectPanel.setBackground(new Color(255, 136, 148));
-
-                    JPQuestionQuizPanel.add(errormessage);
-
-                    JBsubmitButton.setEnabled(false);
-                    ChoicesRadioButton.get(0).setEnabled(false);
-                    ChoicesRadioButton.get(1).setEnabled(false);
-
-                    removeCardIndicator= true;
-
-                    JPQuestionQuizPanel.revalidate();
-                    JPQuestionQuizPanel.repaint();
+                    submitTrueorFalse();
+                }
+                else if(quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard){
+                    submitMultipleChoice();
                 }
             }
         });
@@ -363,6 +302,209 @@ public class TakeQuiz extends JFrame{
         }
         JPQuestionQuizPanel.revalidate();
         JPQuestionQuizPanel.repaint();
+    }
+
+    public void submitTrueorFalse(){
+        if(ChoicesRadioButton.get(0).isSelected() == false && ChoicesRadioButton.get(1).isSelected() == false){
+            JPQuestionQuizPanel.remove(errormessage);
+            JLabel errorlabel = new JLabel("Warning: Choose an answer");
+            errorlabel.setFont(new Font("",Font.PLAIN,14));
+            errorlabel.setForeground(new Color(139, 128, 0));
+
+            JPanel errorPanel = new JPanel();
+            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+            errorPanel.add(errorlabel);
+
+            errormessage = new JScrollPane(errorPanel);
+            errormessage.setMaximumSize(new Dimension(300,50));
+            errormessage.setMinimumSize(new Dimension(300,50));
+            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+            JPQuestionQuizPanel.revalidate();
+            JPQuestionQuizPanel.repaint();
+
+            return;
+        }
+
+        for(JRadioButton chc: ChoicesRadioButton){
+            if(chc.isSelected() == true && chc.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
+                JPQuestionQuizPanel.remove(errormessage);
+                JLabel errorlabel = new JLabel("Correct");
+                errorlabel.setFont(new Font("",Font.PLAIN,14));
+                errorlabel.setForeground(Color.GREEN);
+
+                JPanel errorPanel = new JPanel();
+                errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+                errorPanel.add(errorlabel);
+
+                errormessage = new JScrollPane(errorPanel);
+                errormessage.setMaximumSize(new Dimension(300,50));
+                errormessage.setMinimumSize(new Dimension(300,50));
+                errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+                errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+                JPQuestionQuizPanel.add(errormessage);
+
+                int check = Integer.parseInt(JLCorrect.getText())+1;
+                JLCorrect.setText(check+"");
+                JPCorrectPanel.setBackground(new Color(138, 255, 182));
+
+                JPQuestionQuizPanel.add(errormessage);
+
+
+                JBsubmitButton.setEnabled(false);
+                ChoicesRadioButton.get(0).setEnabled(false);
+                ChoicesRadioButton.get(1).setEnabled(false);
+
+                removeCardIndicator= true;
+
+                JPQuestionQuizPanel.revalidate();
+                JPQuestionQuizPanel.repaint();
+                return;
+            }
+        }
+        JPQuestionQuizPanel.remove(errormessage);
+        JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
+        errorlabel.setFont(new Font("",Font.PLAIN,14));
+        errorlabel.setForeground(Color.RED);
+
+        JPanel errorPanel = new JPanel();
+        errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+        errorPanel.add(errorlabel);
+
+        errormessage = new JScrollPane(errorPanel);
+        errormessage.setMaximumSize(new Dimension(300,50));
+        errormessage.setMinimumSize(new Dimension(300,50));
+        errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+        errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+        JPQuestionQuizPanel.add(errormessage);
+
+        int wrong = Integer.parseInt(JLIncorrect.getText())+1;
+        JLIncorrect.setText(wrong+"");
+        JPIncorrectPanel.setBackground(new Color(255, 136, 148));
+
+        JPQuestionQuizPanel.add(errormessage);
+
+        JBsubmitButton.setEnabled(false);
+        ChoicesRadioButton.get(0).setEnabled(false);
+        ChoicesRadioButton.get(1).setEnabled(false);
+
+        removeCardIndicator= true;
+
+        JPQuestionQuizPanel.revalidate();
+        JPQuestionQuizPanel.repaint();
+    }
+
+    public void submitMultipleChoice(){
+        boolean indicate_selection = false;
+        for(JRadioButton multchoice: ChoicesRadioButton){
+            if(multchoice.isSelected() == true){
+                indicate_selection = true;
+                storeUserAnswer = multchoice;
+            }
+        }
+        if(indicate_selection == false){
+            JPQuestionQuizPanel.remove(errormessage);
+            JLabel errorlabel = new JLabel("Warning: Choose an answer");
+            errorlabel.setFont(new Font("",Font.PLAIN,14));
+            errorlabel.setForeground(new Color(139, 128, 0));
+
+            JPanel errorPanel = new JPanel();
+            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+            errorPanel.add(errorlabel);
+
+            errormessage = new JScrollPane(errorPanel);
+            errormessage.setMaximumSize(new Dimension(300,50));
+            errormessage.setMinimumSize(new Dimension(300,50));
+            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+            JPQuestionQuizPanel.revalidate();
+            JPQuestionQuizPanel.repaint();
+
+        }
+        else if(((MultipleChoiceCard) quizcards.getCards().get(cardcounter)).getChoices().get(ChoicesRadioButton.indexOf(storeUserAnswer)).equals(quizcards.getCards().get(cardcounter).getAnswer())){
+            JPQuestionQuizPanel.remove(errormessage);
+            JLabel errorlabel = new JLabel("Correct");
+            errorlabel.setFont(new Font("",Font.PLAIN,14));
+            errorlabel.setForeground(Color.GREEN);
+
+            JPanel errorPanel = new JPanel();
+            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+            errorPanel.add(errorlabel);
+
+            errormessage = new JScrollPane(errorPanel);
+            errormessage.setMaximumSize(new Dimension(300,50));
+            errormessage.setMinimumSize(new Dimension(300,50));
+            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+            int check = Integer.parseInt(JLCorrect.getText())+1;
+            JLCorrect.setText(check+"");
+            JPCorrectPanel.setBackground(new Color(138, 255, 182));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+
+            JBsubmitButton.setEnabled(false);
+
+            for(JRadioButton jrb: ChoicesRadioButton){
+                jrb.setEnabled(false);
+            }
+
+            removeCardIndicator= true;
+
+            JPQuestionQuizPanel.revalidate();
+            JPQuestionQuizPanel.repaint();
+        }
+        else{
+            JPQuestionQuizPanel.remove(errormessage);
+            JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
+            errorlabel.setFont(new Font("",Font.PLAIN,14));
+            errorlabel.setForeground(Color.RED);
+
+            JPanel errorPanel = new JPanel();
+            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+
+            errorPanel.add(errorlabel);
+
+            errormessage = new JScrollPane(errorPanel);
+            errormessage.setMaximumSize(new Dimension(300,50));
+            errormessage.setMinimumSize(new Dimension(300,50));
+            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
+            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+            int wrong = Integer.parseInt(JLIncorrect.getText())+1;
+            JLIncorrect.setText(wrong+"");
+            JPIncorrectPanel.setBackground(new Color(255, 136, 148));
+
+            JPQuestionQuizPanel.add(errormessage);
+
+            JBsubmitButton.setEnabled(false);
+            for(JRadioButton jrb: ChoicesRadioButton){
+                jrb.setEnabled(false);
+            }
+
+            removeCardIndicator= true;
+
+            JPQuestionQuizPanel.revalidate();
+            JPQuestionQuizPanel.repaint();
+        }
     }
 
     public void showMultipleChoice(int count){
