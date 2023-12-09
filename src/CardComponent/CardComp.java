@@ -5,8 +5,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public abstract class CardComp implements CardComponent{
-    JPanel Question;
     JPanel Answer;
+    JPanel Question;
     JPanel Delete;
 
     public CardComp(){
@@ -35,7 +35,7 @@ public abstract class CardComp implements CardComponent{
     }
     @Override
     public String getQuestionInput() {
-        return ((JTextField)Question.getComponent(1)).getText();
+        return ((JTextField) Question.getComponent(1)).getText();
     }
 
     @Override

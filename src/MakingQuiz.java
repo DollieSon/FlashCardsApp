@@ -1,4 +1,5 @@
 import Card.*;
+import CardComponent.*;
 import QuizPackage.Quiz;
 
 
@@ -40,6 +41,8 @@ public class MakingQuiz extends JFrame{
 
     Quiz holdertype;
 
+    java.util.List<CardComponent> Cp = new ArrayList<CardComponent>();
+
     public MakingQuiz(){
         jr = new ArrayList<>();
         jr.add(RBidentification);
@@ -60,15 +63,17 @@ public class MakingQuiz extends JFrame{
        BaddQuestion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                CardComponent cp = new MultipleChoiceComponent();
                 if(RBidentification.isSelected()){
-                    addIdentificationCard();
+                    cp = new IdentificationComponent();
                 }else if(RBmultipleChoice.isSelected()){
-                    addMultipleChoiceCard();
+                    cp = new MultipleChoiceComponent();
                 }else if(RBtrueOrFalse.isSelected()){
-                    addTrueOrFalseCard();
+                    cp = new TrueOrFalseComponent();
                 }
-
+                JSPQuestionCont.add(cp.getComponent());
+                JSPQuestionCont.revalidate();
+                JSPQuestionCont.repaint();
                 count++;
             }
         });
@@ -77,6 +82,10 @@ public class MakingQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int card_index = 0;
+
+                for(CardComponent card : Cp){
+                    System.out.println(card.getAnswerInput());
+                }
 
                 if(tFTitle.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null,"No Title");
@@ -200,77 +209,18 @@ public class MakingQuiz extends JFrame{
 
 
     private void addIdentificationCard(){
-        JPanel holddeletebutton = new JPanel();
-        JButton deleteButton = new JButton();
-        deleteButton.setText("Delete");
-        deleteButton.setMaximumSize(new Dimension(150,20));
-        holddeletebutton.add(deleteButton);
-        holddeletebutton.setBorder(new EmptyBorder(0,0,10,0));
-
-        JPanel WholePanel = new JPanel();
-        JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
-
-        JPanel forQuestionPanel = new JPanel();
-        forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
-
-        JPanel forAnswerPanel = new JPanel();
-        forAnswerPanel.setLayout(new BoxLayout(forAnswerPanel, BoxLayout.X_AXIS));
-
-        JLabel questionLabel = new JLabel("Question: ");
-        JTextField questionField = new JTextField();
-
-        questionField.setBorder(new EmptyBorder(0,20,0,10));
-
-        JLabel answerLabel = new JLabel("Answer:    ");
-        JTextField answerField = new JTextField();
-
-        answerField.setBorder(new EmptyBorder(0,20,0,10));
-
-        forQuestionPanel.add(questionLabel);
-        forQuestionPanel.add(questionField);
-
-        forAnswerPanel.add(answerLabel);
-        forAnswerPanel.add(answerField);
-
-        forQuestionPanel.setBorder(new EmptyBorder(20,20,20,20));
-        forAnswerPanel.setBorder(new EmptyBorder(20,20,20,20));
-
-        questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        questionContainer.setPreferredSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionContainer.setMinimumSize(new Dimension(maxCarWidth,maxCarHeight));
-        questionContainer.setMaximumSize(new Dimension(maxCarWidth,maxCarHeight));
-
-        questionContainer.add(forQuestionPanel);
-        questionContainer.add(forAnswerPanel);
-        questionContainer.add(holddeletebutton);
-
-
-        WholePanel.add(questionContainer);
-        WholePanel.setBorder(new EmptyBorder(10,0,5,0));
-
-        JSPQuestionCont.add(WholePanel);
+        IdentificationComponent Wp = new IdentificationComponent();
+        // End of border
+        JSPQuestionCont.add(Wp.getComponent());
 
         Card cc = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,null,null);
         holdertype.addCard(cc);
 
+        Cp.add(Wp);
         // Refresh the view
         JSPQuestionCont.revalidate();
         JSPQuestionCont.repaint();
 
-
-        deleteButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-
-                JSPQuestionCont.remove(WholePanel);
-
-                holdertype.removeCard(cc);
-
-                // Refresh the view
-                JSPQuestionCont.revalidate();
-                JSPQuestionCont.repaint();
-            }
-        } );
 
 
 
@@ -304,6 +254,7 @@ public class MakingQuiz extends JFrame{
         JRadioButton flaseRadioButton = new JRadioButton("False");
         JPanel answerField = new JPanel();
         ButtonGroup buttonGroup = new ButtonGroup();
+
         buttonGroup.add(trueRadioButton);
         buttonGroup.add(flaseRadioButton);
         answerField.add(trueRadioButton);
