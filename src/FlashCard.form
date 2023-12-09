@@ -22,7 +22,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="be813" class="javax.swing.JButton" binding="Confirm">
         <constraints>
