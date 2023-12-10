@@ -51,6 +51,7 @@ public class MultipleChoiceComponent extends CardComp{
         WholePanel.setBorder(new EmptyBorder(10,0,5,0));
 
 
+
         return WholePanel;
     }
 
