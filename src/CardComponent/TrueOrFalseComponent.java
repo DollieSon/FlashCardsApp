@@ -25,8 +25,13 @@ public class TrueOrFalseComponent extends CardComp{
     //TODO implement getAnswerInput()
     @Override
     public String getAnswerInput() {
-
-        return null;
+        Component[] Choices = ((JPanel) Answer.getComponent(1)).getComponents();
+        for(Component comp: Choices){
+            if(((JRadioButton)comp).isSelected()){
+                return ((JRadioButton)comp).getText();
+            }
+        }
+        return "";
     }
     //TODO add Button Listeners;
 

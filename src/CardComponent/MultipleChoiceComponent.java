@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class MultipleChoiceComponent extends CardComp{
 
@@ -32,15 +33,23 @@ public class MultipleChoiceComponent extends CardComp{
         choiceGrp = new ButtonGroup();
 
     }
-    //TODO Implement get AnswerInput
     @Override
     public String getAnswerInput() {
-        return null;
+        Component[] Choices = Answer.getComponents();
+        for(Component comp: Choices){
+            if(comp instanceof JPanel && ((JPanel) comp).getComponent(0) instanceof  JRadioButton){
+                JRadioButton Selected = (JRadioButton) ((JPanel) comp).getComponent(0);
+                if(Selected.isSelected()){
+                    return ((JTextField) ((JPanel) comp).getComponent(1)).getText();
+
+                }
+            }
+        }
+        return "";
     }
 
-    //TODO add Button Listeners Here
     @Override
-    public JPanel getComponent(JPanel MeComp) {
+    public JPanel getComponent(JPanel MeComp, List<CardComponent> GlobalList) {
         questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
         questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -104,6 +113,7 @@ public class MultipleChoiceComponent extends CardComp{
             public void actionPerformed(ActionEvent e) {
 
                 MeComp.remove(WholePanel);
+                GlobalList.remove(MultipleChoiceComponent.this);
                 // Refresh the view
                 MeComp.revalidate();
                 MeComp.repaint();

@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public abstract class CardComp implements CardComponent{
     JPanel Answer;
@@ -55,7 +56,7 @@ public abstract class CardComp implements CardComponent{
     }
 
     @Override
-    public JPanel getComponent(JPanel MeComp) {
+    public JPanel getComponent(JPanel MeComp, List<CardComponent> GlobalList) {
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
@@ -77,6 +78,7 @@ public abstract class CardComp implements CardComponent{
             public void actionPerformed(ActionEvent e) {
 
                 MeComp.remove(WholePanel);
+                GlobalList.remove(CardComp.this);
                 // Refresh the view
                 MeComp.revalidate();
                 MeComp.repaint();

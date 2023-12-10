@@ -1,6 +1,7 @@
 package UIs;
 
 import Card.*;
+import CardComponent.CardComponent;
 import CardComponent.CardComponentFactory;
 import QuizPackage.Quiz;
 
@@ -33,6 +34,7 @@ public class MakingQuiz extends JFrame{
     public JPanel JSPQuestionCont;
     public JScrollPane JSPContainer;
 
+    private java.util.List<CardComponent> MyCards;
 
     private java.util.List<JRadioButton> jr;
     int count;
@@ -41,6 +43,7 @@ public class MakingQuiz extends JFrame{
     Quiz holdertype;
 
     public MakingQuiz(){
+        MyCards = new ArrayList<CardComponent>();
         jr = new ArrayList<>();
         jr.add(RBidentification);
         jr.add(RBmultipleChoice);
@@ -61,14 +64,20 @@ public class MakingQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel WholePanel = null;
+                CardComponent TempCardComp;
                 if(RBidentification.isSelected()){
-                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.Identification).getComponent(JSPQuestionCont);
+                    TempCardComp = CardComponentFactory.getCardComponent(CardComponentFactory.type.Identification);
                 }else if(RBmultipleChoice.isSelected()){
-                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.MultipleChoice).getComponent(JSPQuestionCont);
+                    TempCardComp = CardComponentFactory.getCardComponent(CardComponentFactory.type.MultipleChoice);
                 }else if(RBtrueOrFalse.isSelected()){
-                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.True_False).getComponent(JSPQuestionCont);
+                    TempCardComp = CardComponentFactory.getCardComponent(CardComponentFactory.type.True_False);
+                }else{
+                    return;
                 }
+                WholePanel = TempCardComp.getComponent(JSPQuestionCont,MyCards);
+                MyCards.add(TempCardComp);
                 JSPQuestionCont.add(WholePanel);
+                System.out.println("Count:" + MyCards.size());
                 Reload();
                 count++;
             }
@@ -82,12 +91,14 @@ public class MakingQuiz extends JFrame{
                 if(tFTitle.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null,"No Title");
                     return;
+                }else{
+                    holdertype.setQuizName(tFTitle.getText());
                 }
                 if(JSPQuestionCont.getComponentCount() == 0){
                     JOptionPane.showMessageDialog(null,"No Questions");
                     return;
                 }
-
+                /*
                 for (Component component : JSPQuestionCont.getComponents()) {
                     if(holdertype.getCard(card_index) instanceof IdentificationCard){
                         JPanel questionPanel = (JPanel) component;
@@ -193,7 +204,14 @@ public class MakingQuiz extends JFrame{
                     }
                     card_index++;
                 }
+                */
+                for(CardComponent tempComp: MyCards){
 
+                    System.out.println(tempComp.getQuestionInput());
+                    System.out.println(tempComp.getAnswerInput());
+
+                }
+                holdertype.setAuthor("None Set");
                 JOptionPane.showMessageDialog(null,"Saving");
             }
         });
