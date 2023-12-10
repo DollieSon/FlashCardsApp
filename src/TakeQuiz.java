@@ -152,7 +152,6 @@ public class TakeQuiz extends JFrame{
                     FinalScore.setValue(Integer.parseInt(JLCorrect.getText()));
 
                     double gg = FinalScore.getPercentComplete();
-                    System.out.println(gg);
 
                     JLabel message = new JLabel();
                     message.setBorder(new EmptyBorder(50,150,0,0));
