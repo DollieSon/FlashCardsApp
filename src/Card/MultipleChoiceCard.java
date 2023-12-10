@@ -1,10 +1,12 @@
 package Card;
 
+import CardComponent.MultipleChoiceComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleChoiceCard extends Card {
-    private ArrayList<String> choices;
+    private List<String> choices;
 
     public MultipleChoiceCard(){
         choices = new ArrayList<String>();
@@ -15,12 +17,14 @@ public class MultipleChoiceCard extends Card {
       return choices;
     };
 
-    public void setChoices(ArrayList<String> choices){
+    public MultipleChoiceCard setChoices(List<String> choices){
         this.choices = choices;
+        return this;
     }
 
-    public void addChoices(String Choice){
+    public MultipleChoiceCard addChoices(String Choice){
         choices.add(Choice);
+        return this;
     }
 
 }

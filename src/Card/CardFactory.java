@@ -9,6 +9,12 @@ public class CardFactory{
     };
 
     public static Card MakeCard(type Type, String Question, String Answer){
+        Card card = MakeCard(Type);
+        card.setAnswer(Answer);
+        card.setQuestion(Question);
+        return card;
+    }
+    public static Card MakeCard(type Type){
         Card card = null;
         switch (Type){
             case TRUE_OR_FALSE:
@@ -23,8 +29,6 @@ public class CardFactory{
                 card = new IdentificationCard();
                 break;
         }
-        card.setAnswer(Answer);
-        card.setQuestion(Question);
         return card;
     }
 }

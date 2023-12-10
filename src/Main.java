@@ -1,3 +1,4 @@
+import QuizPackage.Quiz;
 import UIs.MakingQuiz;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ public class Main {
     public static MakingQuiz app;
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
         app = new MakingQuiz();
         JScrollPane scrollPane = new JScrollPane(app.jpanel);
         app.setContentPane(scrollPane);
@@ -19,6 +19,5 @@ public class Main {
         app.setDefaultCloseOperation(EXIT_ON_CLOSE);
         app.setTitle("Making Quiz");
         app.setVisible(true);
-
     }
 }

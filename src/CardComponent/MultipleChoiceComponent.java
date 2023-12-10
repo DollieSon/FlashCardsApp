@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleChoiceComponent extends CardComp{
@@ -46,6 +47,17 @@ public class MultipleChoiceComponent extends CardComp{
             }
         }
         return "";
+    }
+
+    public List<String> getChoices(){
+        List<String> res = new ArrayList<String>();
+        Component[] Choices = Answer.getComponents();
+        for(Component comp: Choices){
+            if(comp instanceof JPanel && ((JPanel) comp).getComponent(0) instanceof  JRadioButton){
+                res.add(((JTextField) ((JPanel) comp).getComponent(1)).getText());
+            }
+        }
+        return res;
     }
 
     @Override
