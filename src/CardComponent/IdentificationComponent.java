@@ -19,5 +19,6 @@ public class IdentificationComponent extends CardComp{
         public String getAnswerInput(){
             return ((JTextField)Answer.getComponent(1)).getText();
         }
+        //TODO Add Button Listeners Here
 
 }
