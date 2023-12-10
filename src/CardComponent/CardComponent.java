@@ -7,5 +7,5 @@ public interface CardComponent {
     public String getAnswerInput();
     public CardComponent setQuestion(JPanel Question);
     public CardComponent setAnswer(JPanel Answer);
-    public JPanel getComponent();
+    public JPanel getComponent(JPanel MeComp);
 }

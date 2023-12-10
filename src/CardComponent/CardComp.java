@@ -3,6 +3,8 @@ package CardComponent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class CardComp implements CardComponent{
     JPanel Answer;
@@ -53,7 +55,7 @@ public abstract class CardComp implements CardComponent{
     }
 
     @Override
-    public JPanel getComponent() {
+    public JPanel getComponent(JPanel MeComp) {
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
@@ -69,6 +71,17 @@ public abstract class CardComp implements CardComponent{
 
         WholePanel.add(questionContainer);
         WholePanel.setBorder(new EmptyBorder(10,0,5,0));
+
+        JButton deleteButton = (JButton) Delete.getComponent(0);
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                MeComp.remove(WholePanel);
+                // Refresh the view
+                MeComp.revalidate();
+                MeComp.repaint();
+            }
+        });
 
         return WholePanel;
     }

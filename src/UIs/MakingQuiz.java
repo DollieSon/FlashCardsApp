@@ -1,4 +1,7 @@
+package UIs;
+
 import Card.*;
+import CardComponent.CardComponentFactory;
 import QuizPackage.Quiz;
 
 
@@ -7,9 +10,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import java.util.Scanner;
 import java.util.ArrayList;
 
 
@@ -60,15 +60,16 @@ public class MakingQuiz extends JFrame{
        BaddQuestion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JPanel WholePanel = null;
                 if(RBidentification.isSelected()){
-                    addIdentificationCard();
+                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.Identification).getComponent(JSPQuestionCont);
                 }else if(RBmultipleChoice.isSelected()){
-                    addMultipleChoiceCard();
+                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.MultipleChoice).getComponent(JSPQuestionCont);
                 }else if(RBtrueOrFalse.isSelected()){
-                    addTrueOrFalseCard();
+                    WholePanel = CardComponentFactory.getCardComponent(CardComponentFactory.type.True_False).getComponent(JSPQuestionCont);
                 }
-
+                JSPQuestionCont.add(WholePanel);
+                Reload();
                 count++;
             }
         });
@@ -198,7 +199,7 @@ public class MakingQuiz extends JFrame{
         });
     }
 
-
+    //Remove Me
     private void addIdentificationCard(){
         JPanel holddeletebutton = new JPanel();
         JButton deleteButton = new JButton();
@@ -275,7 +276,7 @@ public class MakingQuiz extends JFrame{
 
 
     }
-
+    //Remove Me
     private void addTrueOrFalseCard(){
         JPanel holddeletebutton = new JPanel();
         JButton deleteButton = new JButton();
@@ -362,7 +363,7 @@ public class MakingQuiz extends JFrame{
             }
         } );
     }
-
+    //Remove Me
     private void addMultipleChoiceCard(){
         JPanel holddeletebutton = new JPanel();
         JButton deleteButton = new JButton();
@@ -499,25 +500,9 @@ public class MakingQuiz extends JFrame{
         } );
     }
 
-
-
-
-
-
-
-
-
-    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        MakingQuiz app = new MakingQuiz();
-        JScrollPane scrollPane = new JScrollPane(app.jpanel);
-        app.setContentPane(scrollPane);
-        app.setSize(1200, 750);
-        app.setResizable(false);
-        app.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        app.setTitle("Making Quiz");
-        app.setVisible(true);
-
+    public void Reload(){
+        JSPQuestionCont.revalidate();
+        JSPQuestionCont.repaint();
     }
+
 }
