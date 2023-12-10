@@ -19,7 +19,6 @@ public class TakeQuiz extends JFrame{
     public JPanel JPTitleandDescription;
     public JPanel JPQuizComponents;
     public JLabel JLTitleLabel;
-    public JLabel JLDescriptionLabel;
     public JPanel JPDescriptionPanel;
     public JPanel JPProgressPanel;
     public JLabel JLIncorrectLabel;
@@ -34,8 +33,6 @@ public class TakeQuiz extends JFrame{
     public JPanel JPQuestionQuizPanel;
     public JPanel JPButtonsPanel;
     public JPanel JPTitlePnaelContainer;
-    public JPanel JPDescriptionPaneContainer;
-    public JTextArea JTADescriptionContent;
     private JScrollPane JSPTitleScrollPanel;
     private JPanel JPTItleContentPanel;
     private JLabel JLTitleLabelContent;
