@@ -1,14 +1,11 @@
 import Card.*;
 import QuizPackage.Quiz;
 
-import javax.security.auth.callback.LanguageCallback;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Year;
 import java.util.ArrayList;
 
 public class TakeQuiz extends JFrame{
@@ -38,9 +35,10 @@ public class TakeQuiz extends JFrame{
     public JPanel JPButtonsPanel;
     public JPanel JPTitlePnaelContainer;
     public JPanel JPDescriptionPaneContainer;
-    public JLabel JLTitleCContentLAbel;
     public JTextArea JTADescriptionContent;
-    public JPanel JPTittleContentPanel;
+    private JScrollPane JSPTitleScrollPanel;
+    private JPanel JPTItleContentPanel;
+    private JLabel JLTitleLabelContent;
 
     int cardcounter = 0;
 
@@ -56,16 +54,20 @@ public class TakeQuiz extends JFrame{
 
     boolean removeCardIndicator = false;
 
+    public int maxProgress;
+
 
 
 
     Quiz quizcards = new Quiz();//list of cards to take
 
     public TakeQuiz(){
-        JPTittleContentPanel.setBorder(new EmptyBorder(0,70,0,0));
+        JSPTitleScrollPanel.setBorder(new EmptyBorder(0,70,0,0));
         JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel,BoxLayout.Y_AXIS));
 
-
+        JSPTitleScrollPanel.setMinimumSize(new Dimension(900,50));
+        JSPTitleScrollPanel.setMaximumSize(new Dimension(900,50));
+        JSPTitleScrollPanel.setPreferredSize(new Dimension(900,JSPTitleScrollPanel.getPreferredSize().height));
 
 
         //placing cards in the quizcards list(This is just for testing, it might/will change depending on how you get your data from a file)
@@ -90,6 +92,11 @@ public class TakeQuiz extends JFrame{
         quizcards.addCard(cc3);
         quizcards.addCard(cc4);
         quizcards.addCard(cc5);
+        quizcards.addCard(cc5);
+
+        quizcards.setQuizName("testingtesting");
+        quizcards.getQuizName();
+
 
 
         //Placing quiestions on the Container(do not change ths)
@@ -102,6 +109,14 @@ public class TakeQuiz extends JFrame{
         else if(quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard){
             showMultipleChoice(cardcounter);
         }
+
+        maxProgress = quizcards.getCards().size();
+        JPBProgressbar.setMinimum(0);
+        JPBProgressbar.setMaximum(maxProgress);
+        JPBProgressbar.setStringPainted(true);
+        JLProgressLabel.setText("0/"+maxProgress);
+
+        JLTitleLabelContent.setText(quizcards.getQuizName());
         JBNextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,12 +125,78 @@ public class TakeQuiz extends JFrame{
                     cardcounter--;
                 }
                 if(quizcards.getCards().size() == 0){
+                    JPIncorrectPanel.setBackground(null);
+                    JPCorrectPanel.setBackground(null);
                     JPQuestionQuizPanel.removeAll();
+
+
+                    removeCardIndicator = false;
+
+                    JPanel scoreTitlePanel = new JPanel();
+                    scoreTitlePanel.setLayout(new BoxLayout(scoreTitlePanel,BoxLayout.X_AXIS));
+
+                    JLabel scoreTitleLabel = new JLabel("Your Score: ");
+                    scoreTitleLabel.setFont(new Font("",Font.PLAIN,30));
+
+                    JLabel yourScore = new JLabel(JLCorrect.getText()+"/"+maxProgress);
+                    yourScore.setFont(new Font("",Font.BOLD,40));
+
+                    scoreTitlePanel.add(scoreTitleLabel);
+                    scoreTitlePanel.add(yourScore);
+
+                    JPQuestionQuizPanel.add(scoreTitlePanel);
+
+                    JPanel ScoredisplayPanel = new JPanel();
+                    ScoredisplayPanel.setLayout(new BoxLayout(ScoredisplayPanel,BoxLayout.Y_AXIS));
+
+
+                    JProgressBar FinalScore = new JProgressBar(0,maxProgress);
+                    FinalScore.setStringPainted(true);
+                    FinalScore.setValue(Integer.parseInt(JLCorrect.getText()));
+
+                    double gg = FinalScore.getPercentComplete();
+                    System.out.println(gg);
+
+                    JLabel message = new JLabel();
+                    message.setBorder(new EmptyBorder(50,150,0,0));
+
+                    if(gg >= 0.60 && gg <0.80){
+                        FinalScore.setForeground(Color.BLUE);
+                        message.setText("Great Job!!!");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+                    else if(gg >=0.80){
+                        FinalScore.setForeground(Color.GREEN);
+                        message.setText("Genius!!!");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+                    else{
+                        FinalScore.setForeground(Color.RED);
+                        message.setText("Better Luck Next Time");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+
+                    ScoredisplayPanel.add(FinalScore);
+                    ScoredisplayPanel.add(message);
+                    ScoredisplayPanel.setBorder(new EmptyBorder(70,0,0,0));
+
+
+                    JPQuestionQuizPanel.add(ScoredisplayPanel);
+
+                    JPButtonsPanel.removeAll();
+                    JPButtonsPanel.setLayout(new BoxLayout(JPButtonsPanel,BoxLayout.X_AXIS));
+
+                    JButton DoneButton = new JButton();
+                    DoneButton.setFont(new Font("",Font.PLAIN,16));
+                    DoneButton.setText("Done");
+                    JPButtonsPanel.add(DoneButton);
 
                     JPQuestionQuizPanel.revalidate();
                     JPQuestionQuizPanel.repaint();
+                    JPButtonsPanel.revalidate();
+                    JPButtonsPanel.repaint();
 
-                    removeCardIndicator = false;
+
 
                     return;
                 }
@@ -158,12 +239,78 @@ public class TakeQuiz extends JFrame{
                     quizcards.getCards().remove(cardcounter);
                 }
                 if(quizcards.getCards().size() == 0){
+                    JPIncorrectPanel.setBackground(null);
+                    JPCorrectPanel.setBackground(null);
                     JPQuestionQuizPanel.removeAll();
+
+
+                    removeCardIndicator = false;
+
+                    JPanel scoreTitlePanel = new JPanel();
+                    scoreTitlePanel.setLayout(new BoxLayout(scoreTitlePanel,BoxLayout.X_AXIS));
+
+                    JLabel scoreTitleLabel = new JLabel("Your Score: ");
+                    scoreTitleLabel.setFont(new Font("",Font.PLAIN,30));
+
+                    JLabel yourScore = new JLabel(JLCorrect.getText()+"/"+maxProgress);
+                    yourScore.setFont(new Font("",Font.BOLD,40));
+
+                    scoreTitlePanel.add(scoreTitleLabel);
+                    scoreTitlePanel.add(yourScore);
+
+                    JPQuestionQuizPanel.add(scoreTitlePanel);
+
+                    JPanel ScoredisplayPanel = new JPanel();
+                    ScoredisplayPanel.setLayout(new BoxLayout(ScoredisplayPanel,BoxLayout.Y_AXIS));
+
+
+                    JProgressBar FinalScore = new JProgressBar(0,maxProgress);
+                    FinalScore.setStringPainted(true);
+                    FinalScore.setValue(Integer.parseInt(JLCorrect.getText()));
+
+                    double gg = FinalScore.getPercentComplete();
+                    System.out.println(gg);
+
+                    JLabel message = new JLabel();
+                    message.setBorder(new EmptyBorder(50,150,0,0));
+
+                    if(gg >= 0.60 && gg <0.80){
+                        FinalScore.setForeground(Color.BLUE);
+                        message.setText("Great Job!!!");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+                    else if(gg >=0.80){
+                        FinalScore.setForeground(Color.GREEN);
+                        message.setText("Genius!!!");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+                    else{
+                        FinalScore.setForeground(Color.RED);
+                        message.setText("Better Luck Next Time");
+                        message.setFont(new Font("",Font.BOLD,20));
+                    }
+
+                    ScoredisplayPanel.add(FinalScore);
+                    ScoredisplayPanel.add(message);
+                    ScoredisplayPanel.setBorder(new EmptyBorder(70,0,0,0));
+
+
+                    JPQuestionQuizPanel.add(ScoredisplayPanel);
+
+                    JPButtonsPanel.removeAll();
+                    JPButtonsPanel.setLayout(new BoxLayout(JPButtonsPanel,BoxLayout.X_AXIS));
+
+                    JButton DoneButton = new JButton();
+                    DoneButton.setFont(new Font("",Font.PLAIN,16));
+                    DoneButton.setText("Done");
+                    JPButtonsPanel.add(DoneButton);
 
                     JPQuestionQuizPanel.revalidate();
                     JPQuestionQuizPanel.repaint();
+                    JPButtonsPanel.revalidate();
+                    JPButtonsPanel.repaint();
 
-                    removeCardIndicator = false;
+
 
                     return;
                 }
@@ -211,6 +358,7 @@ public class TakeQuiz extends JFrame{
                 else if(quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard){
                     submitMultipleChoice();
                 }
+
             }
         });
     }
@@ -268,6 +416,13 @@ public class TakeQuiz extends JFrame{
             JBsubmitButton.setEnabled(false);
 
             removeCardIndicator= true;
+
+            int Progressval = JPBProgressbar.getValue();
+            if(Progressval < maxProgress ){
+                Progressval = Progressval+1;
+                JPBProgressbar.setValue(Progressval);
+                JLProgressLabel.setText(Progressval+"/"+maxProgress);
+            }
         }
         else{
             JPQuestionQuizPanel.remove(errormessage);
@@ -299,6 +454,13 @@ public class TakeQuiz extends JFrame{
             JBsubmitButton.setEnabled(false);
 
             removeCardIndicator= true;
+
+            int Progressval = JPBProgressbar.getValue();
+            if(Progressval < maxProgress ){
+                Progressval = Progressval+1;
+                JPBProgressbar.setValue(Progressval);
+                JLProgressLabel.setText(Progressval+"/"+maxProgress);
+            }
         }
         JPQuestionQuizPanel.revalidate();
         JPQuestionQuizPanel.repaint();
@@ -365,6 +527,14 @@ public class TakeQuiz extends JFrame{
 
                 JPQuestionQuizPanel.revalidate();
                 JPQuestionQuizPanel.repaint();
+
+                int Progressval = JPBProgressbar.getValue();
+                if(Progressval < maxProgress ){
+                    Progressval = Progressval+1;
+                    JPBProgressbar.setValue(Progressval);
+                    JLProgressLabel.setText(Progressval+"/"+maxProgress);
+                }
+
                 return;
             }
         }
@@ -400,6 +570,13 @@ public class TakeQuiz extends JFrame{
 
         JPQuestionQuizPanel.revalidate();
         JPQuestionQuizPanel.repaint();
+
+        int Progressval = JPBProgressbar.getValue();
+        if(Progressval < maxProgress ){
+            Progressval = Progressval+1;
+            JPBProgressbar.setValue(Progressval);
+            JLProgressLabel.setText(Progressval+"/"+maxProgress);
+        }
     }
 
     public void submitMultipleChoice(){
@@ -469,6 +646,13 @@ public class TakeQuiz extends JFrame{
 
             JPQuestionQuizPanel.revalidate();
             JPQuestionQuizPanel.repaint();
+
+            int Progressval = JPBProgressbar.getValue();
+            if(Progressval < maxProgress ){
+                Progressval = Progressval+1;
+                JPBProgressbar.setValue(Progressval);
+                JLProgressLabel.setText(Progressval+"/"+maxProgress);
+            }
         }
         else{
             JPQuestionQuizPanel.remove(errormessage);
@@ -504,6 +688,13 @@ public class TakeQuiz extends JFrame{
 
             JPQuestionQuizPanel.revalidate();
             JPQuestionQuizPanel.repaint();
+
+            int Progressval = JPBProgressbar.getValue();
+            if(Progressval < maxProgress ){
+                Progressval = Progressval+1;
+                JPBProgressbar.setValue(Progressval);
+                JLProgressLabel.setText(Progressval+"/"+maxProgress);
+            }
         }
     }
 
