@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public class MultipleChoiceComponent extends CardComp{
 
+    JPanel questionContainer;
+    JPanel forOption;
+
     public MultipleChoiceComponent(){
         super();
         JPanel appendLabel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -34,7 +37,7 @@ public class MultipleChoiceComponent extends CardComp{
     //TODO add Button Listeners Here
     @Override
     public JPanel getComponent() {
-        JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
         questionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         questionContainer.setPreferredSize(new Dimension(ComponentOptions.maxCardWidth,350));
@@ -50,4 +53,6 @@ public class MultipleChoiceComponent extends CardComp{
 
         return WholePanel;
     }
+
+
 }
