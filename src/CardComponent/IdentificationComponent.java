@@ -20,4 +20,5 @@ public class IdentificationComponent extends CardComp{
             return ((JTextField)Answer.getComponent(1)).getText();
         }
 
+        //TODO Implement Event Listeners
 }

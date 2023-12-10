@@ -25,7 +25,8 @@ public class TrueOrFalseComponent extends CardComp{
     //TODO implement getAnswerInput()
     @Override
     public String getAnswerInput() {
-
         return null;
     }
+
+    //TODO implement Event Listeners()
 }

@@ -25,7 +25,7 @@ public class MultipleChoiceComponent extends CardComp{
         Answer.setLayout(new BoxLayout(Answer, BoxLayout.Y_AXIS));
 
     }
-
+    //TODO Implement get AnswerInput
     @Override
     public String getAnswerInput() {
         return null;
