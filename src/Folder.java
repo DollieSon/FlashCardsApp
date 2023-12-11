@@ -31,5 +31,8 @@ public class Folder {
         return this.name;
     }
 
+    public List<Quiz> getQuiz(){
+        return quizzes;
+    }
 
 }
