@@ -57,6 +57,8 @@ public class TakeQuiz extends JFrame{
 
     private static TakeQuiz TQinstance = null;
 
+    public Quiz quizcards = new Quiz();
+
     public static TakeQuiz getInstance() {
         if (TQinstance == null) {
             TQinstance = new TakeQuiz();
@@ -73,8 +75,6 @@ public class TakeQuiz extends JFrame{
     }
 
 
-
-    Quiz quizcards = new Quiz();
 
     private TakeQuiz(){
 
