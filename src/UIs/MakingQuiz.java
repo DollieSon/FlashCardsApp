@@ -60,7 +60,36 @@ public class MakingQuiz extends JFrame{
         c = null;
         this.holdertype = holdertype;
 
-       BaddQuestion.addActionListener(new ActionListener() {
+       BaddQuestion.addActionListener(addQuestionListener());
+        //Saving
+        saveButton.addActionListener(saveButtonListener());
+    }
+
+    public MakingQuiz(Quiz prequiz){
+        this();
+        JPanel JP = null;
+        CardComponent Cp;
+        tFTitle.setText(prequiz.getQuizName());
+        LAuthor.setText(prequiz.getAuthor());
+        for(Card card:prequiz.getCards()){
+            if(card instanceof TrueOrFalseCard){
+                Cp = CardComponentFactory.getCardComponent(CardComponentFactory.type.True_False);
+            }else if(card instanceof MultipleChoiceCard){
+                Cp = CardComponentFactory.getCardComponent(CardComponentFactory.type.MultipleChoice);
+                
+            }else if(card instanceof IdentificationCard){
+                Cp = CardComponentFactory.getCardComponent(CardComponentFactory.type.Identification);
+            }
+        }
+    }
+
+    public void Reload(){
+        JSPQuestionCont.revalidate();
+        JSPQuestionCont.repaint();
+    }
+
+    public ActionListener addQuestionListener(){
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel WholePanel = null;
@@ -81,9 +110,11 @@ public class MakingQuiz extends JFrame{
                 Reload();
                 count++;
             }
-        });
-        //Saving
-        saveButton.addActionListener(new ActionListener() {
+        };
+    }
+
+    public ActionListener saveButtonListener(){
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int card_index = 0;
@@ -119,13 +150,9 @@ public class MakingQuiz extends JFrame{
                 holdertype.setAuthor("None Set");
                 JOptionPane.showMessageDialog(null,"Saved");
             }
-        });
+        };
     }
 
-    public void Reload(){
-        JSPQuestionCont.revalidate();
-        JSPQuestionCont.repaint();
-    }
 
     public Quiz getQuiz(){
         return holdertype;

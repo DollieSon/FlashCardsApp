@@ -90,6 +90,8 @@ public class MultipleChoiceComponent extends CardComp{
                 JRadioButton choiceRadio = new JRadioButton();
                 choiceGrp.add(choiceRadio);
 
+
+                // forOption
                 JTextField option = new JTextField();
                 option.setPreferredSize(new Dimension(200,25));
                 option.setMinimumSize(new Dimension(200,25));
@@ -103,6 +105,8 @@ public class MultipleChoiceComponent extends CardComp{
                 forOption.add(choiceRadio);
                 forOption.add(option);
                 forOption.add(deleteOption);
+
+
                 Answer.add(forOption);
 
                 questionContainer.revalidate();

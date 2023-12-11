@@ -13,6 +13,7 @@ public abstract class CardComp implements CardComponent{
     JPanel Delete;
 
     public CardComp(){
+        //Delete
         Delete = new JPanel();
         JButton deleteButton = new JButton();
         deleteButton.setText("Delete");
@@ -20,6 +21,7 @@ public abstract class CardComp implements CardComponent{
         Delete.add(deleteButton);
         Delete.setBorder(new EmptyBorder(0,0,10,0));
 
+        //SetQuestion
         Question = new JPanel();
         Question.setLayout(new BoxLayout(Question, BoxLayout.X_AXIS));
         JLabel questionLabel = new JLabel("Question: ");
@@ -29,6 +31,7 @@ public abstract class CardComp implements CardComponent{
         Question.add(questionLabel);
         Question.add(questionField);
 
+        //SetAnswer
         Answer = new JPanel();
         Answer.setLayout(new BoxLayout(Answer, BoxLayout.X_AXIS));
         JLabel answerLabel = new JLabel("Answer:    ");
