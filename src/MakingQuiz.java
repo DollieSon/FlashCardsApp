@@ -282,6 +282,7 @@ public class MakingQuiz extends JFrame{
         JBback.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                editorial = null;
                 backtofolder();
             }
         });
@@ -300,7 +301,7 @@ public class MakingQuiz extends JFrame{
                 addMultipleChoiceCard(cd);
             }
         }
-        editorial = edit;
+        this.editorial = edit;
     }
 
     public void backtofolder(){
@@ -334,6 +335,7 @@ public class MakingQuiz extends JFrame{
         folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
         folderquiz.setTitle("Folder");
         folderquiz.setVisible(true);
+
         folderquiz.refreshQuizContainer();
     }
 
@@ -752,6 +754,50 @@ public class MakingQuiz extends JFrame{
         // Refresh the view
         JSPQuestionCont.revalidate();
         JSPQuestionCont.repaint();
+
+        addOption.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(encompase_answer.getComponentCount() >= 5){
+                    return;
+                }
+
+                JButton deleteOption = new JButton("Delete");
+
+
+                JRadioButton choiceRadio = new JRadioButton();
+                choiceGrp.add(choiceRadio);
+
+                JTextField option = new JTextField();
+                option.setPreferredSize(new Dimension(200,25));
+                option.setMinimumSize(new Dimension(200,25));
+                option.setMaximumSize(new Dimension(200,25));
+                option.setBorder(new EmptyBorder(0,20,0,10));
+
+                JPanel forOption = new JPanel();
+
+                forOption.setLayout(new BoxLayout(forOption, BoxLayout.X_AXIS));
+                forOption.setBorder(new EmptyBorder(10,0,0,0));
+                forOption.add(choiceRadio);
+                forOption.add(option);
+                forOption.add(deleteOption);
+                encompase_answer.add(forOption);
+
+                questionContainer.revalidate();
+
+                deleteOption.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        encompase_answer.remove(forOption);
+                        count--;
+                        JSPQuestionCont.revalidate();
+                        JSPQuestionCont.repaint();
+                    }
+                });
+
+            }
+        });
+
 
 
         for(String str: ((MultipleChoiceCard)edit).getChoices()){

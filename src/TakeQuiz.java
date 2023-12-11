@@ -36,6 +36,7 @@ public class TakeQuiz extends JFrame{
     private JScrollPane JSPTitleScrollPanel;
     private JPanel JPTItleContentPanel;
     private JLabel JLTitleLabelContent;
+    private JButton JBBack;
 
     int cardcounter = 0;
 
@@ -43,7 +44,7 @@ public class TakeQuiz extends JFrame{
 
     JLabel questioncheck;
 
-    JTextField identificationAnswer;
+    JTextField identificationAnswer = new JTextField();
 
     JScrollPane errormessage = new JScrollPane();
 
@@ -54,66 +55,63 @@ public class TakeQuiz extends JFrame{
     public int maxProgress;
 
 
+    private static TakeQuiz TQinstance = null;
 
-
-    Quiz quizcards = new Quiz();//list of cards to take
-
-    public TakeQuiz(){
-        JSPTitleScrollPanel.setBorder(new EmptyBorder(0,70,0,0));
-        JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel,BoxLayout.Y_AXIS));
-
-        JSPTitleScrollPanel.setMinimumSize(new Dimension(900,50));
-        JSPTitleScrollPanel.setMaximumSize(new Dimension(900,50));
-        JSPTitleScrollPanel.setPreferredSize(new Dimension(900,JSPTitleScrollPanel.getPreferredSize().height));
-
-
-        //placing cards in the quizcards list(This is just for testing, it might/will change depending on how you get your data from a file)
-        Card cc1= CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,"1What is Gitksadjfjkjjjjjjjjjosk","Git");
-
-        Card cc2= CardFactory.MakeCard(CardFactory.type.MULTIPLE_CHOICE,"2Pick the word aasdfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffffffffffffffffffffffffffffffhihih","aa");
-        ((MultipleChoiceCard)cc2).addChoices("sdkjfnjksdnfkjdas");
-        ((MultipleChoiceCard)cc2).addChoices("aa");
-        ((MultipleChoiceCard)cc2).addChoices("lsdjfjljasldkf");
-        ((MultipleChoiceCard)cc2).addChoices(";asdfsdf");
-
-        Card cc3 = CardFactory.MakeCard(CardFactory.type.TRUE_OR_FALSE,"3Is your father your parent?","True");
-        Card cc4 = CardFactory.MakeCard(CardFactory.type.IDENTIFICATION,"4Hello. Say Hi","Hi");
-
-        Card cc5= CardFactory.MakeCard(CardFactory.type.MULTIPLE_CHOICE,"5Pick the word bbb","bbb");
-        ((MultipleChoiceCard)cc5).addChoices("aa");
-        ((MultipleChoiceCard)cc5).addChoices("bbb");
-        ((MultipleChoiceCard)cc5).addChoices("c");
-
-        quizcards.addCard(cc1);
-        quizcards.addCard(cc2);
-        quizcards.addCard(cc3);
-        quizcards.addCard(cc4);
-        quizcards.addCard(cc5);
-        quizcards.addCard(cc5);
-
-        quizcards.setQuizName("testingtesting");
-        quizcards.getQuizName();
-
-
-
-        //Placing quiestions on the Container(do not change ths)
-        if(quizcards.getCards().get(cardcounter) instanceof IdentificationCard){
-            showIdentification(cardcounter);
+    public static TakeQuiz getInstance() {
+        if (TQinstance == null) {
+            TQinstance = new TakeQuiz();
         }
-        else if(quizcards.getCards().get(cardcounter) instanceof TrueOrFalseCard){
-            showTrueorFalse(cardcounter);
-        }
-        else if(quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard){
-            showMultipleChoice(cardcounter);
-        }
+        return TQinstance;
+    }
 
-        maxProgress = quizcards.getCards().size();
-        JPBProgressbar.setMinimum(0);
-        JPBProgressbar.setMaximum(maxProgress);
-        JPBProgressbar.setStringPainted(true);
-        JLProgressLabel.setText("0/"+maxProgress);
+    public static TakeQuiz refreshInstance() {
 
-        JLTitleLabelContent.setText(quizcards.getQuizName());
+        TQinstance = new TakeQuiz();
+
+        return TQinstance;
+
+    }
+
+
+
+    Quiz quizcards = new Quiz();
+
+    private TakeQuiz(){
+
+            quizcards = new Quiz();
+
+            JSPTitleScrollPanel.setBorder(new EmptyBorder(0, 70, 0, 0));
+            JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel, BoxLayout.Y_AXIS));
+
+            JSPTitleScrollPanel.setMinimumSize(new Dimension(900, 40));
+            JSPTitleScrollPanel.setPreferredSize(new Dimension(900, JSPTitleScrollPanel.getPreferredSize().height));
+            JSPTitleScrollPanel.setMaximumSize(new Dimension(900, 40));
+
+
+            for(Card card:  FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getCards()){
+                quizcards.addCard(card);
+            }
+
+            quizcards.setQuizName(FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getQuizName());
+
+
+            //Placing quiestions on the Container
+            if (quizcards.getCards().get(cardcounter) instanceof IdentificationCard) {
+                showIdentification(cardcounter);
+            } else if (quizcards.getCards().get(cardcounter) instanceof TrueOrFalseCard) {
+                showTrueorFalse(cardcounter);
+            } else if (quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard) {
+                showMultipleChoice(cardcounter);
+            }
+
+
+            maxProgress = quizcards.getCards().size();
+            JPBProgressbar.setMinimum(0);
+            JPBProgressbar.setMaximum(maxProgress);
+            JPBProgressbar.setStringPainted(true);
+            JLProgressLabel.setText("0/" + maxProgress);
+
+            JLTitleLabelContent.setText(quizcards.getQuizName());
         JBNextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -192,6 +190,12 @@ public class TakeQuiz extends JFrame{
                     JPButtonsPanel.revalidate();
                     JPButtonsPanel.repaint();
 
+                    DoneButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            backtofolder();
+                        }
+                    });
 
 
                     return;
@@ -306,6 +310,12 @@ public class TakeQuiz extends JFrame{
                     JPButtonsPanel.revalidate();
                     JPButtonsPanel.repaint();
 
+                    DoneButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            backtofolder();
+                        }
+                    });
 
 
                     return;
@@ -355,6 +365,12 @@ public class TakeQuiz extends JFrame{
                     submitMultipleChoice();
                 }
 
+            }
+        });
+        JBBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backtofolder();
             }
         });
     }
@@ -694,6 +710,41 @@ public class TakeQuiz extends JFrame{
         }
     }
 
+    public void backtofolder(){
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception exception){
+            if(exception instanceof  UnsupportedLookAndFeelException ){
+                JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
+            }
+            else if(exception instanceof  ClassNotFoundException){
+                JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
+            }
+            else if(exception instanceof InstantiationException){
+                JOptionPane.showMessageDialog(null,"InstantiationException occurred");
+            }
+            else if(exception instanceof IllegalAccessException){
+                JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"An error occurred");
+            }
+        }
+
+        TakeQuiz.getInstance().setVisible(false);
+        FolderForQuiz folderquiz = FolderForQuiz.getInstance();
+        folderquiz.setContentPane(folderquiz.JPFolderContainerPanel);
+        folderquiz.setLocation(TakeQuiz.getInstance().getLocation());
+        folderquiz.setSize(1200, 750);
+        folderquiz.setResizable(false);
+        folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        folderquiz.setTitle("Folder");
+        folderquiz.setVisible(true);
+
+        folderquiz.refreshQuizContainer();
+    }
+
     public void showMultipleChoice(int count){
         ChoicesRadioButton = new ArrayList<>();
         JPQuestionQuizPanel.setBorder(new EmptyBorder(20,20,20,20));
@@ -919,13 +970,13 @@ public class TakeQuiz extends JFrame{
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-        TakeQuiz appme = new TakeQuiz();
+        TakeQuiz appme = TakeQuiz.getInstance();
         JScrollPane scrollPane = new JScrollPane(appme.JTakequiz);
         appme.setContentPane(scrollPane);
         appme.setSize(1200, 750);
         appme.setResizable(false);
         appme.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        appme.setTitle("Creting Quiz");
+        appme.setTitle("Creating Quiz");
         appme.setVisible(true);
     }
 

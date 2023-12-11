@@ -23,7 +23,9 @@ public class FolderForQuiz extends JFrame{
     public JPanel JPQuizListPanel;
 
     private ArrayList<JPanel> deleteIndicator = new ArrayList<>();
-    private ArrayList<JPanel> editIndicator = new ArrayList<>();
+    public ArrayList<JPanel> editIndicator = new ArrayList<>();
+
+    public ArrayList<JPanel> answerIndicator = new ArrayList<>();
 
 
     private static FolderForQuiz FolderForQuizInstance = null;
@@ -47,6 +49,8 @@ public class FolderForQuiz extends JFrame{
 
     /**delete this later(Sample data)**/
     public Folder folderfirst = new Folder("Gmajor","Jason");
+
+    public int quizIndex = -1;
 
 
     private FolderForQuiz(){
@@ -115,6 +119,8 @@ public class FolderForQuiz extends JFrame{
         JPQuizListPanel.removeAll();
 
         deleteIndicator = new ArrayList<>();
+        editIndicator = new ArrayList<>();
+        answerIndicator = new ArrayList<>();
 
         countQuizes = 1;
         for(Quiz quizess: folderfirst.getQuiz()){
@@ -261,6 +267,7 @@ public class FolderForQuiz extends JFrame{
 
         deleteIndicator.add(DeletePanel);
         editIndicator.add(editPanel);
+        answerIndicator.add(TakePanel);
 
 
 
@@ -281,9 +288,7 @@ public class FolderForQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 int n = editIndicator.indexOf(editPanel);
-                for(JPanel jp : editIndicator){
-                    System.out.println(jp);
-                }
+
                 try{
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     FolderForQuiz.getInstance().setVisible(false);
@@ -297,6 +302,48 @@ public class FolderForQuiz extends JFrame{
                     app.setDefaultCloseOperation(EXIT_ON_CLOSE);
                     app.setTitle("Making Quiz");
                     app.setVisible(true);
+                }
+                catch (Exception exception){
+                    if(exception instanceof  UnsupportedLookAndFeelException ){
+                        JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
+                    }
+                    else if(exception instanceof  ClassNotFoundException){
+                        JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
+                    }
+                    else if(exception instanceof InstantiationException){
+                        JOptionPane.showMessageDialog(null,"InstantiationException occurred");
+                    }
+                    else if(exception instanceof IllegalAccessException){
+                        JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"An error occurred");
+                        exception.printStackTrace();
+                    }
+                }
+
+
+
+            }
+        });
+
+        TakeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                quizIndex = answerIndicator.indexOf(TakePanel);
+
+                try{
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    FolderForQuiz.getInstance().setVisible(false);
+
+                    TakeQuiz appme = TakeQuiz.refreshInstance();
+                    JScrollPane scrollPane = new JScrollPane(appme.JTakequiz);
+                    appme.setContentPane(scrollPane);
+                    appme.setSize(1200, 750);
+                    appme.setResizable(false);
+                    appme.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    appme.setTitle("Creating Quiz");
+                    appme.setVisible(true);
                 }
                 catch (Exception exception){
                     if(exception instanceof  UnsupportedLookAndFeelException ){
