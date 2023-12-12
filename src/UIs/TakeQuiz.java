@@ -1,3 +1,5 @@
+package UIs;
+
 import Card.*;
 import QuizPackage.Quiz;
 import TakeQuizComponents.*;
@@ -512,7 +514,7 @@ public class TakeQuiz extends JFrame{
         folderquiz.setSize(1200, 750);
         folderquiz.setResizable(false);
         folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        folderquiz.setTitle("Folder");
+        folderquiz.setTitle("FolderUser.Folder");
         folderquiz.setVisible(true);
 
         folderquiz.refreshQuizContainer();

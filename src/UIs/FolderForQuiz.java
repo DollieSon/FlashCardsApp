@@ -1,6 +1,7 @@
+package UIs;
 
 import QuizPackage.Quiz;
-
+import FolderUser.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -379,7 +380,7 @@ public class FolderForQuiz extends JFrame{
         folderquiz.setSize(1200, 750);
         folderquiz.setResizable(false);
         folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        folderquiz.setTitle("Folder");
+        folderquiz.setTitle("FolderUser.Folder");
         folderquiz.setVisible(true);
 
     }
