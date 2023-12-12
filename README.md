@@ -8,3 +8,4 @@ do - MyCp.getComponent();
 MyCp.getQuestionInput(); // Question TextField;
 MyCp.getAnswerInput(); // Answer
 <h3>This also supports chaining for setters</h3>
+<h1>ADD FB: RAY ANTHONY DOLLISON</h1>
