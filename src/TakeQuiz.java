@@ -119,6 +119,7 @@ public class TakeQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(removeCardIndicator == true){
+                    //remove card after answering
                     quizcards.getCards().remove(cardcounter);
                     cardcounter--;
                 }
@@ -152,7 +153,7 @@ public class TakeQuiz extends JFrame{
                     return;
                 }
 
-                //show the re
+                //show next card
                 startDisplay();
                 if(cardcounter >= quizcards.getCards().size()-1){
                     cardcounter = -1;
@@ -171,14 +172,14 @@ public class TakeQuiz extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 ButtonsClass showscore = new ButtonsClass();
                 if(removeCardIndicator == true){
+                    //remove card after answering
                     quizcards.getCards().remove(cardcounter);
                 }
                 if(quizcards.getCards().size() == 0){
+                    //show total score
                     JPIncorrectPanel.setBackground(null);
                     JPCorrectPanel.setBackground(null);
                     JPQuestionQuizPanel.removeAll();
-
-
                     removeCardIndicator = false;
 
                     showscore.JLCorrect = JLCorrect;
@@ -193,7 +194,6 @@ public class TakeQuiz extends JFrame{
                     maxProgress = showscore.maxProgress;
                     JPQuestionQuizPanel = showscore.JPQuestionQuizPanel;
 
-
                     DoneButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -203,23 +203,22 @@ public class TakeQuiz extends JFrame{
 
                     return;
                 }
+                //show prevoius card
                 startDisplay();
-
                 if(cardcounter <= 0){
                     cardcounter = quizcards.getCards().size();
                 }
                 cardcounter--;
-
                 if(quizcards.getCards().size() == 1){
                     cardcounter = 0;
                 }
-
                 endDisplay();
             }
         });
         JBsubmitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //select what type of card to submit
                 if(quizcards.getCards().get(cardcounter) instanceof IdentificationCard){
                     submitIdentification();
                 }
@@ -238,7 +237,6 @@ public class TakeQuiz extends JFrame{
                 backtofolder();
             }
         });
-
     }
 
     public void startDisplay(){
@@ -247,9 +245,9 @@ public class TakeQuiz extends JFrame{
         JBsubmitButton.setEnabled(true);
         JPIncorrectPanel.setBackground(null);
         JPCorrectPanel.setBackground(null);
-
     }
     public void endDisplay(){
+        //select the type of card to show
         if(quizcards.getCards().get(cardcounter) instanceof IdentificationCard){
             showIdentification(cardcounter);
         }
@@ -267,6 +265,7 @@ public class TakeQuiz extends JFrame{
 
 
     public void checkComponents(){
+        //increase score
         int check = Integer.parseInt(JLCorrect.getText())+1;
         JLCorrect.setText(check+"");
         JPCorrectPanel.setBackground(new Color(138, 255, 182));
@@ -287,6 +286,7 @@ public class TakeQuiz extends JFrame{
     }
 
     public void wrongComponents(){
+        //decrease score
         int wrong = Integer.parseInt(JLIncorrect.getText())+1;
         JLIncorrect.setText(wrong+"");
         JPIncorrectPanel.setBackground(new Color(255, 136, 148));
@@ -308,7 +308,7 @@ public class TakeQuiz extends JFrame{
     public void submitIdentification(){
         TQIdentificationCard IdentificationSubmitLabel = new TQIdentificationCard();
         if(identificationAnswer.getText().isEmpty()){
-
+            //show warning message
             IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
             IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
             IdentificationSubmitLabel.errormessage = errormessage;
@@ -321,10 +321,9 @@ public class TakeQuiz extends JFrame{
             identificationAnswer=IdentificationSubmitLabel.identificationAnswer;
             errormessage = IdentificationSubmitLabel.errormessage;
 
-
-
         }
         else if(identificationAnswer.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
+            //show correct message
             IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
             IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
             IdentificationSubmitLabel.errormessage = errormessage;
@@ -341,9 +340,9 @@ public class TakeQuiz extends JFrame{
 
             checkComponents();
 
-
         }
         else{
+            //show incorrect message
             IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
             IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
             IdentificationSubmitLabel.errormessage = errormessage;
@@ -369,6 +368,7 @@ public class TakeQuiz extends JFrame{
         TQTrueOrFalseCard TrueorFalseSubmitLabel = new TQTrueOrFalseCard();
         if(ChoicesRadioButton.get(0).isSelected() == false && ChoicesRadioButton.get(1).isSelected() == false){
 
+            //show warning message
             TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
             TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
             TrueorFalseSubmitLabel.errormessage = errormessage;
@@ -387,7 +387,7 @@ public class TakeQuiz extends JFrame{
 
         for(JRadioButton chc: ChoicesRadioButton){
             if(chc.isSelected() == true && chc.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
-
+                //show correct message
                 TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
                 TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
                 TrueorFalseSubmitLabel.errormessage = errormessage;
@@ -400,13 +400,13 @@ public class TakeQuiz extends JFrame{
                 JPQuestionQuizPanel=TrueorFalseSubmitLabel.JPQuestionQuizPanel;
                 errormessage = TrueorFalseSubmitLabel.errormessage;
 
-
                 checkComponents();
 
                 return;
             }
         }
 
+        //show incorrect message
         TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
         TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
         TrueorFalseSubmitLabel.errormessage = errormessage;
@@ -432,7 +432,7 @@ public class TakeQuiz extends JFrame{
             }
         }
         if(indicate_selection == false){
-
+            //show warning message
             MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
             MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
             MultipleChoiceFlashCard.errormessage = errormessage;
@@ -448,7 +448,7 @@ public class TakeQuiz extends JFrame{
 
         }
         else if(((MultipleChoiceCard) quizcards.getCards().get(cardcounter)).getChoices().get(ChoicesRadioButton.indexOf(storeUserAnswer)).equals(quizcards.getCards().get(cardcounter).getAnswer())){
-
+            //show correct message
             MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
             MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
             MultipleChoiceFlashCard.errormessage = errormessage;
@@ -464,7 +464,7 @@ public class TakeQuiz extends JFrame{
             checkComponents();
         }
         else{
-
+            //show incorrect message
             MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
             MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
             MultipleChoiceFlashCard.errormessage = errormessage;
@@ -483,6 +483,7 @@ public class TakeQuiz extends JFrame{
     }
 
     public void backtofolder(){
+        //goes back to folder
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
