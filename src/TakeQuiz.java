@@ -1,5 +1,6 @@
 import Card.*;
 import QuizPackage.Quiz;
+import TakeQuizComponents.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,10 +34,10 @@ public class TakeQuiz extends JFrame{
     public JPanel JPQuestionQuizPanel;
     public JPanel JPButtonsPanel;
     public JPanel JPTitlePnaelContainer;
-    private JScrollPane JSPTitleScrollPanel;
-    private JPanel JPTItleContentPanel;
-    private JLabel JLTitleLabelContent;
-    private JButton JBBack;
+    public JScrollPane JSPTitleScrollPanel;
+    public JPanel JPTItleContentPanel;
+    public JLabel JLTitleLabelContent;
+    public JButton JBBack;
 
     int cardcounter = 0;
 
@@ -77,41 +78,40 @@ public class TakeQuiz extends JFrame{
 
 
     private TakeQuiz(){
+        quizcards = new Quiz();
 
-            quizcards = new Quiz();
+        JSPTitleScrollPanel.setBorder(new EmptyBorder(0, 70, 0, 0));
+        JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel, BoxLayout.Y_AXIS));
 
-            JSPTitleScrollPanel.setBorder(new EmptyBorder(0, 70, 0, 0));
-            JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel, BoxLayout.Y_AXIS));
-
-            JSPTitleScrollPanel.setMinimumSize(new Dimension(900, 40));
-            JSPTitleScrollPanel.setPreferredSize(new Dimension(900, JSPTitleScrollPanel.getPreferredSize().height));
-            JSPTitleScrollPanel.setMaximumSize(new Dimension(900, 40));
-
-
-            for(Card card:  FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getCards()){
-                quizcards.addCard(card);
-            }
-
-            quizcards.setQuizName(FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getQuizName());
+        JSPTitleScrollPanel.setMinimumSize(new Dimension(900, 40));
+        JSPTitleScrollPanel.setPreferredSize(new Dimension(900, JSPTitleScrollPanel.getPreferredSize().height));
+        JSPTitleScrollPanel.setMaximumSize(new Dimension(900, 40));
 
 
-            //Placing quiestions on the Container
-            if (quizcards.getCards().get(cardcounter) instanceof IdentificationCard) {
-                showIdentification(cardcounter);
-            } else if (quizcards.getCards().get(cardcounter) instanceof TrueOrFalseCard) {
-                showTrueorFalse(cardcounter);
-            } else if (quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard) {
-                showMultipleChoice(cardcounter);
-            }
+        for(Card card:  FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getCards()){
+            quizcards.addCard(card);
+        }
+
+        quizcards.setQuizName(FolderForQuiz.getInstance().folderfirst.getQuiz().get(FolderForQuiz.getInstance().quizIndex).getQuizName());
 
 
-            maxProgress = quizcards.getCards().size();
-            JPBProgressbar.setMinimum(0);
-            JPBProgressbar.setMaximum(maxProgress);
-            JPBProgressbar.setStringPainted(true);
-            JLProgressLabel.setText("0/" + maxProgress);
+        //Placing quiestions on the Container
+        if (quizcards.getCards().get(cardcounter) instanceof IdentificationCard) {
+            showIdentification(cardcounter);
+        } else if (quizcards.getCards().get(cardcounter) instanceof TrueOrFalseCard) {
+            showTrueorFalse(cardcounter);
+        } else if (quizcards.getCards().get(cardcounter) instanceof MultipleChoiceCard) {
+            showMultipleChoice(cardcounter);
+        }
 
-            JLTitleLabelContent.setText(quizcards.getQuizName());
+
+        maxProgress = quizcards.getCards().size();
+        JPBProgressbar.setMinimum(0);
+        JPBProgressbar.setMaximum(maxProgress);
+        JPBProgressbar.setStringPainted(true);
+        JLProgressLabel.setText("0/" + maxProgress);
+
+        JLTitleLabelContent.setText(quizcards.getQuizName());
         JBNextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,6 +235,7 @@ public class TakeQuiz extends JFrame{
         JBPreviousButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ButtonsClass showscore = new ButtonsClass();
                 if(removeCardIndicator == true){
                     quizcards.getCards().remove(cardcounter);
                 }
@@ -246,7 +247,17 @@ public class TakeQuiz extends JFrame{
 
                     removeCardIndicator = false;
 
-                    JPanel scoreTitlePanel = new JPanel();
+                    showscore.JLCorrect = JLCorrect;
+                    showscore.JPButtonsPanel = JPButtonsPanel;
+                    showscore.maxProgress = maxProgress;
+                    showscore.JPQuestionQuizPanel = JPQuestionQuizPanel;
+                    showscore.showScore();
+
+                    JLCorrect = showscore.JLCorrect;
+                    JPButtonsPanel = showscore.JPButtonsPanel;
+                    maxProgress = showscore.maxProgress;
+
+                    /*JPanel scoreTitlePanel = new JPanel();
                     scoreTitlePanel.setLayout(new BoxLayout(scoreTitlePanel,BoxLayout.X_AXIS));
 
                     JLabel scoreTitleLabel = new JLabel("Your Score: ");
@@ -308,14 +319,16 @@ public class TakeQuiz extends JFrame{
                     JPQuestionQuizPanel.revalidate();
                     JPQuestionQuizPanel.repaint();
                     JPButtonsPanel.revalidate();
-                    JPButtonsPanel.repaint();
+                    JPButtonsPanel.repaint();*/
 
-                    DoneButton.addActionListener(new ActionListener() {
+
+
+                    /*DoneButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             backtofolder();
                         }
-                    });
+                    });*/
 
 
                     return;
@@ -373,215 +386,20 @@ public class TakeQuiz extends JFrame{
                 backtofolder();
             }
         });
+
     }
 
-    public void submitIdentification(){
-        if(identificationAnswer.getText().isEmpty()){
-            JPQuestionQuizPanel.remove(errormessage);
-            identificationAnswer.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-            JLabel errorlabel = new JLabel("Warning: Enter an answer");
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(new Color(139, 128, 0));
-
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-            errorPanel.add(errorlabel);
-
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-
-        }
-        else if(identificationAnswer.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
-            JPQuestionQuizPanel.remove(errormessage);
-            identificationAnswer.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-            JLabel errorlabel = new JLabel("Correct");
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(Color.GREEN);
-
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-            errorPanel.add(errorlabel);
-
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-            int check = Integer.parseInt(JLCorrect.getText())+1;
-            JLCorrect.setText(check+"");
-            JPCorrectPanel.setBackground(new Color(138, 255, 182));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-            identificationAnswer.setEditable(false);
-            JBsubmitButton.setEnabled(false);
-
-            removeCardIndicator= true;
-
-            int Progressval = JPBProgressbar.getValue();
-            if(Progressval < maxProgress ){
-                Progressval = Progressval+1;
-                JPBProgressbar.setValue(Progressval);
-                JLProgressLabel.setText(Progressval+"/"+maxProgress);
-            }
-        }
-        else{
-            JPQuestionQuizPanel.remove(errormessage);
-            identificationAnswer.setBorder(BorderFactory.createLineBorder(Color.RED));
-            JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(Color.RED);
-
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-            errorPanel.add(errorlabel);
-
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-            int wrong = Integer.parseInt(JLIncorrect.getText())+1;
-            JLIncorrect.setText(wrong+"");
-            JPIncorrectPanel.setBackground(new Color(255, 136, 148));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-            identificationAnswer.setEditable(false);
-            JBsubmitButton.setEnabled(false);
-
-            removeCardIndicator= true;
-
-            int Progressval = JPBProgressbar.getValue();
-            if(Progressval < maxProgress ){
-                Progressval = Progressval+1;
-                JPBProgressbar.setValue(Progressval);
-                JLProgressLabel.setText(Progressval+"/"+maxProgress);
-            }
-        }
-        JPQuestionQuizPanel.revalidate();
-        JPQuestionQuizPanel.repaint();
-    }
-
-    public void submitTrueorFalse(){
-        if(ChoicesRadioButton.get(0).isSelected() == false && ChoicesRadioButton.get(1).isSelected() == false){
-            JPQuestionQuizPanel.remove(errormessage);
-            JLabel errorlabel = new JLabel("Warning: Choose an answer");
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(new Color(139, 128, 0));
-
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-            errorPanel.add(errorlabel);
-
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-            JPQuestionQuizPanel.revalidate();
-            JPQuestionQuizPanel.repaint();
-
-            return;
-        }
-
-        for(JRadioButton chc: ChoicesRadioButton){
-            if(chc.isSelected() == true && chc.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
-                JPQuestionQuizPanel.remove(errormessage);
-                JLabel errorlabel = new JLabel("Correct");
-                errorlabel.setFont(new Font("",Font.PLAIN,14));
-                errorlabel.setForeground(Color.GREEN);
-
-                JPanel errorPanel = new JPanel();
-                errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-                errorPanel.add(errorlabel);
-
-                errormessage = new JScrollPane(errorPanel);
-                errormessage.setMaximumSize(new Dimension(300,50));
-                errormessage.setMinimumSize(new Dimension(300,50));
-                errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-                errormessage.setBorder(new EmptyBorder(0,0,0,0));
-
-                JPQuestionQuizPanel.add(errormessage);
-
-                int check = Integer.parseInt(JLCorrect.getText())+1;
-                JLCorrect.setText(check+"");
-                JPCorrectPanel.setBackground(new Color(138, 255, 182));
-
-                JPQuestionQuizPanel.add(errormessage);
-
-
-                JBsubmitButton.setEnabled(false);
-                ChoicesRadioButton.get(0).setEnabled(false);
-                ChoicesRadioButton.get(1).setEnabled(false);
-
-                removeCardIndicator= true;
-
-                JPQuestionQuizPanel.revalidate();
-                JPQuestionQuizPanel.repaint();
-
-                int Progressval = JPBProgressbar.getValue();
-                if(Progressval < maxProgress ){
-                    Progressval = Progressval+1;
-                    JPBProgressbar.setValue(Progressval);
-                    JLProgressLabel.setText(Progressval+"/"+maxProgress);
-                }
-
-                return;
-            }
-        }
-        JPQuestionQuizPanel.remove(errormessage);
-        JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
-        errorlabel.setFont(new Font("",Font.PLAIN,14));
-        errorlabel.setForeground(Color.RED);
-
-        JPanel errorPanel = new JPanel();
-        errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
-
-        errorPanel.add(errorlabel);
-
-        errormessage = new JScrollPane(errorPanel);
-        errormessage.setMaximumSize(new Dimension(300,50));
-        errormessage.setMinimumSize(new Dimension(300,50));
-        errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-        errormessage.setBorder(new EmptyBorder(0,0,0,0));
+    public void checkComponents(){
+        int check = Integer.parseInt(JLCorrect.getText())+1;
+        JLCorrect.setText(check+"");
+        JPCorrectPanel.setBackground(new Color(138, 255, 182));
 
         JPQuestionQuizPanel.add(errormessage);
 
-        int wrong = Integer.parseInt(JLIncorrect.getText())+1;
-        JLIncorrect.setText(wrong+"");
-        JPIncorrectPanel.setBackground(new Color(255, 136, 148));
-
-        JPQuestionQuizPanel.add(errormessage);
-
+        identificationAnswer.setEditable(false);
         JBsubmitButton.setEnabled(false);
-        ChoicesRadioButton.get(0).setEnabled(false);
-        ChoicesRadioButton.get(1).setEnabled(false);
 
         removeCardIndicator= true;
-
-        JPQuestionQuizPanel.revalidate();
-        JPQuestionQuizPanel.repaint();
 
         int Progressval = JPBProgressbar.getValue();
         if(Progressval < maxProgress ){
@@ -591,7 +409,144 @@ public class TakeQuiz extends JFrame{
         }
     }
 
+    public void wrongComponents(){
+        int wrong = Integer.parseInt(JLIncorrect.getText())+1;
+        JLIncorrect.setText(wrong+"");
+        JPIncorrectPanel.setBackground(new Color(255, 136, 148));
+
+        JPQuestionQuizPanel.add(errormessage);
+
+        identificationAnswer.setEditable(false);
+        JBsubmitButton.setEnabled(false);
+
+        removeCardIndicator= true;
+
+        int Progressval = JPBProgressbar.getValue();
+        if(Progressval < maxProgress ){
+            Progressval = Progressval+1;
+            JPBProgressbar.setValue(Progressval);
+            JLProgressLabel.setText(Progressval+"/"+maxProgress);
+        }
+    }
+    public void submitIdentification(){
+        TQIdentificationCard IdentificationSubmitLabel = new TQIdentificationCard();
+        if(identificationAnswer.getText().isEmpty()){
+
+            IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
+            IdentificationSubmitLabel.errormessage = errormessage;
+
+            IdentificationSubmitLabel.submitMessageLabels();
+
+            IdentificationSubmitLabel.LabelError.setText("Warning: Enter an answer");
+
+            JPQuestionQuizPanel=IdentificationSubmitLabel.JPQuestionQuizPanel;
+            identificationAnswer=IdentificationSubmitLabel.identificationAnswer;
+            errormessage = IdentificationSubmitLabel.errormessage;
+
+
+
+        }
+        else if(identificationAnswer.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
+            IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
+            IdentificationSubmitLabel.errormessage = errormessage;
+
+            IdentificationSubmitLabel.submitMessageLabels();
+
+            IdentificationSubmitLabel.LabelError.setText("Correct");
+            IdentificationSubmitLabel.LabelError.setForeground(Color.GREEN);
+            ((TQIdentificationCard)IdentificationSubmitLabel).changecolor.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
+            JPQuestionQuizPanel=IdentificationSubmitLabel.JPQuestionQuizPanel;
+            identificationAnswer=IdentificationSubmitLabel.identificationAnswer;
+            errormessage = IdentificationSubmitLabel.errormessage;
+
+            checkComponents();
+
+
+        }
+        else{
+            IdentificationSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            IdentificationSubmitLabel.identificationAnswer = identificationAnswer;
+            IdentificationSubmitLabel.errormessage = errormessage;
+
+            IdentificationSubmitLabel.submitMessageLabels();
+
+            IdentificationSubmitLabel.LabelError.setText("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
+            IdentificationSubmitLabel.LabelError.setForeground(Color.RED);
+            ((TQIdentificationCard)IdentificationSubmitLabel).changecolor.setBorder(BorderFactory.createLineBorder(Color.RED));
+
+            JPQuestionQuizPanel=IdentificationSubmitLabel.JPQuestionQuizPanel;
+            identificationAnswer=IdentificationSubmitLabel.identificationAnswer;
+            errormessage = IdentificationSubmitLabel.errormessage;
+
+            wrongComponents();
+
+        }
+        JPQuestionQuizPanel.revalidate();
+        JPQuestionQuizPanel.repaint();
+    }
+
+    public void submitTrueorFalse(){
+        TQTrueOrFalseCard TrueorFalseSubmitLabel = new TQTrueOrFalseCard();
+        if(ChoicesRadioButton.get(0).isSelected() == false && ChoicesRadioButton.get(1).isSelected() == false){
+
+            TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
+            TrueorFalseSubmitLabel.errormessage = errormessage;
+
+            TrueorFalseSubmitLabel.submitMessageLabels();
+
+            TrueorFalseSubmitLabel.LabelError.setText("Warning: Choose an answer");
+            TrueorFalseSubmitLabel.LabelError.setForeground(new Color(139, 128, 0));
+
+            JPQuestionQuizPanel=TrueorFalseSubmitLabel.JPQuestionQuizPanel;
+            identificationAnswer=TrueorFalseSubmitLabel.identificationAnswer;
+            errormessage = TrueorFalseSubmitLabel.errormessage;
+
+            return;
+        }
+
+        for(JRadioButton chc: ChoicesRadioButton){
+            if(chc.isSelected() == true && chc.getText().equals(quizcards.getCards().get(cardcounter).getAnswer())){
+
+                TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+                TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
+                TrueorFalseSubmitLabel.errormessage = errormessage;
+
+                TrueorFalseSubmitLabel.submitMessageLabels();
+
+                TrueorFalseSubmitLabel.LabelError.setText("Correct");
+                TrueorFalseSubmitLabel.LabelError.setForeground(Color.GREEN);
+
+                JPQuestionQuizPanel=TrueorFalseSubmitLabel.JPQuestionQuizPanel;
+                errormessage = TrueorFalseSubmitLabel.errormessage;
+
+
+                checkComponents();
+
+                return;
+            }
+        }
+
+        TrueorFalseSubmitLabel.JPQuestionQuizPanel = JPQuestionQuizPanel;
+        TrueorFalseSubmitLabel.identificationAnswer = identificationAnswer;
+        TrueorFalseSubmitLabel.errormessage = errormessage;
+
+        TrueorFalseSubmitLabel.submitMessageLabels();
+
+        TrueorFalseSubmitLabel.LabelError.setText("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
+        TrueorFalseSubmitLabel.LabelError.setForeground(Color.RED);
+
+        JPQuestionQuizPanel=TrueorFalseSubmitLabel.JPQuestionQuizPanel;
+        errormessage = TrueorFalseSubmitLabel.errormessage;
+
+        wrongComponents();
+    }
+
     public void submitMultipleChoice(){
+        TQMultipleChoiceCard MultipleChoiceFlashCard = new TQMultipleChoiceCard();
         boolean indicate_selection = false;
         for(JRadioButton multchoice: ChoicesRadioButton){
             if(multchoice.isSelected() == true){
@@ -600,113 +555,53 @@ public class TakeQuiz extends JFrame{
             }
         }
         if(indicate_selection == false){
-            JPQuestionQuizPanel.remove(errormessage);
-            JLabel errorlabel = new JLabel("Warning: Choose an answer");
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(new Color(139, 128, 0));
 
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+            MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
+            MultipleChoiceFlashCard.errormessage = errormessage;
 
-            errorPanel.add(errorlabel);
+            MultipleChoiceFlashCard.submitMessageLabels();
 
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+            MultipleChoiceFlashCard.LabelError.setText("Warning: Choose an answer");
+            MultipleChoiceFlashCard.LabelError.setForeground(new Color(139, 128, 0));
 
-            JPQuestionQuizPanel.add(errormessage);
-
-            JPQuestionQuizPanel.revalidate();
-            JPQuestionQuizPanel.repaint();
+            JPQuestionQuizPanel=MultipleChoiceFlashCard.JPQuestionQuizPanel;
+            identificationAnswer=MultipleChoiceFlashCard.identificationAnswer;
+            errormessage = MultipleChoiceFlashCard.errormessage;
 
         }
         else if(((MultipleChoiceCard) quizcards.getCards().get(cardcounter)).getChoices().get(ChoicesRadioButton.indexOf(storeUserAnswer)).equals(quizcards.getCards().get(cardcounter).getAnswer())){
-            JPQuestionQuizPanel.remove(errormessage);
-            JLabel errorlabel = new JLabel("Correct");
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(Color.GREEN);
 
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+            MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
+            MultipleChoiceFlashCard.errormessage = errormessage;
 
-            errorPanel.add(errorlabel);
+            MultipleChoiceFlashCard.submitMessageLabels();
 
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+            MultipleChoiceFlashCard.LabelError.setText("Correct");
+            MultipleChoiceFlashCard.LabelError.setForeground(Color.GREEN);
 
-            JPQuestionQuizPanel.add(errormessage);
+            JPQuestionQuizPanel=MultipleChoiceFlashCard.JPQuestionQuizPanel;
+            errormessage = MultipleChoiceFlashCard.errormessage;
 
-            int check = Integer.parseInt(JLCorrect.getText())+1;
-            JLCorrect.setText(check+"");
-            JPCorrectPanel.setBackground(new Color(138, 255, 182));
-
-            JPQuestionQuizPanel.add(errormessage);
-
-
-            JBsubmitButton.setEnabled(false);
-
-            for(JRadioButton jrb: ChoicesRadioButton){
-                jrb.setEnabled(false);
-            }
-
-            removeCardIndicator= true;
-
-            JPQuestionQuizPanel.revalidate();
-            JPQuestionQuizPanel.repaint();
-
-            int Progressval = JPBProgressbar.getValue();
-            if(Progressval < maxProgress ){
-                Progressval = Progressval+1;
-                JPBProgressbar.setValue(Progressval);
-                JLProgressLabel.setText(Progressval+"/"+maxProgress);
-            }
+            checkComponents();
         }
         else{
-            JPQuestionQuizPanel.remove(errormessage);
-            JLabel errorlabel = new JLabel("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
-            errorlabel.setFont(new Font("",Font.PLAIN,14));
-            errorlabel.setForeground(Color.RED);
 
-            JPanel errorPanel = new JPanel();
-            errorPanel.setLayout(new BoxLayout(errorPanel,BoxLayout.X_AXIS));
+            MultipleChoiceFlashCard.JPQuestionQuizPanel = JPQuestionQuizPanel;
+            MultipleChoiceFlashCard.identificationAnswer = identificationAnswer;
+            MultipleChoiceFlashCard.errormessage = errormessage;
 
-            errorPanel.add(errorlabel);
+            MultipleChoiceFlashCard.submitMessageLabels();
 
-            errormessage = new JScrollPane(errorPanel);
-            errormessage.setMaximumSize(new Dimension(300,50));
-            errormessage.setMinimumSize(new Dimension(300,50));
-            errormessage.setPreferredSize(new Dimension(300,errormessage.getPreferredSize().height));
-            errormessage.setBorder(new EmptyBorder(0,0,0,0));
+            MultipleChoiceFlashCard.LabelError.setText("Incorrect: The Answer is "+quizcards.getCards().get(cardcounter).getAnswer());
+            MultipleChoiceFlashCard.LabelError.setForeground(Color.RED);
 
-            JPQuestionQuizPanel.add(errormessage);
+            JPQuestionQuizPanel=MultipleChoiceFlashCard.JPQuestionQuizPanel;
+            errormessage = MultipleChoiceFlashCard.errormessage;
 
-            int wrong = Integer.parseInt(JLIncorrect.getText())+1;
-            JLIncorrect.setText(wrong+"");
-            JPIncorrectPanel.setBackground(new Color(255, 136, 148));
 
-            JPQuestionQuizPanel.add(errormessage);
-
-            JBsubmitButton.setEnabled(false);
-            for(JRadioButton jrb: ChoicesRadioButton){
-                jrb.setEnabled(false);
-            }
-
-            removeCardIndicator= true;
-
-            JPQuestionQuizPanel.revalidate();
-            JPQuestionQuizPanel.repaint();
-
-            int Progressval = JPBProgressbar.getValue();
-            if(Progressval < maxProgress ){
-                Progressval = Progressval+1;
-                JPBProgressbar.setValue(Progressval);
-                JLProgressLabel.setText(Progressval+"/"+maxProgress);
-            }
+            wrongComponents();
         }
     }
 
@@ -750,80 +645,31 @@ public class TakeQuiz extends JFrame{
         JPQuestionQuizPanel.setBorder(new EmptyBorder(20,20,20,20));
         JPanel WholeQuestion = new JPanel();
         WholeQuestion.setLayout(new BoxLayout(WholeQuestion,BoxLayout.Y_AXIS));
-        //Panel for Question
-
-        JPanel QuestionComponents = new JPanel();
-        QuestionComponents.setMinimumSize(new Dimension(550,100));
-        QuestionComponents.setMaximumSize(new Dimension(550,100));
-        QuestionComponents.setLayout(new BoxLayout(QuestionComponents,BoxLayout.X_AXIS));
-
-        WholeQuestion.add(QuestionComponents);
 
 
-        JPanel QuestionContainer = new JPanel();
-        QuestionContainer.setLayout(new BoxLayout(QuestionContainer,BoxLayout.X_AXIS));
-        QuestionContainer.setBorder(new EmptyBorder(0,20,0,20));
+        //Setting Up Question Components
+        TakingQuizCard MultipleChoiceFlashCard = new TQMultipleChoiceCard();
 
-        JLabel QuestionContent = new JLabel();
-        QuestionContent.setText(quizcards.getCards().get(count).getQuestion());
-        QuestionContent.setFont(new Font("",Font.PLAIN,20));
+        JPanel hold = MultipleChoiceFlashCard.getQuestionComponent(quizcards,count);
+        WholeQuestion.add(hold);
 
-        QuestionContainer.add(QuestionContent);
-
-        JScrollPane QuestionScroll= new JScrollPane(QuestionContainer);
-        QuestionScroll.setMaximumSize(new Dimension(600,70));
-        QuestionScroll.setPreferredSize(new Dimension(300,QuestionScroll.getPreferredSize().height));
-
-        QuestionComponents.add(QuestionScroll);
-
-        questioncheck = QuestionContent;
+        questioncheck = MultipleChoiceFlashCard.questionccontent;
 
 
+        //Setting Up Answer Components
+        ((TQMultipleChoiceCard)MultipleChoiceFlashCard).count = count;
+        ((TQMultipleChoiceCard)MultipleChoiceFlashCard).quizcards = quizcards;
 
-        //Panel for User answer
-
-        JPanel AnswerPanel = new JPanel();
-        AnswerPanel.setLayout(new BoxLayout(AnswerPanel,BoxLayout.Y_AXIS));
-
-
-        for(String s: ((MultipleChoiceCard) quizcards.getCards().get(count)).getChoices()){
-
-            JRadioButton choiceradio = new JRadioButton();
-            ChoicesRadioButton.add(choiceradio);
-
-
-            JPanel ChoicePanel = new JPanel();
-            ChoicePanel.setLayout(new BoxLayout(ChoicePanel,BoxLayout.X_AXIS));
-
-            JScrollPane ChoiceScrollPane = new JScrollPane(ChoicePanel);
-            ChoiceScrollPane.setMaximumSize(new Dimension(300,50));
-            ChoiceScrollPane.setMinimumSize(new Dimension(300,50));
-            ChoiceScrollPane.setPreferredSize(new Dimension(300,ChoiceScrollPane.getPreferredSize().height));
-
-            JLabel ChoiceContentLabel = new JLabel(s);
-            ChoiceContentLabel.setFont(new Font("",Font.PLAIN,14));
-            ChoiceContentLabel.setBorder(new EmptyBorder(0,10,0,10));
-            ChoicePanel.add(ChoiceContentLabel);
-
-
-            JPanel storeChoiceScrollPane = new JPanel();
-            storeChoiceScrollPane.setLayout(new BoxLayout(storeChoiceScrollPane,BoxLayout.X_AXIS));
-            storeChoiceScrollPane.setBorder(new EmptyBorder(0,0,10,0));
-
-            storeChoiceScrollPane.add(choiceradio);
-            storeChoiceScrollPane.add(ChoiceScrollPane);
-
-            AnswerPanel.add(storeChoiceScrollPane);
-
-
-        }
+        JPanel holdAnswer = MultipleChoiceFlashCard.getAnswerComponent();
+        ChoicesRadioButton = ((TQMultipleChoiceCard)MultipleChoiceFlashCard).ChoicesRadioButton;
 
         ButtonGroup btnmultiplechoice = new ButtonGroup();
+
         for(JRadioButton jr : ChoicesRadioButton){
             btnmultiplechoice.add(jr);
         }
 
-        WholeQuestion.add(AnswerPanel);
+        WholeQuestion.add(holdAnswer);
         JPQuestionQuizPanel.add(WholeQuestion);
 
 
@@ -832,64 +678,25 @@ public class TakeQuiz extends JFrame{
 
     public void showIdentification(int count){
         JPQuestionQuizPanel.setBorder(new EmptyBorder(70,20,20,20));
-        //Panel for Question and Answer Panel
+
+        //Setting Up Question Components
 
         JPanel WholeQuestion = new JPanel();
         WholeQuestion.setLayout(new BoxLayout(WholeQuestion,BoxLayout.Y_AXIS));
-        //Panel for Question
 
-        JPanel QuestionComponents = new JPanel();
-        QuestionComponents.setMinimumSize(new Dimension(550,100));
-        QuestionComponents.setMaximumSize(new Dimension(550,100));
-        QuestionComponents.setLayout(new BoxLayout(QuestionComponents,BoxLayout.X_AXIS));
+        TakingQuizCard identificationFlashCard = new TQIdentificationCard();
 
-        WholeQuestion.add(QuestionComponents);
+        JPanel hold = identificationFlashCard.getQuestionComponent(quizcards,count);
+        WholeQuestion.add(hold);
 
+        questioncheck = identificationFlashCard.questionccontent;
 
 
+        //Setting Up Answer Components
+        JPanel holdAnswerComponent = identificationFlashCard.getAnswerComponent();
 
-        JPanel QuestionContainer = new JPanel();
-        QuestionContainer.setLayout(new BoxLayout(QuestionContainer,BoxLayout.X_AXIS));
-        QuestionContainer.setBorder(new EmptyBorder(0,20,0,20));
-
-        JLabel QuestionContent = new JLabel();
-        QuestionContent.setText(quizcards.getCards().get(count).getQuestion());
-        QuestionContent.setFont(new Font("",Font.PLAIN,20));
-
-        QuestionContainer.add(QuestionContent);
-
-        JScrollPane QuestionScroll= new JScrollPane(QuestionContainer);
-        QuestionScroll.setMaximumSize(new Dimension(600,70));
-        QuestionScroll.setPreferredSize(new Dimension(300,QuestionScroll.getPreferredSize().height));
-
-        QuestionComponents.add(QuestionScroll);
-
-        questioncheck = QuestionContent;
-
-
-        //Panel for User answer
-        JPanel AnswerComponents = new JPanel();
-        AnswerComponents.setLayout(new BoxLayout(AnswerComponents,BoxLayout.X_AXIS));
-        AnswerComponents.setLayout(new FlowLayout(FlowLayout.CENTER));
-        AnswerComponents.setMinimumSize(new Dimension(550,100));
-        AnswerComponents.setMaximumSize(new Dimension(550,100));
-        AnswerComponents.setBorder(new EmptyBorder(40,0,0,0));
-
-        WholeQuestion.add(AnswerComponents);
-
-        //Add Question Label and Content
-        JLabel AnswerLabel = new JLabel("   Answer: ");
-        AnswerComponents.add(AnswerLabel);
-        AnswerLabel.setMinimumSize(new Dimension(100,50));
-        AnswerLabel.setMaximumSize(new Dimension(100,50));
-        AnswerLabel.setFont(new Font("",Font.PLAIN,20));
-
-        JTextField AnswerContent = new JTextField();
-        AnswerContent.setPreferredSize(new Dimension(300, 40));
-        AnswerContent.setFont(new Font("",Font.PLAIN,16));
-        AnswerComponents.add(AnswerContent);
-
-        identificationAnswer = AnswerContent;
+        WholeQuestion.add(holdAnswerComponent);
+        identificationAnswer = ((TQIdentificationCard)identificationFlashCard).answerContent;
 
         JPQuestionQuizPanel.add(WholeQuestion);
 
@@ -900,65 +707,28 @@ public class TakeQuiz extends JFrame{
     public void showTrueorFalse(int count){
         ChoicesRadioButton = new ArrayList<>();
         JPQuestionQuizPanel.setBorder(new EmptyBorder(70,20,20,20));
-        //Panel for Question and Answer Panel
 
         JPanel WholeQuestion = new JPanel();
         WholeQuestion.setLayout(new BoxLayout(WholeQuestion,BoxLayout.Y_AXIS));
-        //Panel for Question
 
-        JPanel QuestionComponents = new JPanel();
-        QuestionComponents.setMinimumSize(new Dimension(550,100));
-        QuestionComponents.setMaximumSize(new Dimension(550,100));
-        QuestionComponents.setLayout(new BoxLayout(QuestionComponents,BoxLayout.X_AXIS));
+        //Setting Up Question Components
+        TakingQuizCard trueOrFalseFlashCard = new TQTrueOrFalseCard();
 
-        WholeQuestion.add(QuestionComponents);
+        JPanel hold = trueOrFalseFlashCard.getQuestionComponent(quizcards,count);
+        WholeQuestion.add(hold);
 
+        questioncheck = trueOrFalseFlashCard.questionccontent;
 
-        JPanel QuestionContainer = new JPanel();
-        QuestionContainer.setLayout(new BoxLayout(QuestionContainer,BoxLayout.X_AXIS));
-        QuestionContainer.setBorder(new EmptyBorder(0,20,0,20));
+        //Setting Up Answer Components
 
-        JLabel QuestionContent = new JLabel();
-        QuestionContent.setText(quizcards.getCards().get(count).getQuestion());
-        QuestionContent.setFont(new Font("",Font.PLAIN,20));
+        ((TQTrueOrFalseCard)trueOrFalseFlashCard).count = count;
+        ((TQTrueOrFalseCard)trueOrFalseFlashCard).quizcards = quizcards;
 
-        QuestionContainer.add(QuestionContent);
+        WholeQuestion.add(trueOrFalseFlashCard.getAnswerComponent());
 
-        JScrollPane QuestionScroll= new JScrollPane(QuestionContainer);
-        QuestionScroll.setMaximumSize(new Dimension(600,70));
-        QuestionScroll.setPreferredSize(new Dimension(300,QuestionScroll.getPreferredSize().height));
+        ChoicesRadioButton.add(((TQTrueOrFalseCard)trueOrFalseFlashCard).Truebutton);
+        ChoicesRadioButton.add(((TQTrueOrFalseCard)trueOrFalseFlashCard).Falsebutton);
 
-        QuestionComponents.add(QuestionScroll);
-
-        questioncheck = QuestionContent;
-
-
-
-        //Panel for User answer
-        JPanel AnswerPanel = new JPanel();
-        AnswerPanel.setLayout(new BoxLayout(AnswerPanel,BoxLayout.X_AXIS));
-
-        JRadioButton TrueChoice = new JRadioButton();
-        TrueChoice.setText(((TrueOrFalseCard) quizcards.getCards().get(count)).getChoices().get(0));
-        TrueChoice.setFont(new Font("",Font.PLAIN,16));
-
-        JRadioButton FalseChoice = new JRadioButton();
-        FalseChoice.setText(((TrueOrFalseCard) quizcards.getCards().get(count)).getChoices().get(1));
-        FalseChoice.setFont(new Font("",Font.PLAIN,16));
-
-        AnswerPanel.add(TrueChoice);
-        AnswerPanel.add(FalseChoice);
-
-        AnswerPanel.setBorder(new EmptyBorder(40,0,0,0));
-
-        ButtonGroup ChoiceGroup = new ButtonGroup();
-        ChoiceGroup.add(TrueChoice);
-        ChoiceGroup.add(FalseChoice);
-
-        ChoicesRadioButton.add(TrueChoice);
-        ChoicesRadioButton.add(FalseChoice);
-
-        WholeQuestion.add(AnswerPanel);
         JPQuestionQuizPanel.add(WholeQuestion);
 
 
