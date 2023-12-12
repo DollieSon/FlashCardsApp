@@ -13,15 +13,15 @@ public class CardFactory{
         Card card = null;
         switch (Type){
             case TRUE_OR_FALSE:
-                card = new TrueOrFalseCard();
+                card = new TrueOrFalseCard(Question,Answer);
                 break;
             case MULTIPLE_CHOICE:
-                card = new MultipleChoiceCard();
+                card = new MultipleChoiceCard(Question,Answer);
                 //dire lang siguro pag ask og choices
                 //((MultipleChoiceCard) card).setChoices(Choices);
                 break;
             case IDENTIFICATION:
-                card = new IdentificationCard();
+                card = new IdentificationCard(Question,Answer);
                 break;
         }
         card.setAnswer(Answer);

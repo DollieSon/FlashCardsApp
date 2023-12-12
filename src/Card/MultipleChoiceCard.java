@@ -6,9 +6,9 @@ import java.util.List;
 public class MultipleChoiceCard extends Card {
     private ArrayList<String> choices;
 
-    public MultipleChoiceCard(){
+    public MultipleChoiceCard(String Question, String Answer){
+        super(Question,Answer);
         choices = new ArrayList<String>();
-
     }
 
     public List<String> getChoices(){

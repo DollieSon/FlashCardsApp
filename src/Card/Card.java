@@ -1,10 +1,16 @@
 package Card;
+
+import java.io.Serializable;
+
 // TODO Make an inteface
-public abstract class Card{
+public abstract class Card implements Serializable {
     private String Question;
     private String Answer;
 
-
+    protected Card(String question, String answer) {
+        Question = question;
+        Answer = answer;
+    }
 
     public Card setQuestion(String question_name){
         this.Question = question_name;

@@ -2,10 +2,11 @@ package QuizPackage;
 
 import Card.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Quiz {
+public class Quiz implements Serializable {
     private List<Card> cards;
     private String QuizName;
     private String Author;

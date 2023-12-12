@@ -1,9 +1,10 @@
 import QuizPackage.Quiz;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Folder {
+public class Folder implements Serializable {
     private String name;
     private final String author;
 
