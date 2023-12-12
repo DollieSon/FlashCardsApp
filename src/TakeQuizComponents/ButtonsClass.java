@@ -3,6 +3,8 @@ package TakeQuizComponents;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ButtonsClass {
 
@@ -13,7 +15,7 @@ public class ButtonsClass {
 
     public JPanel JPQuestionQuizPanel;
 
-    public void showScore(){
+    public JButton showScore(){
 
         JPanel scoreTitlePanel = new JPanel();
         scoreTitlePanel.setLayout(new BoxLayout(scoreTitlePanel,BoxLayout.X_AXIS));
@@ -78,5 +80,8 @@ public class ButtonsClass {
         JPQuestionQuizPanel.repaint();
         JPButtonsPanel.revalidate();
         JPButtonsPanel.repaint();
+
+
+        return DoneButton;
     }
 }
