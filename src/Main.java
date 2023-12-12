@@ -15,14 +15,14 @@ public class Main {
         q1.setAuthor("Danjo");
         q1.addCard(CardFactory.MakeCard(CardFactory.type.TRUE_OR_FALSE,"Gwapo ko?","True"));
         try {
-            SerializationUtil.serialize(q1,"q1.ser");
+            SerializationUtil.serialize(q1,"q1.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         Quiz temp = null;
         try {
-            temp = (Quiz) SerializationUtil.deserialize("q1.ser");
+            temp = (Quiz) SerializationUtil.deserialize("q1.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
