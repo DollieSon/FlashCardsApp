@@ -32,5 +32,8 @@ public class Folder implements Serializable {
         return this.name;
     }
 
+    public List<Quiz> getQuiz(){
+        return quizzes;
+    }
 
 }
