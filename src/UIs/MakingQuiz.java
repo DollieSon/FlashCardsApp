@@ -2,6 +2,7 @@ package UIs;
 
 import Card.*;
 import QuizPackage.Quiz;
+import QuizPackage.SerializationUtil;
 
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -268,11 +271,19 @@ public class MakingQuiz extends JFrame{
 
                 if(editorial != null){
                    int n = FolderForQuiz.getInstance().folderfirst.getQuiz().indexOf(editorial);
-                   FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
-                   editorial = null;
+                   File myobj = new File(editorial.getQuizName() + ".ser");
+                   myobj.delete();
+                    FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
+
                 }
                 else{
                     FolderForQuiz.getInstance().folderfirst.createQuiz(quizzAppend);
+                }
+                try {
+                    SerializationUtil.serialize(quizzAppend, "Quizes/"+quizzAppend.getQuizName()+".ser");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }finally {
                     editorial = null;
                 }
                 backtofolder();
