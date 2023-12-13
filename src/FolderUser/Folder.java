@@ -3,11 +3,14 @@ package FolderUser;
 import QuizPackage.Quiz;
 
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Folder implements Serializable {
     private String name;
+
+    private String directory;
     private List<Quiz> quizzes;
 
     public Folder(String name){
@@ -35,4 +38,11 @@ public class Folder implements Serializable {
         return quizzes;
     }
 
+    public String getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
 }

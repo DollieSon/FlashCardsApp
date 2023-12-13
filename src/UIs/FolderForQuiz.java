@@ -4,11 +4,18 @@ import FolderForUserComponent.QuizFirstSection;
 import FolderForUserComponent.QuizSecondSection;
 import QuizPackage.Quiz;
 import FolderUser.*;
+import QuizPackage.SerializationUtil;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class FolderForQuiz extends JFrame{
@@ -23,6 +30,7 @@ public class FolderForQuiz extends JFrame{
     public JButton JBCreateQuizButton;
     public JScrollPane JSPQuzListScrollPanel;
     public JPanel JPQuizListPanel;
+    private JButton homeButton;
 
     private ArrayList<JPanel> deleteIndicator = new ArrayList<>();
     public ArrayList<JPanel> editIndicator = new ArrayList<>();
@@ -61,6 +69,32 @@ public class FolderForQuiz extends JFrame{
 
         JPQuizListPanel.setBorder(new EmptyBorder(20,20,20,20));
         JPQuizListPanel.setLayout(new BoxLayout(JPQuizListPanel,BoxLayout.Y_AXIS));
+        System.out.println(folderfirst.getDirectory());
+
+        /*try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(folderfirst.getDirectory()), path -> Files.isDirectory(path))) {
+            for (Path path : stream) {
+                System.out.println(path.toString());
+            }
+        } catch (IOException e) {
+
+        }*/
+
+        File folder = new File (folderfirst.getDirectory());
+        File [] listOfFiles = folder.listFiles ();
+        for (File file : listOfFiles) {
+            if (file.isFile ()) {
+                System.out.println (file.getName ());
+                Quiz temp = null;
+                try {
+                    temp = (Quiz) SerializationUtil.deserialize(file.getAbsolutePath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                folderfirst.createQuiz(temp);
+            }
+        }
 
         for(Quiz quizess: folderfirst.getQuiz()){
             createQuizContainer(quizess.getQuizName(),quizess.getCards().size());
@@ -75,6 +109,12 @@ public class FolderForQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 goToMakeQuiz();
+            }
+        });
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -171,8 +211,21 @@ public class FolderForQuiz extends JFrame{
                 int index = deleteIndicator.indexOf(DeletePanel);
                 deleteIndicator.remove(DeletePanel);
 
-                folderfirst.getQuiz().remove(index);
 
+                System.out.println(index);
+
+                Path path = Paths.get (folderfirst.getDirectory()+"/"+folderfirst.getQuiz().get(index).getQuizName()+".ser");
+                try {
+                    if (Files.deleteIfExists (path)) {
+                        System.out.println ("File deleted successfully");
+                    } else {
+                        System.out.println ("File does not exist");
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                folderfirst.getQuiz().remove(index);
                 refreshQuizContainer();
 
             }

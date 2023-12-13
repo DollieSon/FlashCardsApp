@@ -12,6 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -271,16 +274,27 @@ public class MakingQuiz extends JFrame{
 
                 if(editorial != null){
                    int n = FolderForQuiz.getInstance().folderfirst.getQuiz().indexOf(editorial);
-                   File myobj = new File(editorial.getQuizName() + ".ser");
-                   myobj.delete();
-                    FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
+                   String dir = FolderForQuiz.getInstance().folderfirst.getDirectory();
 
+                    System.out.println(dir);
+
+                    Path path = Paths.get (dir+"\\"+ editorial.getQuizName() + ".ser");
+                    try {
+                        if (Files.deleteIfExists (path)) {
+                            System.out.println ("File deleted successfully");
+                        } else {
+                            System.out.println ("File does not exist");
+                        }
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
                 }
                 else{
                     FolderForQuiz.getInstance().folderfirst.createQuiz(quizzAppend);
                 }
                 try {
-                    SerializationUtil.serialize(quizzAppend, "Quizes/"+quizzAppend.getQuizName()+".ser");
+                    SerializationUtil.serialize(quizzAppend, FolderForQuiz.getInstance().folderfirst.getDirectory()+"\\"+quizzAppend.getQuizName()+".ser");
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }finally {
