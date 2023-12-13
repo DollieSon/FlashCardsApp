@@ -1,5 +1,7 @@
 package UIs;
 
+import FolderForUserComponent.QuizFirstSection;
+import FolderForUserComponent.QuizSecondSection;
 import QuizPackage.Quiz;
 import FolderUser.*;
 import javax.swing.*;
@@ -44,14 +46,11 @@ public class FolderForQuiz extends JFrame{
         return FolderForQuizInstance;
 
     }
-
     private int countQuizes = 1;
 
-    /**delete this later(Sample data)**/
     public Folder folderfirst = new Folder("Gmajor","Jason");
 
     public int quizIndex = -1;
-
 
     private FolderForQuiz(){
 
@@ -84,33 +83,11 @@ public class FolderForQuiz extends JFrame{
         //catching for errors expecially the setLookAndFeel
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            FolderForQuiz.getInstance().setVisible(false);
-            MakingQuiz app = MakingQuiz.refreshInstance();
-            JScrollPane scrollPane = new JScrollPane(app.jpanel);
-            app.setLocation(FolderForQuiz.getInstance().getLocation());
-            app.setContentPane(scrollPane);
-            app.setSize(1200, 750);
-            app.setResizable(false);
-            app.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            app.setTitle("Making Quiz");
-            app.setVisible(true);
+            setMakeQuizFrame();
+
         }
         catch (Exception exception){
-            if(exception instanceof  UnsupportedLookAndFeelException ){
-                JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
-            }
-            else if(exception instanceof  ClassNotFoundException){
-                JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
-            }
-            else if(exception instanceof InstantiationException){
-                JOptionPane.showMessageDialog(null,"InstantiationException occurred");
-            }
-            else if(exception instanceof IllegalAccessException){
-                JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"An error occurred");
-            }
+            ExceptionConditions(exception);
         }
 
     }
@@ -152,113 +129,28 @@ public class FolderForQuiz extends JFrame{
         JPQuizListPanel.add(forMargin);
 
         //adding sections to the mainpanel
-        JPanel firstsection = new JPanel();
-        firstsection.setLayout(new BoxLayout(firstsection,BoxLayout.Y_AXIS));
-        firstsection.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.BLACK));
-        firstsection.setMinimumSize(new Dimension(450,200));
-        firstsection.setPreferredSize(new Dimension(450,200));
-        firstsection.setMaximumSize(new Dimension(450,200));
+        QuizFirstSection first = new QuizFirstSection(quizName,quizlength);
+        first.countQuizes = countQuizes;
+        JPanel firstsection = first.addsection();
 
-        JPanel secondsection = new JPanel();
-        secondsection.setLayout(new BoxLayout(secondsection,BoxLayout.Y_AXIS));
-        secondsection.setMinimumSize(new Dimension(245,200));
-        secondsection.setPreferredSize(new Dimension(245,200));
-        secondsection.setMaximumSize(new Dimension(245,200));
+        QuizSecondSection second = new QuizSecondSection(quizName,quizlength);
+        JPanel secondsection = second.addsection();
 
         quizPanel.add(firstsection);
         quizPanel.add(secondsection);
 
-        //addingQuiztitle
-
-        JPanel countPanel = new JPanel();
-        countPanel.setLayout(new BoxLayout(countPanel,BoxLayout.Y_AXIS));
-        countPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JLabel countLabel = new JLabel("#"+countQuizes);
-        countLabel.setFont(new Font("",Font.BOLD,17));
-        countLabel.setBorder(new EmptyBorder(10,10,10,10));
-
-        countPanel.add(countLabel);
-
-        JPanel extendedcontainer = new JPanel();
-        extendedcontainer.setLayout(new FlowLayout(FlowLayout.LEFT));
-        extendedcontainer.setMinimumSize(new Dimension(450,50));
-        extendedcontainer.setMaximumSize(new Dimension(450,50));
-        extendedcontainer.add(countPanel);
-        firstsection.add(extendedcontainer);
-
-
-        //adding itemlabel
-        JPanel QuizTitlePanel = new JPanel();
-        QuizTitlePanel.setLayout(new BoxLayout(QuizTitlePanel,BoxLayout.X_AXIS));
-
-        JPanel TitlePanel = new JPanel();
-        TitlePanel.setLayout(new BoxLayout(TitlePanel,BoxLayout.X_AXIS));
-        JLabel QuizTitleLabel = new JLabel("Title: ");
-        QuizTitleLabel.setFont(new Font("",Font.BOLD,16));
-        TitlePanel.add(QuizTitleLabel);
-
-        JPanel QuizTitlePanelfirstsection = new JPanel();
-        QuizTitlePanelfirstsection.setLayout(new BoxLayout(QuizTitlePanelfirstsection,BoxLayout.X_AXIS));
-        JLabel QuiztitleContent = new JLabel(quizName);
-        QuizTitlePanelfirstsection.add(QuiztitleContent);
-        QuiztitleContent.setFont(new Font("",Font.PLAIN,20));
-
-        JScrollPane QuizTitleScrollPanel = new JScrollPane(QuizTitlePanelfirstsection);
-        QuizTitleScrollPanel.setMinimumSize(new Dimension(350,50));
-        QuizTitleScrollPanel.setMaximumSize(new Dimension(350,50));
-        QuizTitleScrollPanel.setPreferredSize(new Dimension(350,QuizTitleScrollPanel.getPreferredSize().height));
-        QuizTitleScrollPanel.setBorder(new EmptyBorder(0,0,0,0));
-
-        QuizTitlePanel.add(TitlePanel);
-        QuizTitlePanel.add(QuizTitleScrollPanel);
-        firstsection.add(QuizTitlePanel);
-
-        JPanel ItemsPanel = new JPanel();
-        ItemsPanel.setLayout(new BoxLayout(ItemsPanel,BoxLayout.X_AXIS));
-        ItemsPanel.setMinimumSize(new Dimension(387,30));
-        ItemsPanel.setMaximumSize(new Dimension(387,30));
-
-        JLabel ItemsLabel= new JLabel("Items: ");
-        ItemsLabel.setFont(new Font("",Font.BOLD,16));
-
-        JLabel ItemsContent= new JLabel(""+quizlength);
-        ItemsContent.setFont(new Font("",Font.PLAIN,20));
-
-        ItemsPanel.add(ItemsLabel);
-        ItemsPanel.add(ItemsContent);
-
-        firstsection.add(ItemsPanel);
 
         //adding buttons
 
         JPanel buttonPanelContainer = new JPanel();
         buttonPanelContainer.setLayout(new BoxLayout(buttonPanelContainer,BoxLayout.X_AXIS));
 
-        JPanel editPanel = new JPanel();
-        editPanel.setLayout(new BoxLayout(editPanel,BoxLayout.X_AXIS));
-        editPanel.setBorder(new EmptyBorder(20,20,0,0));
-        JButton Editbutton = new JButton();
-        Editbutton.setText("Edit");
-        Editbutton.setFont(new Font("",Font.PLAIN,16));
-        editPanel.add(Editbutton);
+        JPanel editPanel = first.addEditButton();
 
-        JPanel DeletePanel = new JPanel();
-        DeletePanel.setLayout(new BoxLayout(DeletePanel,BoxLayout.X_AXIS));
-        DeletePanel.setBorder(new EmptyBorder(20,0,0,0));
-        JButton Deletebutton = new JButton();
-        Deletebutton.setText("Delete");
-        Deletebutton.setFont(new Font("",Font.PLAIN,16));
-        DeletePanel.add(Deletebutton);
+        JPanel DeletePanel = first.addDeleteteButton();
 
 
-        JPanel TakePanel = new JPanel();
-        TakePanel.setLayout(new BoxLayout(TakePanel,BoxLayout.X_AXIS));
-        TakePanel.setBorder(new EmptyBorder(20,20,0,0));
-        JButton TakeButton = new JButton();
-        TakeButton.setText("Answer");
-        TakeButton.setFont(new Font("",Font.PLAIN,16));
-        TakePanel.add(TakeButton);
+        JPanel TakePanel = first.addTakeButton();
 
         buttonPanelContainer.add(DeletePanel);
         buttonPanelContainer.add(editPanel);
@@ -269,7 +161,9 @@ public class FolderForQuiz extends JFrame{
         editIndicator.add(editPanel);
         answerIndicator.add(TakePanel);
 
-
+        JButton Deletebutton = first.deletebut;
+        JButton Editbutton = first.editbut;
+        JButton TakeButton = first.takebut;
 
         Deletebutton.addActionListener(new ActionListener() {
             @Override
@@ -291,35 +185,11 @@ public class FolderForQuiz extends JFrame{
 
                 try{
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    FolderForQuiz.getInstance().setVisible(false);
-                    MakingQuiz app = MakingQuiz.refreshInstance();
+                    setMakeQuizFrame();
                     MakingQuiz.getInstance().editorview(folderfirst.getQuiz().get(n));
-                    JScrollPane scrollPane = new JScrollPane(app.jpanel);
-                    app.setLocation(FolderForQuiz.getInstance().getLocation());
-                    app.setContentPane(scrollPane);
-                    app.setSize(1200, 750);
-                    app.setResizable(false);
-                    app.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                    app.setTitle("Making Quiz");
-                    app.setVisible(true);
                 }
                 catch (Exception exception){
-                    if(exception instanceof  UnsupportedLookAndFeelException ){
-                        JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
-                    }
-                    else if(exception instanceof  ClassNotFoundException){
-                        JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
-                    }
-                    else if(exception instanceof InstantiationException){
-                        JOptionPane.showMessageDialog(null,"InstantiationException occurred");
-                    }
-                    else if(exception instanceof IllegalAccessException){
-                        JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null,"An error occurred");
-                        exception.printStackTrace();
-                    }
+                    ExceptionConditions(exception);
                 }
 
 
@@ -346,30 +216,46 @@ public class FolderForQuiz extends JFrame{
                     appme.setVisible(true);
                 }
                 catch (Exception exception){
-                    if(exception instanceof  UnsupportedLookAndFeelException ){
-                        JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
-                    }
-                    else if(exception instanceof  ClassNotFoundException){
-                        JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
-                    }
-                    else if(exception instanceof InstantiationException){
-                        JOptionPane.showMessageDialog(null,"InstantiationException occurred");
-                    }
-                    else if(exception instanceof IllegalAccessException){
-                        JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null,"An error occurred");
-                        exception.printStackTrace();
-                    }
+                    ExceptionConditions(exception);
                 }
-
-
 
             }
         });
 
         countQuizes++;
+    }
+
+
+    public void ExceptionConditions(Exception exception){
+        if(exception instanceof  UnsupportedLookAndFeelException ){
+            JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
+        }
+        else if(exception instanceof  ClassNotFoundException){
+            JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
+        }
+        else if(exception instanceof InstantiationException){
+            JOptionPane.showMessageDialog(null,"InstantiationException occurred");
+        }
+        else if(exception instanceof IllegalAccessException){
+            JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"An error occurred");
+            exception.printStackTrace();
+        }
+    }
+
+    public void setMakeQuizFrame(){
+        FolderForQuiz.getInstance().setVisible(false);
+        MakingQuiz app = MakingQuiz.refreshInstance();
+        JScrollPane scrollPane = new JScrollPane(app.jpanel);
+        app.setLocation(FolderForQuiz.getInstance().getLocation());
+        app.setContentPane(scrollPane);
+        app.setSize(1200, 750);
+        app.setResizable(false);
+        app.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        app.setTitle("Making Quiz");
+        app.setVisible(true);
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
