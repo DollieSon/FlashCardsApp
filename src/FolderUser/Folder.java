@@ -8,14 +8,11 @@ import java.util.List;
 
 public class Folder implements Serializable {
     private String name;
-    private final String author;
-
     private List<Quiz> quizzes;
 
-    public Folder(String name, String author){
+    public Folder(String name){
         quizzes = new ArrayList<>();
         this.name = name;
-        this.author = author;
     }
 
     public void createQuiz(Quiz e){

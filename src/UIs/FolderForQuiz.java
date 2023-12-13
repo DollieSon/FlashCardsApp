@@ -48,7 +48,7 @@ public class FolderForQuiz extends JFrame{
     }
     private int countQuizes = 1;
 
-    public Folder folderfirst = new Folder("Gmajor","Jason");
+    public Folder folderfirst = UserPage.openfolder;
 
     public int quizIndex = -1;
 
@@ -259,7 +259,7 @@ public class FolderForQuiz extends JFrame{
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        /*UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         FolderForQuiz folderquiz = FolderForQuiz.getInstance();
         folderquiz.setContentPane(folderquiz.JPFolderContainerPanel);
@@ -267,7 +267,7 @@ public class FolderForQuiz extends JFrame{
         folderquiz.setResizable(false);
         folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
         folderquiz.setTitle("FolderUser.Folder");
-        folderquiz.setVisible(true);
+        folderquiz.setVisible(true);*/
 
     }
 }
