@@ -12,13 +12,17 @@
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-10456460"/>
+        </properties>
         <border type="none"/>
         <children>
           <grid id="a1db" binding="JPFolderQuizPanel" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints/>
-            <properties/>
+            <properties>
+              <background color="-2174794"/>
+            </properties>
             <border type="none"/>
             <children>
               <grid id="1f660" binding="JPFolderSubjectContainerPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -29,7 +33,9 @@
                     <maximum-size width="-1" height="90"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-10456460"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <component id="9f21" class="javax.swing.JLabel" binding="JLSubjectLabel">
@@ -37,7 +43,8 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font size="26"/>
+                      <font name="Berlin Sans FB Demi" size="36"/>
+                      <foreground color="-332079"/>
                       <text value="SUBJECT:    "/>
                     </properties>
                   </component>
@@ -48,13 +55,17 @@
                         <maximum-size width="700" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <background color="-10456460"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <grid id="56ada" binding="JPSubjectContent" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <background color="-10456460"/>
+                        </properties>
                         <border type="none"/>
                         <children>
                           <component id="b9533" class="javax.swing.JLabel" binding="JLSubjectContent">
@@ -70,14 +81,29 @@
                       </grid>
                     </children>
                   </scrollpane>
-                  <component id="78d29" class="javax.swing.JButton" binding="homeButton" default-binding="true">
+                  <grid id="c77d7" binding="JPButtonHome" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text value="Home"/>
+                      <background color="-10456460"/>
                     </properties>
-                  </component>
+                    <border type="none"/>
+                    <children>
+                      <component id="78d29" class="javax.swing.JButton" binding="homeButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="60"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font size="20"/>
+                          <text value="Home"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
               <scrollpane id="4cb6b" binding="JSPQuzListScrollPanel">
@@ -88,13 +114,17 @@
                     <maximum-size width="800" height="550"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <background color="-10456460"/>
+                </properties>
                 <border type="none"/>
                 <children>
                   <grid id="48a4" binding="JPQuizListPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <background color="-2174794"/>
+                    </properties>
                     <border type="none"/>
                     <children/>
                   </grid>

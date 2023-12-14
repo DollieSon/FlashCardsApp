@@ -1020,14 +1020,6 @@ public class MakingQuiz extends JFrame{
         } );
     }
 
-
-
-
-
-
-
-
-
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 

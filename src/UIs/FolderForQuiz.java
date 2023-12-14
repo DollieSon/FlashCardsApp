@@ -31,6 +31,7 @@ public class FolderForQuiz extends JFrame{
     public JScrollPane JSPQuzListScrollPanel;
     public JPanel JPQuizListPanel;
     private JButton homeButton;
+    private JPanel JPButtonHome;
 
     private ArrayList<JPanel> deleteIndicator = new ArrayList<>();
     public ArrayList<JPanel> editIndicator = new ArrayList<>();
@@ -61,8 +62,15 @@ public class FolderForQuiz extends JFrame{
     public int quizIndex = -1;
 
     private FolderForQuiz(){
-
+        homeButton.setBackground(new Color(96, 114, 116));
+        JBCreateQuizButton.setBackground(new Color(96, 114, 116));
+        JPButtonHome.setBorder(new EmptyBorder(0,20,0,0));
+        JPFolderSubjectContainerPanel.setMinimumSize(new Dimension(1183,80));
         JLSubjectContent.setText(folderfirst.getName());
+        JLSubjectContent.setForeground(new Color(250, 238, 209));
+        JLSubjectContent.setBackground(new Color(96, 114, 116));
+        JSPQuzListScrollPanel.setBorder(new EmptyBorder(0,0,0,0));
+        JSPQuzListScrollPanel.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),3));
 
         JSPSubjectContent.setPreferredSize(new Dimension(500,JSPSubjectContent.getPreferredSize().height));
         JSPSubjectContent.setBorder(new EmptyBorder(0,0,0,0));
@@ -71,13 +79,6 @@ public class FolderForQuiz extends JFrame{
         JPQuizListPanel.setLayout(new BoxLayout(JPQuizListPanel,BoxLayout.Y_AXIS));
         System.out.println(folderfirst.getDirectory());
 
-        /*try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(folderfirst.getDirectory()), path -> Files.isDirectory(path))) {
-            for (Path path : stream) {
-                System.out.println(path.toString());
-            }
-        } catch (IOException e) {
-
-        }*/
 
         File folder = new File (folderfirst.getDirectory());
         File [] listOfFiles = folder.listFiles ();
@@ -114,7 +115,38 @@ public class FolderForQuiz extends JFrame{
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
+                    FolderForQuiz.getInstance().setVisible(false);
+                    folderfirst.getQuiz().removeAll(folderfirst.getQuiz());
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
+                    UserPage MainUserPage = UserPage.getInstance();
+                    JScrollPane scrollme = new JScrollPane(MainUserPage.MainFrame);
+                    MainUserPage.setContentPane(scrollme);
+                    MainUserPage.setSize(1200, 750);
+                    MainUserPage.setResizable(false);
+                    MainUserPage.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    MainUserPage.setTitle("Creating Quiz");
+                    MainUserPage.setVisible(true);
+                }
+                catch (Exception exception){
+                    if(exception instanceof  UnsupportedLookAndFeelException ){
+                        JOptionPane.showMessageDialog(null,"UnsupportedLookAndFeelException occurred");
+                    }
+                    else if(exception instanceof  ClassNotFoundException){
+                        JOptionPane.showMessageDialog(null,"ClassNotFoundException occurred");
+                    }
+                    else if(exception instanceof InstantiationException){
+                        JOptionPane.showMessageDialog(null,"InstantiationException occurred");
+                    }
+                    else if(exception instanceof IllegalAccessException){
+                        JOptionPane.showMessageDialog(null,"Illegal Access Exception occurred");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"An error occurred");
+                        exception.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -154,6 +186,7 @@ public class FolderForQuiz extends JFrame{
         JPanel forMargin = new JPanel();
         forMargin.setLayout(new BoxLayout(forMargin,BoxLayout.X_AXIS));
         forMargin.setBorder(new EmptyBorder(0,0,20,0));
+        forMargin.setBackground(new Color(222, 208, 182));
 
         //setting up the Container
         JPanel quizPanel = new JPanel();
@@ -175,22 +208,29 @@ public class FolderForQuiz extends JFrame{
 
         QuizSecondSection second = new QuizSecondSection(quizName,quizlength);
         JPanel secondsection = second.addsection();
+        secondsection.setBackground(new Color(96, 114, 116));
 
         quizPanel.add(firstsection);
         quizPanel.add(secondsection);
+
+        firstsection.setBackground(new Color(178, 165, 155));
 
 
         //adding buttons
 
         JPanel buttonPanelContainer = new JPanel();
         buttonPanelContainer.setLayout(new BoxLayout(buttonPanelContainer,BoxLayout.X_AXIS));
+        buttonPanelContainer.setBackground(new Color(178, 165, 155));
 
         JPanel editPanel = first.addEditButton();
+        editPanel.setBackground(new Color(178, 165, 155));
 
         JPanel DeletePanel = first.addDeleteteButton();
+        DeletePanel.setBackground(new Color(178, 165, 155));
 
 
         JPanel TakePanel = first.addTakeButton();
+        TakePanel.setBackground(new Color(178, 165, 155));
 
         buttonPanelContainer.add(DeletePanel);
         buttonPanelContainer.add(editPanel);
@@ -312,15 +352,6 @@ public class FolderForQuiz extends JFrame{
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        /*UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        FolderForQuiz folderquiz = FolderForQuiz.getInstance();
-        folderquiz.setContentPane(folderquiz.JPFolderContainerPanel);
-        folderquiz.setSize(1200, 750);
-        folderquiz.setResizable(false);
-        folderquiz.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        folderquiz.setTitle("FolderUser.Folder");
-        folderquiz.setVisible(true);*/
 
     }
 }
