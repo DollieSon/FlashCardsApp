@@ -149,14 +149,7 @@ public class UserPage extends JFrame{
 
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-                FolderForQuiz folderquiz;
-                if(FolderForQuiz.getInstance() != null){
-                    FolderForQuiz.getInstance().setVisible(false);
-                    folderquiz = FolderForQuiz.refreshInstance();
-                }
-                else{
-                    folderquiz = FolderForQuiz.getInstance();
-                }
+                FolderForQuiz folderquiz = FolderForQuiz.refreshInstance();
                 folderquiz.setContentPane(folderquiz.JPFolderContainerPanel);
                 folderquiz.setSize(1200, 750);
                 folderquiz.setResizable(false);
