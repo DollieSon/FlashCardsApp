@@ -1,13 +1,14 @@
 package UIs;
 
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
+
 import FolderUser.CollectionOfFolder;
 import FolderUser.Folder;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -37,6 +38,9 @@ public class UserPage extends JFrame{
 
     public static Folder openfolder = null;
 
+    private JLabel displabell;
+    ImageIcon image;
+
     public static  UserPage getInstance() {
         if (UserPageInstance == null) {
             UserPageInstance = new UserPage();
@@ -53,6 +57,19 @@ public class UserPage extends JFrame{
     }
 
     private UserPage(){
+        JPHeaderPanel.setLayout(new BoxLayout(JPHeaderPanel,BoxLayout.X_AXIS));
+        image = new ImageIcon(getClass().getResource("logo.png"));
+        displabell = new JLabel(image);
+
+        Image resized = image.getImage().getScaledInstance(110,80,Image.SCALE_SMOOTH);
+        image = new ImageIcon(resized);
+        displabell.setIcon(image);
+
+        displabell.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+        displabell.setBorder(new EmptyBorder(0,700,0,0));
+
+        JPHeaderPanel.add(displabell);
+
         AppTitle.setBorder(new EmptyBorder(0,30,0,0));
         JPHeaderPanel.setMinimumSize(new Dimension(1165,100));
         JPButtonCreat.setBorder(new EmptyBorder(0,0,30,0));
@@ -103,6 +120,16 @@ public class UserPage extends JFrame{
                 }
             }
         });
+    }
+
+    protected static ImageIcon createImageIcon(String path) {
+        URL imgURL = UserPage.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 
     public void cover(CollectionOfFolder mainpage){
