@@ -2,7 +2,6 @@ package Card;
 
 import java.io.Serializable;
 
-// TODO Make an inteface
 public abstract class Card implements Serializable {
     private String Question;
     private String Answer;
