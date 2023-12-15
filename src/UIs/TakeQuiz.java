@@ -80,12 +80,15 @@ public class TakeQuiz extends JFrame{
 
 
     private TakeQuiz(){
+        JPQuizComponents.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),2));
+        JPCorrectPanel.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),2));
+        JPIncorrectPanel.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),2));
         //Holder for Quize
         quizcards = new Quiz();
 
         //Puting scroll on the Title content Holder
 
-        JSPTitleScrollPanel.setBorder(new EmptyBorder(0, 70, 0, 0));
+        JSPTitleScrollPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         JPQuestionQuizPanel.setLayout(new BoxLayout(JPQuestionQuizPanel, BoxLayout.Y_AXIS));
         JSPTitleScrollPanel.setMinimumSize(new Dimension(900, 40));
         JSPTitleScrollPanel.setPreferredSize(new Dimension(900, JSPTitleScrollPanel.getPreferredSize().height));
@@ -115,6 +118,10 @@ public class TakeQuiz extends JFrame{
         JPBProgressbar.setMaximum(maxProgress);
         JPBProgressbar.setStringPainted(true);
         JLProgressLabel.setText("0/" + maxProgress);
+
+        JBNextButton.setBackground(new Color(96, 114, 116));
+        JBPreviousButton.setBackground(new Color(96, 114, 116));
+        JBsubmitButton.setBackground(new Color(96, 114, 116));
 
         JBNextButton.addActionListener(new ActionListener() {
             ButtonsClass showscore = new ButtonsClass();
@@ -606,6 +613,7 @@ public class TakeQuiz extends JFrame{
 
         WholeQuestion.add(trueOrFalseFlashCard.getAnswerComponent());
 
+
         ChoicesRadioButton.add(((TQTrueOrFalseCard)trueOrFalseFlashCard).Truebutton);
         ChoicesRadioButton.add(((TQTrueOrFalseCard)trueOrFalseFlashCard).Falsebutton);
 
@@ -618,16 +626,6 @@ public class TakeQuiz extends JFrame{
 
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        TakeQuiz appme = TakeQuiz.getInstance();
-        JScrollPane scrollPane = new JScrollPane(appme.JTakequiz);
-        appme.setContentPane(scrollPane);
-        appme.setSize(1200, 750);
-        appme.setResizable(false);
-        appme.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        appme.setTitle("Creating Quiz");
-        appme.setVisible(true);
     }
 
 }

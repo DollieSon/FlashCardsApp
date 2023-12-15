@@ -53,7 +53,6 @@ public class UserPage extends JFrame{
     }
 
     private UserPage(){
-        createFolderButton.setBackground(new Color(96, 114, 116));
         AppTitle.setBorder(new EmptyBorder(0,30,0,0));
         JPHeaderPanel.setMinimumSize(new Dimension(1165,100));
         JPButtonCreat.setBorder(new EmptyBorder(0,0,30,0));
@@ -295,6 +294,7 @@ public class UserPage extends JFrame{
 
                         FolderForQuiz folderquiz = FolderForQuiz.refreshInstance();
                         folderquiz.setContentPane(folderquiz.JPFolderContainerPanel);
+                        folderquiz.setLocation(UserPage.getInstance().getLocation());
                         folderquiz.setSize(1200, 750);
                         folderquiz.setResizable(false);
                         folderquiz.folderfirst = openfolder;

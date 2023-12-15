@@ -122,6 +122,7 @@ public class FolderForQuiz extends JFrame{
 
                     UserPage MainUserPage = UserPage.getInstance();
                     JScrollPane scrollme = new JScrollPane(MainUserPage.MainFrame);
+                    MainUserPage.setLocation(FolderForQuiz.getInstance().getLocation());
                     MainUserPage.setContentPane(scrollme);
                     MainUserPage.setSize(1200, 750);
                     MainUserPage.setResizable(false);
@@ -301,6 +302,7 @@ public class FolderForQuiz extends JFrame{
 
                     TakeQuiz appme = TakeQuiz.refreshInstance();
                     JScrollPane scrollPane = new JScrollPane(appme.JTakequiz);
+                    appme.setLocation(FolderForQuiz.getInstance().getLocation());
                     appme.setContentPane(scrollPane);
                     appme.setSize(1200, 750);
                     appme.setResizable(false);

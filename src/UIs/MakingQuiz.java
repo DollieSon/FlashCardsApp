@@ -7,6 +7,7 @@ import QuizPackage.SerializationUtil;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,8 +27,6 @@ public class MakingQuiz extends JFrame{
     public JTextField tFTitle;
     public JPanel jpanel;
     public JButton saveButton;
-    public JLabel LAuthor;
-    public JLabel LBy;
     public JLabel Ltitle;
     public JButton BaddQuestion;
     public JRadioButton RBmultipleChoice;
@@ -69,7 +68,8 @@ public class MakingQuiz extends JFrame{
     }
 
     private MakingQuiz(){
-
+        JSPContainer.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),2));
+        tFTitle.setBorder(BorderFactory.createLineBorder(new Color(96, 114, 116),2));
         jr = new ArrayList<>();
         jr.add(RBidentification);
         jr.add(RBmultipleChoice);
@@ -378,6 +378,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -414,6 +415,15 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(forQuestionPanel);
         questionContainer.add(forAnswerPanel);
         questionContainer.add(holddeletebutton);
+
+        forAnswerPanel.setBackground(new Color(178, 165, 155));
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
+        answerLabel.setFont(new Font("",Font.BOLD,14));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        deleteButton.setBackground(new Color(96, 114, 116));
 
 
         WholePanel.add(questionContainer);
@@ -455,6 +465,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -489,6 +500,15 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(forQuestionPanel);
         questionContainer.add(forAnswerPanel);
         questionContainer.add(holddeletebutton);
+
+        forAnswerPanel.setBackground(new Color(178, 165, 155));
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
+        answerLabel.setFont(new Font("",Font.BOLD,14));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        deleteButton.setBackground(new Color(96, 114, 116));
 
 
         WholePanel.add(questionContainer);
@@ -532,6 +552,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -585,6 +606,18 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(forAnswerPanel);
         questionContainer.add(holddeletebutton);
 
+        forAnswerPanel.setBackground(new Color(178, 165, 155));
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        answerField.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
+        answerLabel.setFont(new Font("",Font.BOLD,14));
+        trueRadioButton.setFont(new Font("",Font.BOLD,14));
+        flaseRadioButton.setFont(new Font("",Font.BOLD,14));
+        trueRadioButton.setBackground(new Color(178, 165, 155));
+        flaseRadioButton.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        deleteButton.setBackground(new Color(96, 114, 116));
 
 
 
@@ -627,6 +660,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -672,6 +706,19 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(holddeletebutton);
 
 
+        forAnswerPanel.setBackground(new Color(178, 165, 155));
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        answerField.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
+        answerLabel.setFont(new Font("",Font.BOLD,14));
+        trueRadioButton.setFont(new Font("",Font.BOLD,14));
+        flaseRadioButton.setFont(new Font("",Font.BOLD,14));
+        trueRadioButton.setBackground(new Color(178, 165, 155));
+        flaseRadioButton.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        deleteButton.setBackground(new Color(96, 114, 116));
+
 
 
         WholePanel.add(questionContainer);
@@ -714,6 +761,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -764,6 +812,10 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(encompase_answer);
         questionContainer.add(holddeletebutton);
 
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
 
 
         ButtonGroup choiceGrp = new ButtonGroup();
@@ -895,6 +947,7 @@ public class MakingQuiz extends JFrame{
         JPanel WholePanel = new JPanel();
         JPanel questionContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         questionContainer.setLayout(new BoxLayout(questionContainer, BoxLayout.Y_AXIS));
+        WholePanel.setBackground(new Color(250, 238, 209));
 
         JPanel forQuestionPanel = new JPanel();
         forQuestionPanel.setLayout(new BoxLayout(forQuestionPanel, BoxLayout.X_AXIS));
@@ -944,6 +997,10 @@ public class MakingQuiz extends JFrame{
         questionContainer.add(encompase_answer);
         questionContainer.add(holddeletebutton);
 
+        forQuestionPanel.setBackground(new Color(178, 165, 155));
+        questionContainer.setBackground(new Color(178, 165, 155));
+        holddeletebutton.setBackground(new Color(96, 114, 116));
+        questionLabel.setFont(new Font("",Font.BOLD,14));
 
 
         ButtonGroup choiceGrp = new ButtonGroup();
@@ -1021,16 +1078,6 @@ public class MakingQuiz extends JFrame{
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        MakingQuiz app = MakingQuiz.getInstance();
-        JScrollPane scrollPane = new JScrollPane(app.jpanel);
-        app.setContentPane(scrollPane);
-        app.setSize(1200, 750);
-        app.setResizable(false);
-        app.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        app.setTitle("Making Quiz");
-        app.setVisible(true);
 
     }
 }
