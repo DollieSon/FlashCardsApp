@@ -271,37 +271,47 @@ public class MakingQuiz extends JFrame{
                     }
                     card_index++;
                 }
+                Path directory = Paths.get(FolderForQuiz.getInstance().folderfirst.getDirectory());
+                Path filePath = directory.resolve(tFTitle.getText()+".ser");
 
-                if(editorial != null){
-                   int n = FolderForQuiz.getInstance().folderfirst.getQuiz().indexOf(editorial);
-                   String dir = FolderForQuiz.getInstance().folderfirst.getDirectory();
+                // Check if the file exists
+                boolean fileExists = Files.exists(filePath);
+                System.out.println(FolderForQuiz.getInstance().folderfirst.getDirectory());
 
-                    System.out.println(dir);
-
-                    Path path = Paths.get (dir+"\\"+ editorial.getQuizName() + ".ser");
-                    try {
-                        if (Files.deleteIfExists (path)) {
-                            System.out.println ("File deleted successfully");
-                        } else {
-                            System.out.println ("File does not exist");
-                        }
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
+                if(fileExists){
+                    JOptionPane.showMessageDialog(null,"File already existed");
                 }
                 else{
-                    FolderForQuiz.getInstance().folderfirst.createQuiz(quizzAppend);
-                }
-                try {
-                    SerializationUtil.serialize(quizzAppend, FolderForQuiz.getInstance().folderfirst.getDirectory()+"\\"+quizzAppend.getQuizName()+".ser");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }finally {
-                    editorial = null;
-                }
-                backtofolder();
+                    if(editorial != null){
+                        int n = FolderForQuiz.getInstance().folderfirst.getQuiz().indexOf(editorial);
+                        String dir = FolderForQuiz.getInstance().folderfirst.getDirectory();
 
+                        System.out.println(dir);
+
+                        Path path = Paths.get (dir+"\\"+ editorial.getQuizName() + ".ser");
+                        try {
+                            if (Files.deleteIfExists (path)) {
+                                System.out.println ("File deleted successfully");
+                            } else {
+                                System.out.println ("File does not exist");
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        FolderForQuiz.getInstance().folderfirst.getQuiz().set(n,quizzAppend);
+                    }
+                    else{
+                        FolderForQuiz.getInstance().folderfirst.createQuiz(quizzAppend);
+                    }
+                    try {
+                        SerializationUtil.serialize(quizzAppend, FolderForQuiz.getInstance().folderfirst.getDirectory()+"\\"+quizzAppend.getQuizName()+".ser");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }finally {
+                        editorial = null;
+                    }
+                    backtofolder();
+                }
 
             }
         });
