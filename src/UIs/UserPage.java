@@ -66,11 +66,10 @@ public class UserPage extends JFrame{
         displabell.setIcon(image);
 
         displabell.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
-        displabell.setBorder(new EmptyBorder(0,700,0,0));
+        displabell.setBorder(new EmptyBorder(0,30,0,0));
 
         JPHeaderPanel.add(displabell);
 
-        AppTitle.setBorder(new EmptyBorder(0,30,0,0));
         JPHeaderPanel.setMinimumSize(new Dimension(1165,100));
         JPButtonCreat.setBorder(new EmptyBorder(0,0,30,0));
         CollectionOfFolder mainpage = new CollectionOfFolder();
