@@ -1,6 +1,6 @@
-<h1>HOW TO RUN THE PROGRAM</h1>
-- Run UserPage.java in 'src/UIs/UserPage.java'
-<h1>DESIGN PATTERNS UTILIZED</h1>
+<h1>How to run the Program</h1>
+- Run UserPage.java in <a href="src/UIs">'src/UIs/'</a>
+<h1>Design Patterns Utilized</h1>
 <h4>Singleton Pattern</h4>
 - UI Initialization
 <h4>Factory Pattern</h4>
